@@ -62,17 +62,85 @@ Every generated layout must conform to a standardized typographic and visual hie
  * **Ranks and Hero Headers:** Use font-family: 'Bebas Neue', sans-serif; with a minimum size of 72px. Always specify tracking/letter-spacing (letter-spacing: 2px) to guarantee readability.
  * **Technical Specs and Body Copy:** Use font-family: 'DM Sans', sans-serif;. Maintain a uniform line-height: 1.35 to aid fast, high-speed on-screen scanning.
  * **System Diagnostics / Hardware Metrics:** Use font-family: 'DM Mono', monospace; for absolute technical specifications (e.g., *Snapdragon 8 Gen 3*, *7,550mAh*, *120W*).
-### Strict Color Mapping Variables
+### Dynamic Theme Injection (Replace Static Brand-Accent)
+**STRICT RULE:** Do NOT use a single static `--brand-accent` color. Every phone slide must be assigned a theme class based on its device classification. The accent color maps dynamically.
+
 ```css
 :root {
-  --text-main:    #EEECEA; /* Crisp Off-White */
-  --text-muted:   #6B6875; /* Readability Gray */
-  --brand-accent: #C8FF00; /* High Contrast Lime Green */
-  --alert-red:    #F87171; /* Warning/Thermal issue red */
-  --chip-bg:      #16161A; /* Surface contrast layout container background */
-  --border-lines: #252530; /* Subdued structural divider colors */
+  --text-main:    #EEECEA;
+  --text-muted:   #6B6875;
+  --alert-red:    #F87171;
+  --alert-orange: #FF5722;
+  --chip-bg:      #16161A;
+  --border-lines: #252530;
+
+  /* Theme-able accent — overridden by theme classes below */
+  --brand-accent: #C8FF00;
+
+  /* Available accent palette */
+  --blue:   #38BDF8;
+  --purple: #A78BFA;
+  --lime:   #C8FF00;
+  --orange: #FF5722;
+  --red:    #F87171;
+  --green:  #34D399;
+  --gold:   #FBBF24;
 }
 
+/* ── DYNAMIC THEMES ── */
+/* 1. FLAGSHIP — polished all-rounder premium devices */
+.theme-flagship {
+  --brand-accent: var(--blue);
+}
+.theme-flagship .ps-bar { background: var(--blue); box-shadow: 0 0 16px rgba(56,189,248,.4); }
+.theme-flagship .c-eyebrow { color: var(--blue); }
+.theme-flagship .c-eyebrow::before { background: var(--blue); }
+.theme-flagship .c-divider { background: var(--blue); }
+.theme-flagship .cover-stripe { background: var(--blue); box-shadow: 0 0 24px rgba(56,189,248,.6); }
+.theme-flagship .hl { color: var(--blue); }
+.theme-flagship .hl2 { -webkit-text-stroke: 2px var(--blue); }
+
+/* 2. GAMING / PERFORMANCE — raw power, shortcuts elsewhere */
+.theme-gaming {
+  --brand-accent: var(--purple);
+}
+.theme-gaming .ps-bar { background: var(--purple); box-shadow: 0 0 16px rgba(167,139,250,.4); }
+.theme-gaming .c-eyebrow { color: var(--purple); }
+.theme-gaming .c-eyebrow::before { background: var(--purple); }
+.theme-gaming .c-divider { background: var(--purple); }
+.theme-gaming .cover-stripe { background: var(--purple); box-shadow: 0 0 24px rgba(167,139,250,.6); }
+.theme-gaming .hl { color: var(--purple); }
+.theme-gaming .hl2 { -webkit-text-stroke: 2px var(--purple); }
+
+/* 3. ELITE DISRUPTER — category champion, extreme value */
+.theme-elite {
+  --brand-accent: var(--lime);
+}
+.theme-elite .ps-bar { background: var(--lime); box-shadow: 0 0 16px rgba(200,255,0,.4); }
+.theme-elite .c-eyebrow { color: var(--lime); }
+.theme-elite .c-eyebrow::before { background: var(--lime); }
+.theme-elite .c-divider { background: var(--lime); }
+.theme-elite .cover-stripe { background: var(--lime); box-shadow: 0 0 24px rgba(200,255,0,.6); }
+.theme-elite .hl { color: var(--lime); }
+.theme-elite .hl2 { -webkit-text-stroke: 2px var(--lime); }
+```
+
+**Theme Assignment Rules:**
+| Theme | Class | Target Devices | Accent |
+|---|---|---|---|
+| Flagship | `.theme-flagship` | Xiaomi 14, OnePlus 11, Samsung S23, Xiaomi 13 | `--blue` |
+| Gaming/Performance | `.theme-gaming` | ROG Phone, iQOO Neo, Redmi K-series performance variants | `--purple` |
+| Elite Disrupter | `.theme-elite` | Vivo X100, Honor Magic 5 Pro, category champions | `--lime` |
+
+### Hazard Highlight Overrides (`.c-warn`)
+When writing a spec/badge about a system bottleneck or flaw (e.g., Pixel 7 Pro thermal throttling, S23 25W charging), wrap that specific element in `.c-warn` using `--orange` or `--red`:
+
+```html
+<span class="chip c-warn">⚠ 25W Charging 💀</span>
+```
+
+```css
+.c-warn { background: rgba(248,113,113,.07); border: 1px solid rgba(248,113,113,.22); color: var(--red); }
 ```
 ## 4. UI Element Placement Best Practices
 ### The Rank Number & Device Identity Header
