@@ -1,184 +1,184 @@
-# 音频设计规则 · huashu-design
+# Audio Design Rules · huashu-design
 
-> 所有动画 demo 的音频应用配方。和 `sfx-library.md`（资产清单）配套使用。
-> 实战锤炼：huashu-design 发布 hero v1-v9 迭代 · Anthropic 三支官方片子的 Gemini 深度拆解 · 8000+ 次 A/B 对比
+> Audio application recipes for all animation demos. Use with `sfx-library.md` (asset inventory).
+> Battle-tested: huashu-design launch hero v1-v9 iterations · Deep deconstruction of three official Anthropic films via Gemini · 8000+ A/B comparisons
 
 ---
 
-## 核心原则 · 音频双轨制（铁律）
+## Core Principle · Dual-track Audio (Iron Law)
 
-动画音频**必须分两层独立设计**，不能只做一层：
+Animation audio **must be designed in two independent layers**, not just one:
 
-| 层 | 作用 | 时间尺度 | 和视觉的关系 | 占据频段 |
+| Layer | Role | Time Scale | Relationship with Visual | Frequency Band |
 |---|---|---|---|---|
-| **SFX（节拍层）** | 标记每个视觉 beat | 0.2-2 秒短促 | **强同步**（帧级对齐） | **高频 800Hz+** |
-| **BGM（氛围底）** | 情绪铺底、声场 | 连续 20-60 秒 | 弱同步（段落级） | **中低频 <4kHz** |
+| **SFX (Beat Layer)** | Mark every visual beat | 0.2-2s short bursts | **Tight sync** (frame-level alignment) | **High frequency 800Hz+** |
+| **BGM (Atmosphere Base)** | Emotional underpinning, sound field | Continuous 20-60s | Loose sync (paragraph-level) | **Mid-low frequency <4kHz** |
 
-**只做BGM的动画是残废的**——观众潜意识感知到「画在动但没声音响应」，廉价感的根源就在这里。
+**Animation with only BGM is crippled** — the audience subconsciously perceives "the picture is moving but no sound responds," and this is the root of cheapness.
 
 ---
 
-## 金标准 · 黄金配比
+## Gold Standard · Golden Ratio
 
-这几组数值是实测 Anthropic 三支官方片子 + 我们自己 v9 定版对比得出的**工程硬参数**，直接套用即可：
+These values are **engineering hard parameters** measured from comparing the three official Anthropic films + our v9 final version — just apply directly:
 
-### 音量
-- **BGM 音量**：`0.40-0.50`（相对满刻度 1.0）
-- **SFX 音量**：`1.00`
-- **响度差**：BGM 比 SFX peak **低 -6 到 -8 dB**（不是靠SFX绝对响度突出，靠响度差）
-- **amix 参数**：`normalize=0`（绝不用 normalize=1，会把动态范围压平）
+### Volume
+- **BGM Volume**: `0.40-0.50` (relative to full scale 1.0)
+- **SFX Volume**: `1.00`
+- **Loudness Difference**: BGM is **-6 to -8 dB** lower than SFX peak (not relying on SFX absolute loudness, relying on loudness difference)
+- **amix parameter**: `normalize=0` (never use normalize=1, it flattens dynamic range)
 
-### 频段隔离（P1 硬优化）
-Anthropic 的秘诀不是「SFX 音量大」，是**频段分层**：
+### Frequency Isolation (P1 Hard Optimization)
+Anthropic's secret is not "loud SFX volume," it's **frequency layering**:
 
 ```bash
-[bgm_raw]lowpass=f=4000[bgm]      # BGM 限制在 <4kHz 的中低频
-[sfx_raw]highpass=f=800[sfx]      # SFX 推到 800Hz+ 的中高频
+[bgm_raw]lowpass=f=4000[bgm]      # BGM limited to <4kHz mid-low frequency
+[sfx_raw]highpass=f=800[sfx]      # SFX pushed to 800Hz+ mid-high frequency
 [bgm][sfx]amix=inputs=2:duration=first:normalize=0[a]
 ```
 
-为什么：人耳对 2-5kHz 区间最敏感（即「presence 频段」），SFX 如果都在这个区间，BGM 又全频段覆盖，**SFX 会被BGM的高频部分遮盖**。用 highpass 把 SFX 推高 + lowpass 把 BGM 压下，两者在频谱上各占一方，SFX 清晰度直接上一档。
+Why: The human ear is most sensitive to the 2-5kHz range (the "presence band"). If SFX is in this range and BGM covers the full spectrum, **SFX gets masked by BGM's high-frequency content**. Use highpass to push SFX higher + lowpass to push BGM lower — each occupies its own frequency territory, SFX clarity jumps up a level.
 
 ### Fade
-- BGM 入：`afade=in:st=0:d=0.3`（0.3s，避免硬切）
-- BGM 出：`afade=out:st=N-1.5:d=1.5`（1.5s 长尾，收束感）
-- SFX 自带 envelope，不需要额外 fade
+- BGM in: `afade=in:st=0:d=0.3` (0.3s, avoid hard cut)
+- BGM out: `afade=out:st=N-1.5:d=1.5` (1.5s long tail, convergence feel)
+- SFX has built-in envelope, no extra fade needed
 
 ---
 
-## SFX cue 设计规则
+## SFX Cue Design Rules
 
-### 密度（每10秒多少个SFX）
-实测 Anthropic 三支片子的 SFX 密度有三档：
+### Density (SFX per 10 seconds)
+Measured SFX density in the three Anthropic films has three levels:
 
-| 片子 | 每10s SFX 数 | 产品性格 | 场景 |
+| Film | SFX/10s | Product Personality | Scenario |
 |---|---|---|---|
-| Artifacts（ref-1） | **~9个/10s** | 功能密集、信息多 | 复杂工具演示 |
-| Code Desktop（ref-2） | **0个** | 纯氛围、冥想感 | 开发工具专注状态 |
-| Word（ref-3） | **~4个/10s** | 平衡、办公节奏 | 生产力工具 |
+| Artifacts (ref-1) | **~9/10s** | Function dense, information rich | Complex tool demonstration |
+| Code Desktop (ref-2) | **0** | Pure atmosphere, meditative | Developer tool flow state |
+| Word (ref-3) | **~4/10s** | Balanced, office rhythm | Productivity tool |
 
-**启发式**：
-- 产品性格冷静/专注 → SFX 密度低（0-3个/10s），BGM 为主
-- 产品性格活泼/信息多 → SFX 密度高（6-9个/10s），SFX 驱动节奏
-- **不要填满每个视觉 beat**——留白比密集更高级。**删掉 30-50% 的 cue 会让剩下的更有戏剧性**。
+**Heuristic**:
+- Product personality calm/focused → low SFX density (0-3/10s), BGM primary
+- Product personality lively/information rich → high SFX density (6-9/10s), SFX drives rhythm
+- **Don't fill every visual beat** — whitespace is more refined than density. **Deleting 30-50% of cues makes the remaining ones more dramatic**.
 
-### Cue 选择优先级
-每个视觉 beat 不都要配 SFX。按这个优先级选：
+### Cue Selection Priority
+Not every visual beat needs SFX. Prioritize this way:
 
-**P0 必配**（省略会有违和感）：
-- 打字（终端/输入）
-- 点击/选择（用户决策时刻）
-- 焦点切换（视觉主角转移）
-- Logo reveal（品牌收束）
+**P0 Required** (omission will feel jarring):
+- Typing (terminal/input)
+- Click/select (user decision moment)
+- Focus switch (visual main element transition)
+- Logo reveal (brand convergence)
 
-**P1 推荐配**：
-- 元素入场/离场（modal / card）
-- 完成/成功反馈
-- AI 生成开始/结束
-- 重大过渡（scene 切换）
+**P1 Recommended**:
+- Element entry/exit (modal / card)
+- Completion/success feedback
+- AI generation start/end
+- Major transition (scene switch)
 
-**P2 选配**（多了会乱）：
+**P2 Optional** (too many becomes chaotic):
 - hover / focus-in
-- 进度 tick
-- 装饰性 ambient
+- Progress tick
+- Decorative ambient
 
-### 时间戳对齐精度
-- **同帧对齐**（0ms 误差）：点击/焦点切换/Logo 落定
-- **前置 1-2 帧**（-33ms）：快速 whoosh（给观众心理预期）
-- **后置 1-2 帧**（+33ms）：物体落地/impact（符合真实物理）
-
----
-
-## BGM 选择决策树
-
-huashu-design skill 自带 6 首 BGM（`assets/bgm-*.mp3`）：
-
-```
-动画性格是什么？
-├─ 产品发布 / 技术演示 → bgm-tech.mp3（minimal synth + piano）
-├─ 教程讲解 / 工具使用 → bgm-tutorial.mp3（warm, instructional）
-├─ 教育学习 / 原理解释 → bgm-educational.mp3（curious, thoughtful）
-├─ 营销广告 / 品牌宣传 → bgm-ad.mp3（upbeat, promotional）
-└─ 同类风格需要变体 → bgm-*-alt.mp3（各自替代版）
-```
-
-### 无 BGM 的场景（值得考虑）
-参考 Anthropic Code Desktop（ref-2）：**0 SFX + 纯 Lo-fi BGM** 也能很高级。
-
-**何时选无BGM**：
-- 动画时长 <10s（BGM 建立不起来）
-- 产品性格是「专注/冥想」
-- 场景本身有环境音/讲解声
-- SFX 密度很高时（避免听觉过载）
+### Timestamp Alignment Precision
+- **Same-frame alignment** (0ms error): click/focus switch/Logo landing
+- **Pre-advance 1-2 frames** (-33ms): fast whoosh (give audience psychological expectation)
+- **Post-delay 1-2 frames** (+33ms): object landing/impact (matches real physics)
 
 ---
 
-## 场景配方（开箱即用）
+## BGM Selection Decision Tree
 
-### 配方 A · 产品发布 hero（huashu-design v9 同款）
+huashu-design skill includes 6 BGM tracks (`assets/bgm-*.mp3`):
+
 ```
-时长：25 秒
-BGM：bgm-tech.mp3 · 45% · 频段 <4kHz
-SFX 密度：~6个/10s
-
-cue：
-  终端打字 → type × 4（间隔0.6s）
-  回车     → enter
-  卡片汇聚 → card × 4（错峰 0.2s）
-  选中     → click
-  Ripple   → whoosh
-  4次焦点  → focus × 4
-  Logo     → thud（1.5s）
-
-音量：BGM 0.45 / SFX 1.0 · amix normalize=0
+What is the animation's personality?
+├─ Product launch / Tech demo → bgm-tech.mp3 (minimal synth + piano)
+├─ Tutorial / Tool usage → bgm-tutorial.mp3 (warm, instructional)
+├─ Educational / Principle explanation → bgm-educational.mp3 (curious, thoughtful)
+├─ Marketing ad / Brand promotion → bgm-ad.mp3 (upbeat, promotional)
+└─ Same style needs variation → bgm-*-alt.mp3 (respective alternatives)
 ```
 
-### 配方 B · 工具功能演示（参考 Anthropic Code Desktop）
-```
-时长：30-45 秒
-BGM：bgm-tutorial.mp3 · 50%
-SFX 密度：0-2个/10s（极少）
+### Scenarios Without BGM (Worth Considering)
+Reference Anthropic Code Desktop (ref-2): **0 SFX + pure Lo-fi BGM** can also be premium.
 
-策略：让 BGM + 讲解 voiceover 驱动，SFX 只在**决定性时刻**（文件保存/命令执行完成）
+**When to choose no BGM**:
+- Animation duration <10s (BGM can't establish itself)
+- Product personality is "focused/meditative"
+- Scene itself has ambient audio/narration
+- SFX density is very high (avoid audio overload)
+
+---
+
+## Scene Recipes (Ready to Use)
+
+### Recipe A · Product Launch Hero (huashu-design v9 equivalent)
+```
+Duration: 25 seconds
+BGM: bgm-tech.mp3 · 45% · Band <4kHz
+SFX Density: ~6/10s
+
+Cue:
+  Terminal typing → type × 4 (0.6s interval)
+  Enter         → enter
+  Cards converge → card × 4 (0.2s stagger)
+  Select        → click
+  Ripple        → whoosh
+  4x focus      → focus × 4
+  Logo          → thud (1.5s)
+
+Volume: BGM 0.45 / SFX 1.0 · amix normalize=0
 ```
 
-### 配方 C · AI 生成演示
+### Recipe B · Tool Feature Demo (reference Anthropic Code Desktop)
 ```
-时长：15-20 秒
-BGM：bgm-tech.mp3 或无 BGM
-SFX 密度：~8个/10s（高密度）
+Duration: 30-45 seconds
+BGM: bgm-tutorial.mp3 · 50%
+SFX Density: 0-2/10s (very sparse)
 
-cue：
-  用户输入 → type + enter
-  AI 开始处理 → magic/ai-process（1.2s 循环）
-  生成完成 → feedback/complete-done
-  结果呈现 → magic/sparkle
-  
-亮点：ai-process 可以循环 2-3 次贯穿整个生成过程
+Strategy: Let BGM + voiceover narration drive, SFX only at **decisive moments** (file save/command execution complete)
 ```
 
-### 配方 D · 纯氛围长镜头（参考 Artifacts）
+### Recipe C · AI Generation Demo
 ```
-时长：10-15 秒
-BGM：无
-SFX：单独使用 3-5 个精心设计的 cue
+Duration: 15-20 seconds
+BGM: bgm-tech.mp3 or no BGM
+SFX Density: ~8/10s (high density)
 
-策略：每个 SFX 都是主角，没有BGM「糊在一起」的问题。
-适合：单产品慢镜头、特写展示
+Cue:
+  User input → type + enter
+  AI starts processing → magic/ai-process (1.2s loop)
+  Generation complete → feedback/complete-done
+  Result presentation → magic/sparkle
+
+Highlight: ai-process can loop 2-3 times throughout the generation process
+```
+
+### Recipe D · Pure Atmosphere Long Shot (reference Artifacts)
+```
+Duration: 10-15 seconds
+BGM: None
+SFX: 3-5 carefully designed cues used independently
+
+Strategy: Each SFX is the star, no BGM "mush" issue.
+Suitable for: Product slow-mo single shot, close-up display
 ```
 
 ---
 
-## ffmpeg 合成模板
+## ffmpeg Composition Templates
 
-### 模板 1 · 单 SFX 叠加到视频
+### Template 1 · Single SFX Overlaid on Video
 ```bash
 ffmpeg -y -i video.mp4 -itsoffset 2.5 -i sfx.mp3 \
   -filter_complex "[0:a][1:a]amix=inputs=2:normalize=0[a]" \
   -map 0:v -map "[a]" output.mp4
 ```
 
-### 模板 2 · 多 SFX 时间轴合成（按cue时间对齐）
+### Template 2 · Multi-SFX Timeline Composition (aligned by cue time)
 ```bash
 ffmpeg -y \
   -i sfx-type.mp3 -i sfx-enter.mp3 -i sfx-click.mp3 -i sfx-thud.mp3 \
@@ -190,12 +190,12 @@ ffmpeg -y \
 [a0][a1][a2][a3]amix=inputs=4:duration=longest:normalize=0[mixed]" \
   -map "[mixed]" -t 25 sfx-track.mp3
 ```
-**关键参数**：
-- `adelay=N|N`：前面是左声道延迟(ms)，后面是右声道，写两遍保证立体声对齐
-- `normalize=0`：保留动态范围，关键！
-- `-t 25`：截断到指定时长
+**Key parameters**:
+- `adelay=N|N`: first is left channel delay (ms), second is right channel, write twice for stereo alignment
+- `normalize=0`: preserve dynamic range, critical!
+- `-t 25`: trim to specified duration
 
-### 模板 3 · 视频 + SFX track + BGM（带频段隔离）
+### Template 3 · Video + SFX Track + BGM (with frequency isolation)
 ```bash
 ffmpeg -y -i video.mp4 -i sfx-track.mp3 -i bgm.mp3 \
   -filter_complex "\
@@ -208,53 +208,53 @@ ffmpeg -y -i video.mp4 -i sfx-track.mp3 -i bgm.mp3 \
 
 ---
 
-## 失败模式速查
+## Failure Mode Quick Reference
 
-| 症状 | 根因 | 修复 |
+| Symptom | Root Cause | Fix |
 |---|---|---|
-| SFX 听不见 | BGM 高频部分遮盖 | 加 `lowpass=f=4000` 给BGM + `highpass=f=800` 给SFX |
-| 音效过响刺耳 | SFX 绝对音量太大 | SFX 音量降到 0.7，同时降低 BGM 到 0.3，保持差值 |
-| BGM 和 SFX 节奏冲突 | BGM 选错了（用了有强beat的music） | 换成 ambient / minimal synth 的 BGM |
-| 动画结束 BGM 突然断 | 没做 fade out | `afade=out:st=N-1.5:d=1.5` |
-| SFX 重叠成糊 | cue 太密 + 每个 SFX 时长太长 | SFX 时长控到 0.5s 以内，cue 间隔 ≥ 0.2s |
-| 公众号 mp4 没声音 | 公众号有时会 mute auto-play | 不用担心，用户点开会有声音；gif 本来就没声音 |
+| SFX inaudible | BGM high frequency masking | Add `lowpass=f=4000` to BGM + `highpass=f=800` to SFX |
+| SFX too piercing | SFX absolute volume too high | Reduce SFX volume to 0.7, also reduce BGM to 0.3, maintain difference |
+| BGM and SFX rhythm clash | Wrong BGM chosen (strong beat music) | Switch to ambient / minimal synth BGM |
+| BGM abruptly cuts at animation end | No fade out | `afade=out:st=N-1.5:d=1.5` |
+| SFX overlap into mush | Cues too dense + each SFX too long | Keep SFX duration under 0.5s, cue spacing ≥ 0.2s |
+| Social media mp4 has no sound | Platforms sometimes mute auto-play | Don't worry, user gets sound on click; GIF has no sound anyway |
 
 ---
 
-## 和视觉的联动（高级）
+## Visual Coordination (Advanced)
 
-### SFX 音色要和视觉风格匹配
-- 暖米/纸张感视觉 → SFX 用**木质/柔和**音色（Morse, paper snap, soft click）
-- 冷黑科技视觉 → SFX 用**金属/数字**音色（beep, pulse, glitch）
-- 手绘/童趣视觉 → SFX 用**卡通/夸张**音色（boing, pop, zap）
+### SFX Timbre Must Match Visual Style
+- Warm beige/paper visual → SFX use **wooden/soft** timbres (Morse, paper snap, soft click)
+- Cold black tech visual → SFX use **metallic/digital** timbres (beep, pulse, glitch)
+- Hand-drawn/playful visual → SFX use **cartoonish/exaggerated** timbres (boing, pop, zap)
 
-我们当前 `apple-gallery-showcase.md` 的暖米底色 → 搭配 `keyboard/type.mp3`（mechanical）+ `container/card-snap.mp3`（soft）+ `impact/logo-reveal-v2.mp3`（cinematic bass）
+Our current `apple-gallery-showcase.md` warm beige base → pairs with `keyboard/type.mp3` (mechanical) + `container/card-snap.mp3` (soft) + `impact/logo-reveal-v2.mp3` (cinematic bass)
 
-### SFX 可以引导视觉节奏
-高级技巧：**先设计 SFX 时间轴，然后调整视觉动画去对齐 SFX**（不是反过来）。
-因为 SFX 每个 cue 都是一个「钟表 tick」，视觉动画适配 SFX 节奏会非常稳——反之 SFX 去追视觉，常常 ±1 帧对不上就有违和感。
-
----
-
-## 质量检查清单（发布前自检）
-
-- [ ] 响度差：SFX peak - BGM peak = -6 到 -8 dB？
-- [ ] 频段：BGM lowpass 4kHz + SFX highpass 800Hz？
-- [ ] amix normalize=0（保留动态范围）？
-- [ ] BGM fade-in 0.3s + fade-out 1.5s？
-- [ ] SFX 数量是否合适（按场景性格选密度）？
-- [ ] 每个 SFX 和视觉 beat 同帧对齐（±1 帧内）？
-- [ ] Logo reveal 音效时长够（建议 1.5s）？
-- [ ] 关闭 BGM 听一遍：SFX 单独是否足够有节奏感？
-- [ ] 关闭 SFX 听一遍：BGM 单独是否有情绪起伏？
-
-两层任何一层单独听都应该自洽。如果只有两层叠加才好听，说明没做好。
+### SFX Can Guide Visual Rhythm
+Advanced technique: **Design the SFX timeline first, then adjust visual animation to align with SFX** (not the other way around).
+Because each SFX cue is like a "clock tick," visual animation adapting to SFX rhythm is very stable — conversely, SFX chasing visuals often has ±1 frame misalignment that feels jarring.
 
 ---
 
-## 参考
+## Quality Checklist (Pre-release Self-check)
 
-- SFX 资产清单：`sfx-library.md`
-- 视觉风格参考：`apple-gallery-showcase.md`
-- Anthropic 三支片子深度音频分析：AUDIO-BEST-PRACTICES.md（作者本地资料，未随仓库分发）
-- huashu-design v9 实战案例：hero-animation-v9-final.mp4（作者本地样本，未随仓库分发）
+- [ ] Loudness difference: SFX peak - BGM peak = -6 to -8 dB?
+- [ ] Frequency: BGM lowpass 4kHz + SFX highpass 800Hz?
+- [ ] amix normalize=0 (preserve dynamic range)?
+- [ ] BGM fade-in 0.3s + fade-out 1.5s?
+- [ ] SFX count appropriate (choose density by scene personality)?
+- [ ] Each SFX same-frame aligned with visual beat (±1 frame)?
+- [ ] Logo reveal sound effect long enough (recommended 1.5s)?
+- [ ] Listen with BGM off: is SFX alone rhythmic enough?
+- [ ] Listen with SFX off: does BGM alone have emotional arc?
+
+Each layer should be coherent when listened to independently. If only the combination sounds good, it's not done well.
+
+---
+
+## References
+
+- SFX Asset Inventory: `sfx-library.md`
+- Visual Style Reference: `apple-gallery-showcase.md`
+- Deep audio analysis of three Anthropic films: AUDIO-BEST-PRACTICES.md (author's local material, not distributed with repo)
+- huashu-design v9 case study: hero-animation-v9-final.mp4 (author's local sample, not distributed with repo)

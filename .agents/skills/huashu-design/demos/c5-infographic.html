@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>c5-infographic · 数据 → 印刷级排版（中文版）</title>
+<title>c5-infographic · Data → Print-Grade Layout</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Noto+Serif+SC:wght@300;400;500;600&family=Inter:wght@100;200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -444,12 +444,12 @@
 
     <div class="ig-masthead" id="igMasthead">
       <div class="issue">Issue № 05 · <span class="orange">AI Benchmarks</span> · Q2 2026</div>
-      <div class="dept">性 能 报 告</div>
+      <div class="dept">B E N C H M A R K  R E P O R T</div>
     </div>
 
     <h1 class="ig-display" id="igDisplay">
-      大模型<br>
-      <span class="en">benchmarks</span> 之年
+      The Year of<br>
+      <span class="en">benchmarks</span>
     </h1>
 
     <p class="ig-deck" id="igDeck">
@@ -458,7 +458,7 @@
 
     <div class="ig-grid" id="igGrid">
       <div class="ig-cell accent" data-cell="0">
-        <div class="label">领跑模型 <span class="en">· leader</span></div>
+        <div class="label">Front Runner <span class="en">· leader</span></div>
         <div class="big">Claude 4.7</div>
         <div class="sub">Sonnet, 1M ctx · Anthropic</div>
       </div>
@@ -473,7 +473,7 @@
         <div class="sub">diamond, graduate science</div>
       </div>
       <div class="ig-cell" data-cell="3">
-        <div class="label">价差 <span class="en">· price</span></div>
+        <div class="label">Cost <span class="en">· price</span></div>
         <div class="big">$3<span class="unit">/M</span></div>
         <div class="sub">input token, typical</div>
       </div>
@@ -522,7 +522,7 @@
   <div class="brand-wall" id="brandWall">
     <div class="brand-wordmark" id="brandWord">huashu<span class="dot">·</span>design</div>
     <div class="brand-underline" id="brandLine"></div>
-    <div class="brand-cn" id="brandCn">数 据 · 印 刷 级 排 版</div>
+    <div class="brand-cn" id="brandCn">D A T A  ·  P R I N T - G R A D E  T Y P O G R A P H Y</div>
   </div>
 
 </div>
@@ -606,18 +606,6 @@
   // ---------- Timeline ----------
   const DURATION = 10.0;
 
-  // SFX cue points (played back in ffmpeg post-processing, not browser):
-  //   t=0.35  → keyboard/type-fast.mp3  (data entering)
-  //   t=2.15  → container/card-snap.mp3 (infographic settles)
-  //   t=6.75  → transition/whoosh-fast.mp3 (zoom-in to typography)
-  //   t=8.70  → impact/logo-reveal.mp3   (brand reveal chime)
-  const sfxFired = new Set();
-  function fireOnce(key) {
-    if (sfxFired.has(key)) return;
-    sfxFired.add(key);
-    // cue emitted for post-processing; no in-browser playback
-  }
-
   let startTime = null;
   let raf;
 
@@ -639,7 +627,6 @@
       const linesShown = Math.floor(k * totalLines);
       const shown = jsonRaw.slice(0, Math.max(0, linesShown));
       jsonBlock.innerHTML = formatJson(shown);
-      if (linesShown >= 3 && t < 1.9) fireOnce('datain');
     }
 
     // ── Pipe arrow (1.8 → 2.2) ─────────────────────────────
@@ -653,7 +640,6 @@
       const k = expoOut(seg(t, 2.0, 2.8));
       infographic.style.opacity = k;
       infographic.style.transform = `translateY(${lerp(t, 2.0, 2.8, 18, 0, expoOut)}px)`;
-      if (t > 2.1) fireOnce('settle');
     }
     // Masthead
     {
@@ -717,9 +703,6 @@
       // Word subtle scale-in (starts from 0.96)
       detailWord.style.transform = `scale(${lerp(t, 7.0, 7.9, 0.96, 1.0, expoOut)})`;
 
-      // SFX at 6.7
-      if (t > 6.7) fireOnce('zoom');
-
       // Callout + annotation (7.5 → 8.1)
       const k3 = cubicOut(seg(t, 7.6, 8.1));
       callout.style.opacity = k3;
@@ -745,14 +728,13 @@
       const k = expoOut(seg(t, 8.6, 9.2));
       brandWord.style.opacity = k;
       brandWord.style.transform = `scale(${lerp(t, 8.6, 9.2, 0.92, 1.0, expoOut)})`;
-      if (t > 8.65) fireOnce('chime');
     }
     // Underline
     {
       const k = expoOut(seg(t, 9.0, 9.6));
       brandLine.style.width = (280 * k) + 'px';
     }
-    // CN tagline
+    // Brand tagline
     {
       const k = cubicOut(seg(t, 9.3, 9.9));
       brandCn.style.opacity = k * 0.9;
@@ -766,7 +748,6 @@
         setTimeout(() => {
           // Reset
           startTime = null;
-          sfxFired.clear();
           jsonBlock.innerHTML = '';
           splitLeft.style.opacity = '0';
           pipe.style.opacity = '0';

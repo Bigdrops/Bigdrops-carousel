@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "skills": {
+    "audience-growth-tracker-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/audience-growth-tracker-sms/SKILL.md",
+      "computedHash": "498b3259fd08a7513f69b9ddc89696836b5a32d82b3b8b9b94ae011a734c3cd1"
+    },
+    "caption-writer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/caption-writer-sms/SKILL.md",
+      "computedHash": "687e1dc5c9420c505343a992769a8806092faacb71fb1856b8d6790d63a93d02"
+    },
+    "carousel-writer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/carousel-writer-sms/SKILL.md",
+      "computedHash": "cd52f56d6042e72a667e9b3b45f45e2598f2daa344f786d3583810df52e5d4b1"
+    },
+    "content-calendar-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-calendar-sms/SKILL.md",
+      "computedHash": "c6ae4966d49c61912520ec68c7d81e39a433cd70231482847578214d11118a2a"
+    },
+    "content-pattern-analyzer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-pattern-analyzer-sms/SKILL.md",
+      "computedHash": "b262a567d7ec73ba89bc89ecc57bc093f6a9b6532ce7e99c9a8385e15f12c896"
+    },
+    "content-repurposer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-repurposer-sms/SKILL.md",
+      "computedHash": "3255bc7b629d6fb529e8c5fc225a961854713017d860a5e5338cf7b7f6471c3a"
+    },
+    "content-strategy-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-strategy-sms/SKILL.md",
+      "computedHash": "d490444e08666c0d7c7a78ff79344a88c8ad57fb0249a3161fed08f5a2c55e4c"
+    },
+    "hook-writer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/hook-writer-sms/SKILL.md",
+      "computedHash": "5085c4b6949e063c4238e6e185cdfab37deb8ede28c6dc0e15dbfcba61fabebe"
+    },
+    "huashu-design": {
+      "source": "alchaincyf/huashu-design",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "2eb1c3e6e49e8b5d65ad8760523355985dc3631057ad4e7727cdaf2160a73733"
+    },
+    "optimization-advisor-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/optimization-advisor-sms/SKILL.md",
+      "computedHash": "67999ca63a22512e75d748f22753d005448b2a1192c387e1f5b59823fe73ffa3"
+    },
+    "performance-analyzer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/performance-analyzer-sms/SKILL.md",
+      "computedHash": "f606247b0ba90600db842f78962e7d137b06ec4b61d3485af36d706b24977a9f"
+    },
+    "platform-strategy-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/platform-strategy-sms/SKILL.md",
+      "computedHash": "a810c04963d013def73810e09f911cf4eb65f69b16432864309bc7b6cd2f8a9a"
+    },
+    "post-writer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/post-writer-sms/SKILL.md",
+      "computedHash": "10e481365207c9ca432806835e4b513a319ae8d4d78e8d9e24315e758091efbe"
+    },
+    "social-media-context-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/social-media-context-sms/SKILL.md",
+      "computedHash": "050ef7179edccefafdd738a08a8f2e00c164d99e0b5164869cd582f9b0a011e0"
+    },
+    "thread-writer-sms": {
+      "source": "blacktwist/social-media-skills",
+      "sourceType": "github",
+      "skillPath": "skills/thread-writer-sms/SKILL.md",
+      "computedHash": "de7a0da2ad015fa8e365fa4db115e4ed71d58683e86ab09611665515b67e3830"
+    }
+  }
+}

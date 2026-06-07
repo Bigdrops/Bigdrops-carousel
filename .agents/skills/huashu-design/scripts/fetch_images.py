@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 """
-从 Wikimedia Commons 抓真实图片（公共领域 / CC），供 huashu-design「内容型设计取真图」用（Phase 3.5）。
+Fetch real images from Wikimedia Commons (public domain / CC), for huashu-design "content-driven design using real images" (Phase 3.5).
 
-为什么有这个脚本：内容型设计（鹦鹉/咖啡/马来西亚…）必须用真图，不能 CSS 色块糊弄。
-每次让模型现写抓图逻辑既慢又容易漏坑（忘清代理→TLS 炸 / 忘合规 UA→429）。这里固化好，下次只改关键词。
+Why this script: content-driven design (parrot/coffee/Malaysia…) must use real images, cannot fake with CSS color blocks.
+Having the model write fetch logic from scratch each time is both slow and error-prone (forgets to clear proxy → TLS failure / forgets compliant UA → 429). This is solidified here so next time we only change keywords.
 
-用法：
+Usage:
   python3 scripts/fetch_images.py --query "Petronas Towers" "Langkawi beach" "George Town street" \
-      --out 项目/assets/img --count 2 --width 1600
+      --out project/assets/img --count 2 --width 1600
 
-每个 query 取前 count 张、缩放到 width、下载到 out，并打印清单（路径 | 许可 | 作者 | 来源页）便于诚实性核对。
-全部抓不到 → 退出码 1，提示走 Phase 3.5 取图三级兜底（Unsplash/Pexels → 生图 → 诚实 placeholder）。
+Each query fetches the first count images, scales to width, downloads to out, and prints a manifest (path | license | author | source page) for honesty verification.
+If all fail → exit code 1, with a prompt to fall back to Phase 3.5's three-level image retrieval (Unsplash/Pexels → AI generation → honest placeholder).
 """
 import argparse, json, os, re, sys, urllib.parse, urllib.request
 
-# ① 清代理：本机 curl/urllib 走代理会 TLS 炸（见 memory feedback_gemini_proxy）
+# ① Clear proxy: local curl/urllib using proxy causes TLS failure (see memory feedback_gemini_proxy)
 for _k in ("ALL_PROXY", "all_proxy", "HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy"):
     os.environ.pop(_k, None)
 
 API = "https://commons.wikimedia.org/w/api.php"
-# ② 合规 User-Agent 是硬性要求，否则 Wikimedia 返 429
+# ② Compliant User-Agent is mandatory, otherwise Wikimedia returns 429
 UA = "huashu-design-image-fetcher/1.0 (https://huasheng.ai; skill contact)"
 
 
@@ -68,25 +68,25 @@ def fetch(query, out, count, width):
         except Exception as e:
             print(f"[FAIL dl] {thumb}: {e}", file=sys.stderr)
     if not got:
-        print(f"[EMPTY] 「{query}」没抓到——换关键词，或走 Phase 3.5 兜底", file=sys.stderr)
+        print(f"[EMPTY] No results for '{query}' — try different keywords, or use Phase 3.5 fallback", file=sys.stderr)
     return got
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Wikimedia Commons 真图抓取（huashu-design Phase 3.5）")
-    ap.add_argument("--query", nargs="+", required=True, help="一个或多个英文关键词（英文命中率高）")
-    ap.add_argument("--out", required=True, help="输出目录（建议 项目/assets/img）")
-    ap.add_argument("--count", type=int, default=2, help="每个关键词抓几张（默认 2）")
-    ap.add_argument("--width", type=int, default=1600, help="缩放宽度 px（默认 1600）")
+    ap = argparse.ArgumentParser(description="Wikimedia Commons real image fetcher (huashu-design Phase 3.5)")
+    ap.add_argument("--query", nargs="+", required=True, help="One or more English keywords (English has higher hit rate)")
+    ap.add_argument("--out", required=True, help="Output directory (suggest project/assets/img)")
+    ap.add_argument("--count", type=int, default=2, help="Number of images to fetch per keyword (default 2)")
+    ap.add_argument("--width", type=int, default=1600, help="Scale width px (default 1600)")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     allgot = []
     for q in a.query:
         allgot += fetch(q, a.out, a.count, a.width)
-    print(f"\n=== 共下载 {len(allgot)} 张到 {a.out} ===")
-    print("⚠️ 诚实性核对：去掉每张图信息是否有损？许可是否允许用途？不合适的删掉。")
+    print(f"\n=== Downloaded {len(allgot)} images to {a.out} ===")
+    print("⚠️ Honesty check: verify each image's info for attribution, license compatibility, and suitability. Remove inappropriate ones.")
     if not allgot:
-        print("❌ 全部失败 → 走 Phase 3.5 取图三级兜底（Unsplash/Pexels → 生图 → 诚实 placeholder，不卡流程）", file=sys.stderr)
+        print("❌ All failed → use Phase 3.5 three-level image fallback (Unsplash/Pexels → AI generation → honest placeholder, don't block the pipeline)", file=sys.stderr)
         sys.exit(1)
 
 

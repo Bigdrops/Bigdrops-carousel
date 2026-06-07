@@ -24,6 +24,10 @@
   --gold:    #FBBF24;
   --W: 1080px;
   --H: 1920px;
+  --pad-top: 180px;
+  --pad-bottom: 480px;
+  --pad-left: 80px;
+  --pad-right: 180px;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -32,8 +36,6 @@ body {
   -webkit-font-smoothing:antialiased;
   padding:16px 0 48px;
 }
-
-/* ── TOOLBAR ── */
 .toolbar {
   position:sticky; top:0; z-index:500;
   background:rgba(9,9,11,0.96);
@@ -57,7 +59,6 @@ body {
 #pf { height:100%; background:var(--lime); width:0%; transition:width .3s; }
 #pt { font-family:'DM Mono',monospace; font-size:10px; color:#444; margin-top:4px; }
 
-/* ── SLIDE WRAPPER ── */
 .slides-wrap { display:flex; flex-direction:column; align-items:center; gap:36px; padding:24px 0; }
 .sw { position:relative; width:min(96vw,540px); }
 .sl { font-family:'DM Mono',monospace; font-size:10px; color:#333; letter-spacing:.06em; margin-bottom:6px; padding-left:2px; }
@@ -70,27 +71,26 @@ body {
 }
 .dlb:hover { background:var(--lime); color:#000; border-color:var(--lime); }
 
-/* ── SLIDE BASE ── */
 .slide {
   width:var(--W); height:var(--H);
   position:relative; overflow:hidden;
   transform-origin:top left;
   background:var(--bg);
 }
-
-/* Static noise canvas — injected by JS */
 .noise-layer {
   position:absolute; inset:0; z-index:1;
   pointer-events:none; opacity:.55;
 }
-
-/* Floating particles canvas */
 .particles-layer {
   position:absolute; inset:0; z-index:2;
   pointer-events:none;
 }
-
-/* Safe zone */
+.wm {
+  position:absolute; bottom:480px; left:52px;
+  font-family:'DM Mono',monospace; font-size:24px; font-weight:500;
+  letter-spacing:.22em; color:rgba(200,255,0,.35);
+  text-transform:uppercase; z-index:50; pointer-events:none;
+}
 .sz { display:none; position:absolute; inset:0; pointer-events:none; z-index:200; }
 .sz.on { display:block; }
 .sz-t,.sz-b { position:absolute; left:0; right:0; }
@@ -98,19 +98,8 @@ body {
 .sz-b { bottom:0; height:420px; background:rgba(255,0,0,.1); border-top:2px dashed rgba(255,60,60,.5); }
 .sz-lbl { font-family:'DM Mono',monospace; font-size:16px; font-weight:500; color:rgba(255,80,80,.8); text-align:center; padding:8px 0; letter-spacing:.06em; }
 
-/* Watermark — bright enough to show on TikTok */
-.wm {
-  position:absolute; bottom:480px; left:52px;
-  font-family:'DM Mono',monospace; font-size:24px; font-weight:500;
-  letter-spacing:.22em; color:rgba(200,255,0,.35);
-  text-transform:uppercase; z-index:50; pointer-events:none;
-}
-
-/* ════════════════════════════
-   COVER SLIDE
-════════════════════════════ */
+/* ═══ COVER ═══ */
 .cover { background:var(--bg); }
-
 .cover-glow {
   position:absolute; z-index:3; pointer-events:none;
   top:-100px; left:-120px;
@@ -123,13 +112,11 @@ body {
   width:700px; height:700px;
   background:radial-gradient(ellipse, rgba(56,189,248,.05) 0%, transparent 65%);
 }
-
 .cover-stripe {
   position:absolute; top:0; left:72px; bottom:0;
   width:3px; background:var(--lime); z-index:4;
   box-shadow:0 0 24px rgba(200,255,0,.6);
 }
-
 .cover-inner {
   position:absolute; inset:0; z-index:5;
   display:flex; flex-direction:column;
@@ -176,9 +163,7 @@ body {
   user-select:none;
 }
 
-/* ════════════════════════════
-   HUAWEI JOKE SLIDE
-════════════════════════════ */
+/* ═══ HUAWEI JOKE ═══ */
 .huawei-slide {
   background:var(--bg);
   display:flex; flex-direction:column;
@@ -223,113 +208,102 @@ body {
   letter-spacing:.04em; margin-top:40px;
 }
 
-/* ════════════════════════════
-   PHONE CARD SLIDE
-════════════════════════════ */
+/* ═══ PHONE CARD — NEW LAYOUT ═══ */
 .phone-slide {
   background:var(--bg);
-  display:flex; flex-direction:column;
 }
-
-/* Top band — phone image area */
-.ps-top {
-  flex:0 0 820px;
-  position:relative;
-  background:var(--bg2);
+.ps-bg-glow {
+  position:absolute; z-index:2; pointer-events:none;
+  top:50%; left:50%;
+  width:800px; height:800px;
+  transform:translate(-50%,-70%);
+  background:radial-gradient(ellipse, rgba(200,255,0,.06) 0%, transparent 65%);
+}
+.ps-img-area {
+  position:absolute;
+  top:var(--pad-top); left:var(--pad-left); right:var(--pad-right);
+  height:680px;
   display:flex; align-items:center; justify-content:center;
-  border-bottom:1px solid var(--border);
+  z-index:5;
   overflow:hidden;
 }
-
-/* Rank overlay on image area */
-.ps-rank-overlay {
-  position:absolute; bottom:0; left:0; right:0;
-  height:200px; z-index:3;
-  background:linear-gradient(to top, var(--bg2) 0%, transparent 100%);
-}
-.ps-rank-num {
-  position:absolute; bottom:20px; left:52px; z-index:4;
-  font-family:'Bebas Neue',sans-serif; line-height:1;
-}
-.ps-rank-num .rh {
-  font-family:'DM Mono',monospace; font-size:20px; font-weight:500;
-  color:var(--lime); letter-spacing:.14em; display:block; margin-bottom:4px;
-}
-.ps-rank-num .rn { font-size:120px; color:var(--text); letter-spacing:-.02em; display:block; }
-
-.ps-medal {
-  position:absolute; top:40px; right:48px; z-index:5;
-  font-size:80px; line-height:1;
-}
-
-/* Curved badge */
-.curved-tag {
-  position:absolute; top:36px; left:48px; z-index:5;
-  font-family:'DM Mono',monospace; font-size:18px; font-weight:500;
-  color:var(--orange); letter-spacing:.08em;
-  background:rgba(255,87,34,.1); border:1px solid rgba(255,87,34,.35);
-  padding:8px 16px; border-radius:6px;
-  display:flex; align-items:center; gap:8px;
-}
-
-/* Ghost rank behind image */
 .ps-ghost {
-  position:absolute; z-index:1;
-  font-family:'Bebas Neue',sans-serif; font-size:580px; line-height:1;
-  color:rgba(255,255,255,.025); letter-spacing:-.04em;
-  right:-20px; bottom:-40px; pointer-events:none; user-select:none;
+  position:absolute; z-index:3;
+  font-family:'Bebas Neue',sans-serif; font-size:540px; line-height:1;
+  color:rgba(255,255,255,.02); letter-spacing:-.04em;
+  right:-10px; bottom:-30px; pointer-events:none; user-select:none;
 }
-
-/* Phone image */
 .ps-img {
-  position:relative; z-index:2;
-  max-width:72%; max-height:820px;
+  position:relative; z-index:5;
+  max-width:74%; max-height:100%;
   object-fit:contain;
   filter:drop-shadow(0 20px 60px rgba(0,0,0,.7));
 }
 .ps-fallback {
-  display:none; position:relative; z-index:2;
-  width:380px; height:680px;
-  background:var(--surface); border-radius:32px; border:1px solid var(--border);
+  display:none; position:relative; z-index:5;
+  width:360px; height:620px;
+  background:var(--surface); border-radius:28px; border:1px solid var(--border);
   flex-direction:column; align-items:center; justify-content:center;
-  gap:16px; text-align:center;
+  gap:12px; text-align:center;
 }
-.ps-fallback span { font-family:'DM Sans',sans-serif; font-size:28px; font-weight:500; color:var(--muted); }
-.ps-fallback small { font-family:'DM Mono',monospace; font-size:16px; color:#2a2a30; }
+.ps-fallback span { font-family:'DM Sans',sans-serif; font-size:24px; font-weight:500; color:var(--muted); }
+.ps-fallback small { font-family:'DM Mono',monospace; font-size:14px; color:#2a2a30; }
 
-/* Bottom info area */
-.ps-bottom {
-  flex:1;
-  position:relative;
-  padding:40px 200px 40px 52px;
+.ps-rank-medal {
+  position:absolute; top:24px; right:24px; z-index:8;
+  font-size:64px; line-height:1;
+}
+.ps-curved-tag {
+  position:absolute; top:24px; left:24px; z-index:8;
+  font-family:'DM Mono',monospace; font-size:15px; font-weight:500;
+  color:var(--orange); letter-spacing:.08em;
+  background:rgba(255,87,34,.1); border:1px solid rgba(255,87,34,.35);
+  padding:6px 14px; border-radius:5px;
+}
+
+.ps-rank-tag {
+  position:absolute; bottom:0; left:0; right:0; z-index:6;
+  height:120px;
+  background:linear-gradient(to top, var(--bg) 0%, transparent 100%);
+}
+.ps-rank-tag-inner {
+  position:absolute; bottom:12px; left:36px; z-index:7;
+  display:flex; align-items:baseline; gap:10px;
+}
+.ps-rank-label {
+  font-family:'DM Mono',monospace; font-size:16px; font-weight:500;
+  color:var(--lime); letter-spacing:.14em;
+}
+.ps-rank-num {
+  font-family:'Bebas Neue',sans-serif; font-size:76px; line-height:1;
+  color:var(--text); letter-spacing:-.02em;
+}
+
+.ps-content-area {
+  position:absolute;
+  top:860px; left:var(--pad-left); right:var(--pad-right);
+  bottom:var(--pad-bottom);
   display:flex; flex-direction:column;
-  gap:18px;
-  background:var(--bg);
-  overflow:hidden;
   justify-content:center;
+  z-index:5;
+  gap:10px;
 }
-
-/* Accent left bar */
-.ps-bar {
-  position:absolute; top:0; left:0; bottom:0;
-  width:4px; background:var(--lime);
-  box-shadow:0 0 16px rgba(200,255,0,.4);
-}
-
 .ps-name {
-  font-family:'Bebas Neue',sans-serif; font-size:80px; line-height:.92;
+  font-family:'Bebas Neue',sans-serif; font-size:72px; line-height:.92;
   color:var(--text); letter-spacing:.01em;
 }
 .ps-release {
-  font-family:'DM Mono',monospace; font-size:18px; color:var(--muted);
-  letter-spacing:.1em; text-transform:uppercase; margin-top:-8px;
+  font-family:'DM Mono',monospace; font-size:16px; color:var(--muted);
+  letter-spacing:.1em; text-transform:uppercase;
 }
-
-.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chips {
+  display:flex; flex-wrap:wrap; gap:6px;
+  margin:2px 0;
+}
 .chip {
-  font-family:'DM Mono',monospace; font-size:16px; font-weight:500;
-  padding:8px 14px; border-radius:6px; white-space:nowrap; letter-spacing:.03em;
-  display:inline-flex; align-items:center; gap:6px;
+  font-family:'DM Mono',monospace; font-size:14px; font-weight:500;
+  padding:6px 12px; border-radius:5px; white-space:nowrap; letter-spacing:.03em;
+  display:inline-flex; align-items:center; gap:5px;
 }
 .c-sd     { background:rgba(56,189,248,.08); border:1px solid rgba(56,189,248,.22); color:var(--blue); }
 .c-dim    { background:rgba(251,191,36,.07); border:1px solid rgba(251,191,36,.22); color:var(--gold); }
@@ -339,22 +313,26 @@ body {
 .c-warn   { background:rgba(248,113,113,.07); border:1px solid rgba(248,113,113,.22); color:var(--red); }
 .c-esim   { background:rgba(167,139,250,.07); border:1px solid rgba(167,139,250,.22); color:var(--purple); }
 .c-cam    { background:rgba(251,191,36,.07); border:1px solid rgba(251,191,36,.22); color:var(--gold); }
+.c-air    { background:rgba(52,211,153,.07); border:1px solid rgba(52,211,153,.2); color:var(--green); }
+.c-bat    { background:rgba(56,189,248,.08); border:1px solid rgba(56,189,248,.22); color:var(--blue); }
 
 .ps-specs {
-  font-family:'DM Mono',monospace; font-size:21px; color:var(--muted);
-  line-height:1.7; letter-spacing:.02em;
+  font-family:'DM Mono',monospace; font-size:19px; color:var(--muted);
+  line-height:1.6; letter-spacing:.02em;
 }
 .ps-specs b { color:var(--text); font-weight:500; }
 
-.ps-oneliner {
-  font-family:'DM Sans',sans-serif; font-size:24px; font-weight:400;
-  color:rgba(238,236,234,.65); line-height:1.55; font-style:italic;
-  border-left:3px solid var(--lime); padding-left:18px;
+.ps-verdict {
+  font-family:'DM Sans',sans-serif; font-size:22px; font-weight:400;
+  color:rgba(238,236,234,.6); line-height:1.5; font-style:italic;
+  border-left:3px solid var(--lime); padding-left:16px;
+  margin-top:2px;
+}
+.ps-verdict strong {
+  font-style:normal; font-weight:600; color:var(--text);
 }
 
-/* ════════════════════════════
-   CLOSING SLIDE
-════════════════════════════ */
+/* ═══ CLOSING ═══ */
 .closing-slide {
   background:var(--bg);
   display:flex; flex-direction:column;
@@ -387,7 +365,7 @@ body {
   color:var(--red); letter-spacing:.14em; text-transform:uppercase;
   display:flex; align-items:center; gap:12px;
 }
-.cs-eyebrow::before { content:'●'; font-size:10px; color:var(--red); animation:blink 1.2s step-end infinite; }
+.cs-eyebrow::before { content:''; display:block; width:8px; height:8px; border-radius:50%; background:var(--red); animation:blink 1.2s step-end infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 .cs-head {
   font-family:'Bebas Neue',sans-serif; font-size:100px; line-height:.92;
@@ -415,20 +393,17 @@ body {
 </head>
 <body>
 
-<!-- TOOLBAR -->
 <div class="toolbar">
-  <div class="tb-title">BIGDROPS <b>₦300K–400K</b> · 18 slides · 1080×1920</div>
-  <button class="tbtn" id="sz-btn" onclick="toggleSZ()">👁 Safe Zone</button>
-  <button class="tbtn primary" id="btn-all" onclick="dlAll()">⬇ Download All</button>
+  <div class="tb-title">BIGDROPS <b>₦300K-400K</b> · 21 slides · 1080x1920</div>
+  <button class="tbtn" id="sz-btn" onclick="toggleSZ()">Safe Zone</button>
+  <button class="tbtn primary" id="btn-all" onclick="dlAll()">Download All</button>
   <div id="pw"><div id="pb"><div id="pf"></div></div><div id="pt"></div></div>
 </div>
 
 <div class="slides-wrap">
 
-<!-- ══════════════════════════════════
-     SLIDE 1 — COVER
-══════════════════════════════════ -->
-<div class="sw"><div class="sl">01/18 — Cover</div>
+<!-- ═══ SLIDE 1 — COVER ═══ -->
+<div class="sw"><div class="sl">01/21 — Cover</div>
 <div class="slide cover" id="s1">
   <canvas class="noise-layer" id="noise-s1"></canvas>
   <canvas class="particles-layer" id="parts-s1"></canvas>
@@ -443,20 +418,18 @@ body {
       <span class="hl2">₦400K</span>
     </div>
     <div class="c-divider"></div>
-    <div class="c-sub"><b>15 phones. Ranked.</b> No favoritism. No brand loyalty. Just facts.<br>Spending this money and not on this list? You're paying for hype.</div>
+    <div class="c-sub"><b>18 phones. Ranked.</b> No favoritism. No brand loyalty. Just facts.<br>Spending this money and not on this list? You are paying for hype.</div>
     <div class="c-tagline">Minted phones only. No cap.</div>
   </div>
   <div class="c-bottom">BIGDROPS.NG</div>
-  <div class="c-bignum">15</div>
+  <div class="c-bignum">18</div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz1"><div class="sz-t"><div class="sz-lbl">⚠ TIKTOK TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ TIKTOK CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz1"><div class="sz-t"><div class="sz-lbl">TIKTOK TOP UI</div></div><div class="sz-b"><div class="sz-lbl">TIKTOK CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(1,'01-cover.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(1,'01-cover.png')">PNG</button></div>
 
-<!-- ══════════════════════════════════
-     SLIDE 2 — HUAWEI JOKE
-══════════════════════════════════ -->
-<div class="sw"><div class="sl">02/18 — Huawei Joke</div>
+<!-- ═══ SLIDE 2 — HUAWEI JOKE ═══ -->
+<div class="sw"><div class="sl">02/21 — Huawei Joke</div>
 <div class="slide huawei-slide" id="s2">
   <canvas class="noise-layer" id="noise-s2"></canvas>
   <canvas class="particles-layer" id="parts-s2"></canvas>
@@ -475,487 +448,576 @@ body {
     <div class="hw-note">* real list starts next slide</div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz2"><div class="sz-t"><div class="sz-lbl">⚠ TIKTOK TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ TIKTOK CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz2"><div class="sz-t"><div class="sz-lbl">TIKTOK TOP UI</div></div><div class="sz-b"><div class="sz-lbl">TIKTOK CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(2,'02-huawei.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(2,'02-huawei.png')">PNG</button></div>
 
-<!-- ══════════════════════════════════
-     PHONE CARD MACRO
-══════════════════════════════════ -->
-<!-- SLIDE 3 — #15 Pixel 7 Pro -->
-<div class="sw"><div class="sl">03/18 — #15 Pixel 7 Pro</div>
+<!-- ════════════════════════════════════════════
+     PHONE CARDS — 18 phones, new layout
+════════════════════════════════════════════ -->
+
+<!-- #1 Xiaomi 14 -->
+<div class="sw"><div class="sl">03/21 — #1 Xiaomi 14</div>
 <div class="slide phone-slide" id="s3">
   <canvas class="noise-layer" id="noise-s3"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">15</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_015.jpg" alt="Pixel 7 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Pixel 7 Pro</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">15</span></div>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">1</div>
+    <img class="ps-img" src="https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-14-1.jpg" alt="Xiaomi 14" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Xiaomi 14</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">1</span></div>
   </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Google Pixel 7 Pro</div>
-    <div class="ps-release">Oct 2022 · Curved Screen</div>
+  <div class="ps-content-area">
+    <div class="ps-name">Xiaomi 14</div>
+    <div class="ps-release">March 2024</div>
     <div class="chips">
-      <span class="chip c-tensor">Tensor G2</span>
-      <span class="chip c-screen">6.7" LTPO OLED 120Hz</span>
-      <span class="chip c-game">PUBGM Smooth</span>
-      <span class="chip c-game">CODM High</span>
+      <span class="chip c-sd">Snapdragon 8 Gen 3</span>
+      <span class="chip c-screen">6.36" LTPO AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 120 FPS</span>
+      <span class="chip c-game">CODM 120 FPS</span>
       <span class="chip c-esim">eSIM</span>
-      <span class="chip c-warn">⚠ Throttles on Heat</span>
+      <span class="chip c-cam">Leica 4K Selfie</span>
     </div>
-    <div class="ps-specs"><b>5,000 mAh</b> · 30W · UFS 3.1 · Up to <b>12GB/512GB</b><br>1080p selfie · 50MP main</div>
-    <div class="ps-oneliner">Google's best software + near-Hasselblad photos... then Tensor G2 heats up on a phone call and throttles. Curved screen edges chip easier. Two things to know — not dealbreakers, just realities.</div>
+    <div class="ps-specs"><b>4,610 mAh</b> · 90W · UFS 4.0 · Up to <b>16GB/1TB</b><br>Gorilla Glass Victus 2</div>
+    <div class="ps-verdict">The strength of this phone is balance. Cameras, performance, charging, software experience, build quality — nothing feels compromised. Compact flagship done properly. <strong>Best overall package in this price range. Argument closed.</strong></div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz3"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz3"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(3,'03-pixel7pro.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(3,'03-xiaomi14.png')">PNG</button></div>
 
-<!-- SLIDE 4 — #14 Xiaomi 14T -->
-<div class="sw"><div class="sl">04/18 — #14 Xiaomi 14T</div>
+<!-- #2 Redmi Turbo 4 Pro -->
+<div class="sw"><div class="sl">04/21 — #2 Redmi Turbo 4 Pro</div>
 <div class="slide phone-slide" id="s4">
   <canvas class="noise-layer" id="noise-s4"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">14</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_006.jpg" alt="Xiaomi 14T" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 14T</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">14</span></div>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">2</div>
+    <img class="ps-img" src="https://fdn2.gsmarena.com/vv/pics/xiaomi/redmi-turbo-4-pro.jpg" alt="Redmi Turbo 4 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Redmi Turbo 4 Pro</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">2</span></div>
   </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Xiaomi 14T</div>
-    <div class="ps-release">Sep 2024</div>
+  <div class="ps-content-area">
+    <div class="ps-name">Redmi Turbo 4 Pro</div>
+    <div class="ps-release">April 2026</div>
     <div class="chips">
-      <span class="chip c-dim">Dimensity 8300-Ultra</span>
-      <span class="chip c-screen">6.67" AMOLED 144Hz</span>
-      <span class="chip c-game">PUBGM 90fps</span>
-      <span class="chip c-game">CODM High</span>
-      <span class="chip c-esim">Dual eSIM</span>
-      <span class="chip c-cam">4K Selfie</span>
+      <span class="chip c-sd">Snapdragon 8s Gen 4</span>
+      <span class="chip c-screen">6.67" AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 120 FPS</span>
+      <span class="chip c-game">CODM 120 FPS</span>
+      <span class="chip c-bat">6,000 mAh</span>
     </div>
-    <div class="ps-specs"><b>5,000 mAh</b> · 67W · UFS 4.0 · Up to <b>12GB/512GB</b></div>
-    <div class="ps-oneliner">One of the best mid-range phones money can buy here. Dimensity 8300-Ultra — you know what you're getting. Don't expect flagship behavior and you won't be disappointed.</div>
+    <div class="ps-specs"><b>6,000 mAh</b> · 90W · UFS 4.0 · Up to <b>16GB/512GB</b></div>
+    <div class="ps-verdict">Performance and endurance are the entire sales pitch — and it delivers both exceptionally well. The only reason it is not first place is because of its camera. For raw processing power per naira, it commands this slot. <strong>Pure performance and unmatched endurance weapon.</strong></div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz4"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz4"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(4,'04-xiaomi14t.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(4,'04-redmiturbo4pro.png')">PNG</button></div>
 
-<!-- SLIDE 5 — #13 Redmi K70 -->
-<div class="sw"><div class="sl">05/18 — #13 Redmi K70</div>
+<!-- #3 Vivo X100 -->
+<div class="sw"><div class="sl">05/21 — #3 Vivo X100</div>
 <div class="slide phone-slide" id="s5">
   <canvas class="noise-layer" id="noise-s5"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">13</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2F20260607_052620.jpg" alt="Redmi K70" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Redmi K70</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">13</span></div>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">3</div>
+    <div class="ps-curved-tag">Curved</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/IMG_20260607_054902.jpg" alt="Vivo X100" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Vivo X100</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">3</span></div>
   </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Redmi K70</div>
-    <div class="ps-release">Dec 2023 · CN ROM</div>
+  <div class="ps-content-area">
+    <div class="ps-name">Vivo X100</div>
+    <div class="ps-release">November 2023 · Curved</div>
     <div class="chips">
-      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
-      <span class="chip c-screen">6.67" AMOLED 144Hz</span>
-      <span class="chip c-game">PUBGM 90fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-warn">CN ROM</span>
+      <span class="chip c-dim">Dimensity 9300</span>
+      <span class="chip c-screen">6.78" AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-cam">Zeiss Periscope 5x</span>
     </div>
-    <div class="ps-specs"><b>5,000 mAh</b> · 90W · UFS 4.0 · Up to <b>16GB/1TB</b><br>Flat screen · 1080p selfie</div>
-    <div class="ps-oneliner">Flagship killer. SD 8 Gen 2 at this price is the whole point. Camera? Leave those expectations at the door. CN ROM — factor it in. Performance is the only conversation and it wins.</div>
+    <div class="ps-specs"><b>5,000 mAh</b> · 120W · UFS 4.0 · Up to <b>16GB/1TB</b></div>
+    <div class="ps-verdict">One of the fastest phones here for both photography and raw processing power. The periscope zoom is genuinely flagship-grade and the battery experience is excellent. The only corner Vivo visibly cut was the basic selfie camera setup. <strong>Rear camera excellence, average front-camera effort.</strong></div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz5"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz5"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(5,'05-redmik70.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(5,'05-vivox100.png')">PNG</button></div>
 
-<!-- SLIDE 6 — #12 Xiaomi 13T Pro -->
-<div class="sw"><div class="sl">06/18 — #12 Xiaomi 13T Pro</div>
+<!-- #4 Honor Magic 5 Pro -->
+<div class="sw"><div class="sl">06/21 — #4 Honor Magic 5 Pro</div>
 <div class="slide phone-slide" id="s6">
   <canvas class="noise-layer" id="noise-s6"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">12</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_005.jpg" alt="Xiaomi 13T Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 13T Pro</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">12</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Xiaomi 13T Pro</div>
-    <div class="ps-release">Sep 2023</div>
-    <div class="chips">
-      <span class="chip c-dim">Dimensity 9200+</span>
-      <span class="chip c-screen">6.67" AMOLED 144Hz</span>
-      <span class="chip c-game">PUBGM 120fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-esim">eSIM</span>
-      <span class="chip c-warn">⚠ Keep Cool</span>
-    </div>
-    <div class="ps-specs"><b>5,000 mAh</b> · 120W · UFS 4.0 · Up to <b>16GB/1TB</b><br>Flat screen · built tough</div>
-    <div class="ps-oneliner">Flagship killer. 144Hz, 120W, eSIM. Camera is unremarkable — move on. Flat screen, tank build, no screen guard needed. Don't put it in hot situations or it lags annoyingly. Keep it cool, zero complaints.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz6"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(6,'06-xiaomi13tpro.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 7 — #11 Xiaomi 13 -->
-<div class="sw"><div class="sl">07/18 — #11 Xiaomi 13</div>
-<div class="slide phone-slide" id="s7">
-  <canvas class="noise-layer" id="noise-s7"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">11</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_003%20%281%29.jpg" alt="Xiaomi 13" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 13</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">11</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Xiaomi 13</div>
-    <div class="ps-release">Dec 2022</div>
-    <div class="chips">
-      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
-      <span class="chip c-screen">6.36" AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 120fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-cam">Leica Optics</span>
-    </div>
-    <div class="ps-specs"><b>4,500 mAh</b> · 67W · UFS 4.0 · Up to <b>12GB/512GB</b><br>Flat screen · compact body</div>
-    <div class="ps-oneliner">Good phone. No drama. No hidden issues. Compact body, SD 8 Gen 2, durable flat screen. Genuinely no screen guard needed — and if you insist, buy quality or leave it. The ₦1k one is just decoration.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz7"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(7,'07-xiaomi13.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 8 — #10 Xiaomi 12S Ultra -->
-<div class="sw"><div class="sl">08/18 — #10 Xiaomi 12S Ultra</div>
-<div class="slide phone-slide" id="s8">
-  <canvas class="noise-layer" id="noise-s8"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">10</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_004.jpg" alt="Xiaomi 12S Ultra" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 12S Ultra</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">10</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Xiaomi 12S Ultra</div>
-    <div class="ps-release">Jul 2022 · CN ROM · Curved</div>
-    <div class="chips">
-      <span class="chip c-sd">Snapdragon 8+ Gen 1</span>
-      <span class="chip c-screen">6.73" LTPO AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 90fps</span>
-      <span class="chip c-cam">1" Sony IMX989 · Leica</span>
-    </div>
-    <div class="ps-specs"><b>4,860 mAh</b> · 67W · UFS 4.0 · Up to <b>16GB/1TB</b><br>Leather back · 1080p selfie</div>
-    <div class="ps-oneliner">1-inch sensor. iPhone 15 Pro Max is at 1/1.28" and people worship it — this sensor is bigger. Looks like ₦700K. Curved screen, respect the edges. Chip aging but camera embarrasses newer phones for years.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz8"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(8,'08-12sultra.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 9 — #9 Oppo Find X6 -->
-<div class="sw"><div class="sl">09/18 — #9 Oppo Find X6</div>
-<div class="slide phone-slide" id="s9">
-  <canvas class="noise-layer" id="noise-s9"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">9</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2FIMG_20260607_055101.jpg" alt="Oppo Find X6" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Oppo Find X6</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">9</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Oppo Find X6</div>
-    <div class="ps-release">Mar 2023 · CN ROM · Curved</div>
-    <div class="chips">
-      <span class="chip c-dim">Dimensity 9200</span>
-      <span class="chip c-screen">6.74" LTPO AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 90fps</span>
-      <span class="chip c-game">CODM High</span>
-      <span class="chip c-cam">Hasselblad Tuned</span>
-    </div>
-    <div class="ps-specs"><b>5,000 mAh</b> · 80W · UFS 4.0 · Up to <b>16GB/1TB</b></div>
-    <div class="ps-oneliner">Hasselblad color science — same people calibrating cameras for professional photographers tuning this phone. Solid all-round performer. Curved screen, mind the edges. Everything else is clean.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz9"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(9,'09-findx6.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 10 — #8 OnePlus 11 -->
-<div class="sw"><div class="sl">10/18 — #8 OnePlus 11</div>
-<div class="slide phone-slide" id="s10">
-  <canvas class="noise-layer" id="noise-s10"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">8</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_010.jpg" alt="OnePlus 11" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>OnePlus 11</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">8</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">OnePlus 11</div>
-    <div class="ps-release">Jan 2023</div>
-    <div class="chips">
-      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
-      <span class="chip c-screen">6.7" LTPO AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 90fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-esim">eSIM</span>
-      <span class="chip c-cam">Hasselblad Tuned</span>
-    </div>
-    <div class="ps-specs"><b>5,000 mAh</b> · 100W · UFS 4.0 · Up to <b>16GB/512GB</b></div>
-    <div class="ps-oneliner">100W = 0 to full before you finish a 20-minute episode. SD 8 Gen 2, clean OxygenOS, no bloatware. Works every day without calling your attention to itself. That reliability is rarer than people think.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz10"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(10,'10-oneplus11.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 11 — #7 Samsung S23 -->
-<div class="sw"><div class="sl">11/18 — #7 Samsung Galaxy S23</div>
-<div class="slide phone-slide" id="s11">
-  <canvas class="noise-layer" id="noise-s11"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">7</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_016.jpg" alt="Samsung S23" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Samsung S23</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">7</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Samsung Galaxy S23</div>
-    <div class="ps-release">Feb 2023</div>
-    <div class="chips">
-      <span class="chip c-sd">SD 8 Gen 2 for Galaxy</span>
-      <span class="chip c-screen">6.1" AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 120fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-esim">eSIM</span>
-      <span class="chip c-warn">25W Charging 💀</span>
-    </div>
-    <div class="ps-specs"><b>3,900 mAh</b> · 25W · UFS 4.0 · Up to <b>8GB/512GB</b></div>
-    <div class="ps-oneliner">Most polished compact Android on this list. Tight software, premium build, chip optimized specifically for Samsung. 25W charging at this price is an insult Samsung will never apologize for. Buy it anyway.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz11"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(11,'11-samsungs23.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 12 — #6 Pixel 8 -->
-<div class="sw"><div class="sl">12/18 — #6 Pixel 8</div>
-<div class="slide phone-slide" id="s12">
-  <canvas class="noise-layer" id="noise-s12"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">6</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fpixel8.jpg" alt="Pixel 8" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Pixel 8</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">6</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Google Pixel 8</div>
-    <div class="ps-release">Oct 2023</div>
-    <div class="chips">
-      <span class="chip c-tensor">Tensor G3</span>
-      <span class="chip c-screen">6.2" OLED 120Hz</span>
-      <span class="chip c-game">PUBGM Smooth–High</span>
-      <span class="chip c-game">CODM High</span>
-      <span class="chip c-esim">eSIM</span>
-      <span class="chip c-cam">7 Years Updates</span>
-    </div>
-    <div class="ps-specs"><b>4,575 mAh</b> · 27W · UFS 3.1 · Up to <b>8GB/256GB</b><br>Flat screen · offline AI</div>
-    <div class="ps-oneliner">Fixed the thermal embarrassment of G2. 7 years of updates — patches until 2031. Flat screen, no drama. Offline AI that actually works. Long-term value most phones here can't touch.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz12"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(12,'12-pixel8.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 13 — #5 Vivo X90 Pro -->
-<div class="sw"><div class="sl">13/18 — #5 Vivo X90 Pro</div>
-<div class="slide phone-slide" id="s13">
-  <canvas class="noise-layer" id="noise-s13"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">5</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fx100.jpg" alt="Vivo X90 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Vivo X90 Pro</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">5</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Vivo X90 Pro</div>
-    <div class="ps-release">Nov 2022 · Curved</div>
-    <div class="chips">
-      <span class="chip c-dim">Dimensity 9200</span>
-      <span class="chip c-screen">6.78" AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 90fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-cam">1" IMX989 · Zeiss · V2 chip</span>
-    </div>
-    <div class="ps-specs"><b>4,870 mAh</b> · 120W · UFS 4.0 · Up to <b>16GB/512GB</b></div>
-    <div class="ps-oneliner">1-inch IMX989 + dedicated V2 imaging chip just for photos. Low light shots that look like studio lighting when you're just standing outside. Curved — respect the edges. Dimensity 9200 runs cool. This phone doesn't sweat.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz13"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(13,'13-vivox90pro.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 14 — #4 Xiaomi 13 Pro -->
-<div class="sw"><div class="sl">14/18 — #4 Xiaomi 13 Pro</div>
-<div class="slide phone-slide" id="s14">
-  <canvas class="noise-layer" id="noise-s14"></canvas>
-  <div class="ps-top">
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
     <div class="ps-ghost">4</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fgsmarena_002.jpg" alt="Xiaomi 13 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 13 Pro</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">4</span></div>
-  </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Xiaomi 13 Pro</div>
-    <div class="ps-release">Dec 2022 · Curved</div>
-    <div class="chips">
-      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
-      <span class="chip c-screen">6.73" LTPO AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 120fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-esim">eSIM</span>
-      <span class="chip c-cam">1" IMX989 · Leica</span>
-    </div>
-    <div class="ps-specs"><b>4,820 mAh</b> · 120W · UFS 4.0 · Up to <b>12GB/512GB</b></div>
-    <div class="ps-oneliner">Same 1-inch sensor as X90 Pro. Add SD 8 Gen 2 + 120W — no department embarrasses itself. Face is Gorilla Glass Victus, drop face-down and pick up confidently. Curved edges need respect, not the screen.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz14"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
-</div>
-<button class="dlb" onclick="dl(14,'14-xiaomi13pro.png')">⬇ PNG</button></div>
-
-<!-- SLIDE 15 — #3 Honor Magic 5 Pro -->
-<div class="sw"><div class="sl">15/18 — #3 Honor Magic 5 Pro</div>
-<div class="slide phone-slide" id="s15">
-  <canvas class="noise-layer" id="noise-s15"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">3</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2Fhm5p.jpg" alt="Honor Magic 5 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-curved-tag">Curved</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/hm5p.jpg" alt="Honor Magic 5 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
     <div class="ps-fallback"><span>Honor Magic 5 Pro</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">3</span></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">4</span></div>
   </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
+  <div class="ps-content-area">
     <div class="ps-name">Honor Magic 5 Pro</div>
-    <div class="ps-release">Feb 2023 · Curved</div>
+    <div class="ps-release">March 2023 · Curved</div>
     <div class="chips">
       <span class="chip c-sd">Snapdragon 8 Gen 2</span>
       <span class="chip c-screen">6.81" LTPO OLED 120Hz</span>
-      <span class="chip c-game">PUBGM 120fps</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
       <span class="chip c-esim">Dual eSIM</span>
       <span class="chip c-cam">4K Selfie · Eye-Safe PWM</span>
     </div>
     <div class="ps-specs"><b>5,100 mAh</b> · 66W · UFS 4.0 · Up to <b>16GB/512GB</b></div>
-    <div class="ps-oneliner">Most people haven't considered this phone — that's the point. Battery makes Samsung users uncomfortable. High-freq PWM dimming = no eye strain after 3hrs scrolling. Progenitor of Dynamic Island before iPhone stole it. Most underrated in Nigeria right now.</div>
+    <div class="ps-verdict">Most people haven't considered this phone — that's the whole point. High-frequency PWM dimming display, premium build quality, curved glass, and a 4K selfie camera. Progenitor of Dynamic Island before iPhone stole it. <strong>Most underrated phone in Nigeria right now and it's not close.</strong></div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz15"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz6"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(15,'15-honormagic5pro.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(6,'06-honormagic5pro.png')">PNG</button></div>
 
-<!-- SLIDE 16 — #2 Vivo X100 -->
-<div class="sw"><div class="sl">16/18 — #2 Vivo X100</div>
+<!-- #5 Xiaomi 13 Pro -->
+<div class="sw"><div class="sl">07/21 — #5 Xiaomi 13 Pro</div>
+<div class="slide phone-slide" id="s7">
+  <canvas class="noise-layer" id="noise-s7"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">5</div>
+    <div class="ps-curved-tag">Curved</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_002.jpg" alt="Xiaomi 13 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Xiaomi 13 Pro</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">5</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Xiaomi 13 Pro</div>
+    <div class="ps-release">December 2022 · Curved</div>
+    <div class="chips">
+      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
+      <span class="chip c-screen">6.73" LTPO AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-esim">eSIM</span>
+      <span class="chip c-cam">1" IMX989 · Leica</span>
+    </div>
+    <div class="ps-specs"><b>4,820 mAh</b> · 120W · UFS 4.0 · Up to <b>12GB/512GB</b></div>
+    <div class="ps-verdict">This phone still has one of the strongest camera systems on the list due to its 1-inch Sony IMX989 sensor. Rear-camera performance remains flagship-level and the charging speed feels absurdly fast even today. <strong>Premium rear setup with an average selfie camera trade-off.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz7"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(7,'07-xiaomi13pro.png')">PNG</button></div>
+
+<!-- #6 Vivo X90 Pro -->
+<div class="sw"><div class="sl">08/21 — #6 Vivo X90 Pro</div>
+<div class="slide phone-slide" id="s8">
+  <canvas class="noise-layer" id="noise-s8"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">6</div>
+    <div class="ps-curved-tag">Curved</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/x100.jpg" alt="Vivo X90 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Vivo X90 Pro</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">6</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Vivo X90 Pro</div>
+    <div class="ps-release">December 2022 · Curved</div>
+    <div class="chips">
+      <span class="chip c-dim">Dimensity 9200</span>
+      <span class="chip c-screen">6.78" AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-cam">1" IMX989 · V2 Chip</span>
+    </div>
+    <div class="ps-specs"><b>4,870 mAh</b> · 120W · UFS 4.0 · Up to <b>16GB/512GB</b></div>
+    <div class="ps-verdict">A photography-first flagship built around a 1-inch Sony IMX989 sensor and a dedicated V2 imaging chip. Night shots, portraits and zoom performance remain strong. Vivo clearly prioritized the rear cameras over the front. <strong>Mobile photography priority that still challenges newer devices.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz8"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(8,'08-vivox90pro.png')">PNG</button></div>
+
+<!-- #7 OnePlus 11 -->
+<div class="sw"><div class="sl">09/21 — #7 OnePlus 11</div>
+<div class="slide phone-slide" id="s9">
+  <canvas class="noise-layer" id="noise-s9"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">7</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_010.jpg" alt="OnePlus 11" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>OnePlus 11</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">7</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">OnePlus 11 <span class="chip c-game" style="font-size:13px;padding:3px 10px;vertical-align:middle;">RISING</span></div>
+    <div class="ps-release">January 2023</div>
+    <div class="chips">
+      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
+      <span class="chip c-screen">6.7" LTPO AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-esim">eSIM</span>
+      <span class="chip c-cam">Hasselblad Tuned</span>
+    </div>
+    <div class="ps-specs"><b>5,000 mAh</b> · 100W · UFS 4.0 · Up to <b>16GB/512GB</b></div>
+    <div class="ps-verdict">This phone's greatest strength is daily usability. Fast, smooth, dependable and free from unnecessary drama. Camera performance is solid rather than spectacular, but everything else works exactly as you'd expect. <strong>Excellent haptics and premium flagship build quality that avoids cheap mid-range shortcuts.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz9"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(9,'09-oneplus11.png')">PNG</button></div>
+
+<!-- #8 Samsung Galaxy S23 -->
+<div class="sw"><div class="sl">10/21 — #8 Samsung Galaxy S23</div>
+<div class="slide phone-slide" id="s10">
+  <canvas class="noise-layer" id="noise-s10"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">8</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_016.jpg" alt="Samsung Galaxy S23" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Samsung Galaxy S23</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">8</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Samsung Galaxy S23 <span class="chip c-warn" style="font-size:13px;padding:3px 10px;vertical-align:middle;">FALLING</span></div>
+    <div class="ps-release">February 2023</div>
+    <div class="chips">
+      <span class="chip c-sd">SD 8 Gen 2 for Galaxy</span>
+      <span class="chip c-screen">6.1" AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-esim">eSIM</span>
+      <span class="chip c-warn">25W Charging</span>
+    </div>
+    <div class="ps-specs"><b>3,900 mAh</b> · 25W · UFS 4.0 · Up to <b>8GB/512GB</b><br>Armor Aluminum frame</div>
+    <div class="ps-verdict">The most polished compact Android flagship here. Armor aluminum framework, premium flat display, and long-term ownership experience. Its weakness is obvious: 3,900mAh battery and 25W charging. Competitors simply charge faster and last longer. <strong>Polished consistency bottlenecked by slow battery tech.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz10"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(10,'10-samsungs23.png')">PNG</button></div>
+
+<!-- #9 Xiaomi 13 -->
+<div class="sw"><div class="sl">11/21 — #9 Xiaomi 13</div>
+<div class="slide phone-slide" id="s11">
+  <canvas class="noise-layer" id="noise-s11"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">9</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_003.jpg" alt="Xiaomi 13" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Xiaomi 13</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">9</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Xiaomi 13</div>
+    <div class="ps-release">December 2022</div>
+    <div class="chips">
+      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
+      <span class="chip c-screen">6.36" AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-cam">Leica · 3.2X Telephoto</span>
+    </div>
+    <div class="ps-specs"><b>4,500 mAh</b> · 67W · UFS 4.0 · Up to <b>12GB/512GB</b><br>Flat display · Compact body</div>
+    <div class="ps-verdict">Compact flagship with flat display architecture and very few compromises. Reliable, fast, and easy to recommend. True 3.2X telephoto lens layout. It performs well everywhere, though the front camera is merely adequate beside the excellent rear setup. <strong>Balanced compact layout comfort for daily workloads.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz11"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(11,'11-xiaomi13.png')">PNG</button></div>
+
+<!-- #10 Google Pixel 8 -->
+<div class="sw"><div class="sl">12/21 — #10 Google Pixel 8</div>
+<div class="slide phone-slide" id="s12">
+  <canvas class="noise-layer" id="noise-s12"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">10</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/pixel8.jpg" alt="Google Pixel 8" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Google Pixel 8</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">10</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Google Pixel 8</div>
+    <div class="ps-release">October 2023</div>
+    <div class="chips">
+      <span class="chip c-tensor">Tensor G3</span>
+      <span class="chip c-screen">6.2" OLED 120Hz</span>
+      <span class="chip c-game">PUBGM 60 FPS</span>
+      <span class="chip c-game">CODM 60 FPS</span>
+      <span class="chip c-esim">eSIM</span>
+      <span class="chip c-cam">7 Years Updates</span>
+    </div>
+    <div class="ps-specs"><b>4,575 mAh</b> · 27W · UFS 3.1 · Up to <b>8GB/256GB</b><br>Flat screen · Offline AI</div>
+    <div class="ps-verdict">The smartest phone on the list. AI features, software experience and computational camera processing continue to be class-leading. The performance architecture struggles and heats under continuous loads, and charging speed is still disappointing. <strong>Outstanding smart processing suite hampered by mediocre hardware efficiency.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz12"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(12,'12-pixel8.png')">PNG</button></div>
+
+<!-- #11 iQOO Neo 9 -->
+<div class="sw"><div class="sl">13/21 — #11 iQOO Neo 9</div>
+<div class="slide phone-slide" id="s13">
+  <canvas class="noise-layer" id="noise-s13"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">11</div>
+    <img class="ps-img" src="https://fdn2.gsmarena.com/vv/pics/iqoo/iqoo-neo-9.jpg" alt="iQOO Neo 9" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>iQOO Neo 9</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">11</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">iQOO Neo 9</div>
+    <div class="ps-release">December 2023</div>
+    <div class="chips">
+      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
+      <span class="chip c-screen">6.78" AMOLED 144Hz</span>
+      <span class="chip c-game">PUBGM 120 FPS</span>
+      <span class="chip c-game">CODM 144 FPS</span>
+      <span class="chip c-bat">120W · Q1 Chip</span>
+    </div>
+    <div class="ps-specs"><b>5,160 mAh</b> · 120W · UFS 4.0 · Up to <b>16GB/1TB</b><br>Independent Q1 visual computing chip</div>
+    <div class="ps-verdict">Built for speed and raw on-screen fluid metrics. Includes a custom independent Q1 visual computing chip to maintain high frame caps during gaming. Camera quality isn't the reason you're buying this phone. Performance is. <strong>Highly tuned performance asset built for processing metrics.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz13"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(13,'13-iqudoneo9.png')">PNG</button></div>
+
+<!-- #12 Redmi K70 -->
+<div class="sw"><div class="sl">14/21 — #12 Redmi K70</div>
+<div class="slide phone-slide" id="s14">
+  <canvas class="noise-layer" id="noise-s14"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">12</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/20260607_052620.jpg" alt="Redmi K70" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Redmi K70</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">12</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Redmi K70</div>
+    <div class="ps-release">November 2023</div>
+    <div class="chips">
+      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
+      <span class="chip c-screen">6.67" AMOLED 144Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 120 FPS</span>
+      <span class="chip c-cam">2K Flat Panel</span>
+    </div>
+    <div class="ps-specs"><b>5,000 mAh</b> · 120W · UFS 4.0 · Up to <b>16GB/1TB</b><br>Flat screen · 2K resolution</div>
+    <div class="ps-verdict">One of the strongest performance-per-naira devices available. Powerful hardware built around a flagship core and a premium flat 2K resolution panel. The camera setup is serviceable, but buyers already know where the priorities went. <strong>Aggressive performance platform built to maximize hardware value.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz14"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(14,'14-redmik70.png')">PNG</button></div>
+
+<!-- #13 Oppo Find X6 -->
+<div class="sw"><div class="sl">15/21 — #13 Oppo Find X6</div>
+<div class="slide phone-slide" id="s15">
+  <canvas class="noise-layer" id="noise-s15"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">13</div>
+    <div class="ps-curved-tag">Curved</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/IMG_20260607_055101.jpg" alt="Oppo Find X6" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Oppo Find X6</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">13</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Oppo Find X6</div>
+    <div class="ps-release">March 2023 · Curved</div>
+    <div class="chips">
+      <span class="chip c-dim">Dimensity 9200</span>
+      <span class="chip c-screen">6.74" LTPO AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-cam">Hasselblad Tuned</span>
+    </div>
+    <div class="ps-specs"><b>5,000 mAh</b> · 80W · UFS 4.0 · Up to <b>16GB/1TB</b></div>
+    <div class="ps-verdict">Features highly uniform Hasselblad color tuning and a genuinely strong camera experience across its complete layout. The issue isn't that it's bad — it's that the competition above it simply offers stronger overall packages at similar pricing. <strong>Polished imaging framework sitting against hyper-aggressive rivals.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz15"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(15,'15-oppofindx6.png')">PNG</button></div>
+
+<!-- #14 Redmi K60 Pro -->
+<div class="sw"><div class="sl">16/21 — #14 Redmi K60 Pro</div>
 <div class="slide phone-slide" id="s16">
   <canvas class="noise-layer" id="noise-s16"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">2</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <img class="ps-img" src="https://https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones%2FIMG_20260607_054902.jpg" alt="Vivo X100" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Vivo X100</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">2</span></div>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">14</div>
+    <img class="ps-img" src="https://fdn2.gsmarena.com/vv/pics/xiaomi/redmi-k60-pro.jpg" alt="Redmi K60 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Redmi K60 Pro</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">14</span></div>
   </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Vivo X100</div>
-    <div class="ps-release">Nov 2023 · Curved</div>
+  <div class="ps-content-area">
+    <div class="ps-name">Redmi K60 Pro</div>
+    <div class="ps-release">December 2022</div>
     <div class="chips">
-      <span class="chip c-dim">Dimensity 9300</span>
-      <span class="chip c-screen">6.78" AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 120fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-cam">Zeiss Periscope 5x</span>
+      <span class="chip c-sd">Snapdragon 8 Gen 2</span>
+      <span class="chip c-screen">6.67" AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-bat">30W Wireless</span>
     </div>
-    <div class="ps-specs"><b>5,000 mAh</b> · 120W · UFS 4.0 · Up to <b>16GB/1TB</b></div>
-    <div class="ps-oneliner">Dimensity 9300 all-big-core — every core is a performance core, nothing holding back processing. Heavy tasks disappear. Zeiss periscope makes 5x look like you were standing next to the subject. Curved — edges need respect. One phone stops it from being #1.</div>
+    <div class="ps-specs"><b>5,500 mAh</b> · 67W · UFS 4.0 · Up to <b>16GB/512GB</b><br>30W wireless charging support</div>
+    <div class="ps-verdict">A strong performance layout with excellent battery life and flagship-level power. Preserves a functional 30W wireless charging utility that its successor dropped. Its biggest problem is being compared directly to the newer K70. <strong>High-spec hardware backed by wireless utility systems.</strong></div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz16"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz16"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(16,'16-vivox100.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(16,'16-redmik60pro.png')">PNG</button></div>
 
-<!-- SLIDE 17 — #1 Xiaomi 14 -->
-<div class="sw"><div class="sl">17/18 — #1 Xiaomi 14</div>
+<!-- #15 Xiaomi 12S Ultra -->
+<div class="sw"><div class="sl">17/21 — #15 Xiaomi 12S Ultra</div>
 <div class="slide phone-slide" id="s17">
   <canvas class="noise-layer" id="noise-s17"></canvas>
-  <div class="ps-top">
-    <div class="ps-ghost">1</div>
-    <div class="curved-tag">⌒ Curved</div>
-    <div class="ps-medal">🥇</div>
-    <img class="ps-img" src="https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-14-1.jpg" alt="Xiaomi 14" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 14</span><small>add image</small></div>
-    <div class="ps-rank-overlay"></div>
-    <div class="ps-rank-num"><span class="rh">RANK</span><span class="rn">1</span></div>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">15</div>
+    <div class="ps-curved-tag">Curved</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_004.jpg" alt="Xiaomi 12S Ultra" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Xiaomi 12S Ultra</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">15</span></div>
   </div>
-  <div class="ps-bottom">
-    <div class="ps-bar"></div>
-    <div class="ps-name">Xiaomi 14</div>
-    <div class="ps-release">Oct 2023 · Curved</div>
+  <div class="ps-content-area">
+    <div class="ps-name">Xiaomi 12S Ultra</div>
+    <div class="ps-release">July 2022 · Curved</div>
     <div class="chips">
-      <span class="chip c-sd">Snapdragon 8 Gen 3</span>
-      <span class="chip c-screen">6.36" LTPO AMOLED 120Hz</span>
-      <span class="chip c-game">PUBGM 120fps</span>
-      <span class="chip c-game">CODM 120fps</span>
-      <span class="chip c-esim">eSIM</span>
-      <span class="chip c-cam">Leica · 4K Selfie</span>
+      <span class="chip c-sd">Snapdragon 8+ Gen 1</span>
+      <span class="chip c-screen">6.73" LTPO AMOLED 120Hz</span>
+      <span class="chip c-game">PUBGM 60 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-cam">1" IMX989 · Leica</span>
     </div>
-    <div class="ps-specs"><b>4,610 mAh</b> · 90W · UFS 4.0 · Up to <b>16GB/1TB</b></div>
-    <div class="ps-oneliner">SD 8 Gen 3 — the latest flagship chip Qualcomm makes. Leica optics. 4K selfie. Compact premium body. Runs cooler and more efficiently than everything else here. iPhone 15 Pro same generation silicon — costs 3x more. Best overall package. Argument closed.</div>
+    <div class="ps-specs"><b>4,860 mAh</b> · 67W · UFS 3.1 · Up to <b>16GB/1TB</b><br>Leather back</div>
+    <div class="ps-verdict">The first phone that brought the 1-inch Leica sensor tier to market. Age is the only thing working against this phone. Pure camera performance remains great. If you are comfortable sacrificing software longevity, this remains an interesting buy. <strong>Elite camera quality held back by aging software support.</strong></div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz17"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz17"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(17,'17-xiaomi14.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(17,'15-xiaomi12sultra.png')">PNG</button></div>
 
-<!-- SLIDE 18 — CLOSING -->
-<div class="sw"><div class="sl">18/18 — Closing</div>
-<div class="slide closing-slide" id="s18">
+<!-- #16 Xiaomi 14T -->
+<div class="sw"><div class="sl">18/21 — #16 Xiaomi 14T</div>
+<div class="slide phone-slide" id="s18">
   <canvas class="noise-layer" id="noise-s18"></canvas>
-  <canvas class="particles-layer" id="parts-s18"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">16</div>
+    <img class="ps-img" src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_006.jpg" alt="Xiaomi 14T" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>Xiaomi 14T</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">16</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">Xiaomi 14T</div>
+    <div class="ps-release">September 2024</div>
+    <div class="chips">
+      <span class="chip c-dim">Dimensity 8300-Ultra</span>
+      <span class="chip c-screen">6.67" AMOLED 144Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 90 FPS</span>
+      <span class="chip c-esim">Dual eSIM</span>
+    </div>
+    <div class="ps-specs"><b>5,000 mAh</b> · 67W · UFS 4.0 · Up to <b>12GB/512GB</b><br>4K selfie camera</div>
+    <div class="ps-verdict">Behaves like a complete phone with a good display, solid cameras, and excellent 4K selfie quality. Holds a massive local market cheat code: comprehensive Dual eSIM support. Its issue is simple: at this price, buyers can find stronger Snapdragon alternatives. <strong>Complete operating balance holding an essential regional network feature.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz18"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(18,'16-xiaomi14t.png')">PNG</button></div>
+
+<!-- #17 ROG Phone 6D Ultimate -->
+<div class="sw"><div class="sl">19/21 — #17 ROG Phone 6D Ultimate</div>
+<div class="slide phone-slide" id="s19">
+  <canvas class="noise-layer" id="noise-s19"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">17</div>
+    <img class="ps-img" src="https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone-6d-ultimate.jpg" alt="ROG Phone 6D Ultimate" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>ROG Phone 6D Ultimate</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">17</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">ROG Phone 6D Ultimate</div>
+    <div class="ps-release">September 2022</div>
+    <div class="chips">
+      <span class="chip c-dim">Dimensity 9000+</span>
+      <span class="chip c-screen">6.78" AMOLED 165Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 120 FPS</span>
+      <span class="chip c-air">Air Portal</span>
+    </div>
+    <div class="ps-specs"><b>6,000 mAh</b> · 65W · UFS 3.1 · Up to <b>16GB/512GB</b><br>Motorized air portal cooling gate</div>
+    <div class="ps-verdict">Built around an internal motorized air portal ventilation gate. For sustained gaming, the thermal performance and frame stability are outstanding. As an everyday phone, however, it asks for deep compromises in size, camera quality and practicality. <strong>Top-tier thermal design built exclusively for hardware purists.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz19"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(19,'17-rog6dultimate.png')">PNG</button></div>
+
+<!-- #18 ROG Phone 6D -->
+<div class="sw"><div class="sl">20/21 — #18 ROG Phone 6D</div>
+<div class="slide phone-slide" id="s20">
+  <canvas class="noise-layer" id="noise-s20"></canvas>
+  <div class="ps-bg-glow"></div>
+  <div class="ps-img-area">
+    <div class="ps-ghost">18</div>
+    <img class="ps-img" src="https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone-6d-1.jpg" alt="ROG Phone 6D" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="ps-fallback"><span>ROG Phone 6D</span><small>add image</small></div>
+    <div class="ps-rank-tag"></div>
+    <div class="ps-rank-tag-inner"><span class="ps-rank-label">RANK</span><span class="ps-rank-num">18</span></div>
+  </div>
+  <div class="ps-content-area">
+    <div class="ps-name">ROG Phone 6D</div>
+    <div class="ps-release">September 2022</div>
+    <div class="chips">
+      <span class="chip c-dim">Dimensity 9000</span>
+      <span class="chip c-screen">6.78" AMOLED 165Hz</span>
+      <span class="chip c-game">PUBGM 90 FPS</span>
+      <span class="chip c-game">CODM 120 FPS</span>
+      <span class="chip c-air">Air Triggers</span>
+    </div>
+    <div class="ps-specs"><b>6,000 mAh</b> · 65W · UFS 3.1 · Up to <b>16GB/512GB</b></div>
+    <div class="ps-verdict">Holds the exact internal cooling engine as the Ultimate but excludes the external physical portal door hardware. High refresh-rate gaming, air triggers, and battery endurance remain excellent, but it is less balanced than nearly every phone above it. <strong>Gaming enthusiast tool that lacks daily flagship balance.</strong></div>
+  </div>
+  <div class="wm">BIGDROPS</div>
+  <div class="sz" id="sz20"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
+</div>
+<button class="dlb" onclick="dl(20,'18-rog6d.png')">PNG</button></div>
+
+<!-- ════════════════════════════════════════════
+     CLOSING SLIDE
+════════════════════════════════════════════ -->
+<div class="sw"><div class="sl">21/21 — Closing</div>
+<div class="slide closing-slide" id="s21">
+  <canvas class="noise-layer" id="noise-s21"></canvas>
+  <canvas class="particles-layer" id="parts-s21"></canvas>
   <div class="cs-top">
     <div class="cs-glow"></div>
-    <div class="cs-icon">⚠️</div>
+    <div class="cs-icon">!</div>
   </div>
   <div class="cs-body">
     <div class="cs-eyebrow">Final Warning</div>
@@ -967,14 +1029,13 @@ body {
     <div class="cs-follow">Follow for more unfiltered rankings.</div>
   </div>
   <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz18"><div class="sz-t"><div class="sz-lbl">⚠ TOP UI</div></div><div class="sz-b"><div class="sz-lbl">⚠ CAPTION ZONE</div></div></div>
+  <div class="sz" id="sz21"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div></div>
 </div>
-<button class="dlb" onclick="dl(18,'18-closing.png')">⬇ PNG</button></div>
+<button class="dlb" onclick="dl(21,'21-closing.png')">PNG</button></div>
 
 </div><!-- /slides-wrap -->
 
 <script>
-// ── SCALE SLIDES TO FIT DISPLAY ──
 function scaleSlides() {
   document.querySelectorAll('.sw').forEach(w => {
     const s = w.querySelector('.slide');
@@ -988,7 +1049,6 @@ function scaleSlides() {
 window.addEventListener('load', scaleSlides);
 window.addEventListener('resize', scaleSlides);
 
-// ── NOISE TEXTURE (static film grain) ──
 function drawNoise(canvas) {
   const W = 1080, H = 1920;
   canvas.width = W; canvas.height = H;
@@ -998,13 +1058,12 @@ function drawNoise(canvas) {
   for (let i = 0; i < d.length; i += 4) {
     const v = Math.random() * 255 | 0;
     d[i] = d[i+1] = d[i+2] = v;
-    d[i+3] = Math.random() * 18 | 0; // very subtle alpha
+    d[i+3] = Math.random() * 18 | 0;
   }
   ctx.putImageData(img, 0, 0);
 }
 document.querySelectorAll('.noise-layer').forEach(drawNoise);
 
-// ── FLOATING PARTICLES ──
 function initParticles(canvas) {
   const W = 1080, H = 1920;
   canvas.width = W; canvas.height = H;
@@ -1019,8 +1078,6 @@ function initParticles(canvas) {
     a: Math.random() * 0.4 + 0.1,
     col: Math.random() > 0.6 ? '200,255,0' : Math.random() > 0.5 ? '56,189,248' : '255,255,255',
   }));
-
-  // Draw once (static for screenshot; animation only visible in browser preview)
   function draw() {
     ctx.clearRect(0, 0, W, H);
     pts.forEach(p => {
@@ -1032,8 +1089,6 @@ function initParticles(canvas) {
       ctx.fillStyle = `rgba(${p.col},${p.a})`;
       ctx.fill();
     });
-
-    // Draw connecting lines between close particles
     for (let i = 0; i < pts.length; i++) {
       for (let j = i + 1; j < pts.length; j++) {
         const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
@@ -1054,21 +1109,18 @@ function initParticles(canvas) {
 }
 document.querySelectorAll('.particles-layer').forEach(initParticles);
 
-// ── SAFE ZONE TOGGLE ──
 let szOn = false;
 function toggleSZ() {
   szOn = !szOn;
   document.querySelectorAll('.sz').forEach(el => el.classList.toggle('on', szOn));
   document.getElementById('sz-btn').classList.toggle('on', szOn);
-  document.getElementById('sz-btn').textContent = szOn ? '✅ Safe Zone ON' : '👁 Safe Zone';
+  document.getElementById('sz-btn').textContent = szOn ? 'Safe Zone ON' : 'Safe Zone';
 }
 
-// ── SINGLE DOWNLOAD ──
 async function dl(num, filename) {
   const slide = document.getElementById('s' + num);
   const saved = slide.style.transform;
   slide.style.transform = 'none';
-  // Pause particles during capture
   const canvas = await html2canvas(slide, {
     scale: 1, useCORS: true, allowTaint: false,
     backgroundColor: '#09090B', width: 1080, height: 1920, logging: false,
@@ -1080,22 +1132,22 @@ async function dl(num, filename) {
   a.click();
 }
 
-// ── DOWNLOAD ALL ──
 async function dlAll() {
   const btn = document.getElementById('btn-all');
-  btn.disabled = true; btn.textContent = '⏳ Rendering…';
+  btn.disabled = true; btn.textContent = 'Rendering...';
   const pw = document.getElementById('pw');
   const pf = document.getElementById('pf');
   const pt = document.getElementById('pt');
   pw.style.display = 'block';
 
   const slides = [
-    [1,'01-cover.png'],[2,'02-huawei.png'],[3,'03-pixel7pro.png'],
-    [4,'04-xiaomi14t.png'],[5,'05-redmik70.png'],[6,'06-xiaomi13tpro.png'],
-    [7,'07-xiaomi13.png'],[8,'08-12sultra.png'],[9,'09-findx6.png'],
-    [10,'10-oneplus11.png'],[11,'11-samsungs23.png'],[12,'12-pixel8.png'],
-    [13,'13-vivox90pro.png'],[14,'14-xiaomi13pro.png'],[15,'15-honormagic5pro.png'],
-    [16,'16-vivox100.png'],[17,'17-xiaomi14.png'],[18,'18-closing.png'],
+    [1,'01-cover.png'],[2,'02-huawei.png'],[3,'03-xiaomi14.png'],
+    [4,'04-redmiturbo4pro.png'],[5,'05-vivox100.png'],[6,'06-honormagic5pro.png'],
+    [7,'07-xiaomi13pro.png'],[8,'08-vivox90pro.png'],[9,'09-oneplus11.png'],
+    [10,'10-samsungs23.png'],[11,'11-xiaomi13.png'],[12,'12-pixel8.png'],
+    [13,'13-iqudoneo9.png'],[14,'14-redmik70.png'],[15,'15-oppofindx6.png'],
+    [16,'16-redmik60pro.png'],[17,'15-xiaomi12sultra.png'],[18,'16-xiaomi14t.png'],
+    [19,'17-rog6dultimate.png'],[20,'18-rog6d.png'],[21,'21-closing.png'],
   ];
 
   for (let i = 0; i < slides.length; i++) {
@@ -1107,8 +1159,8 @@ async function dlAll() {
   }
 
   pf.style.width = '100%';
-  pt.textContent = '✅ All 18 slides done!';
-  btn.disabled = false; btn.textContent = '⬇ Download All';
+  pt.textContent = 'All 21 slides done!';
+  btn.disabled = false; btn.textContent = 'Download All';
   setTimeout(() => { pw.style.display = 'none'; }, 3000);
 }
 </script>

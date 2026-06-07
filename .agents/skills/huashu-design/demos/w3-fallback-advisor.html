@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>w3 · Fallback Advisor（中文版）</title>
+<title>w3 · Fallback Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700&family=Noto+Serif+SC:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -272,7 +272,7 @@
     display: block;
   }
 
-  /* ============ Brand Reveal (米色盖层) ============ */
+  /* ============ Brand Reveal (cream overlay) ============ */
   .brand-panel {
     position: absolute;
     inset: 0;
@@ -323,59 +323,56 @@
 
 <div class="stage" id="stage">
 
-  <!-- 水印 -->
+  <!-- Watermark -->
   <div class="watermark-tl">HUASHU · DESIGN</div>
   <div class="watermark-br">V2 · 2026 · w3</div>
 
-  <!-- 顶部标题 -->
+  <!-- Top title -->
   <div class="top-title" id="topTitle">
-    不知道要什么？<span class="accent">先给你 3 个方向</span>
+    Don't know what you want? <span class="accent">Here are 3 directions</span>
   </div>
   <div class="sub-caption" id="subCaption">20 Philosophies · 3 Directions</div>
 
-  <!-- 扫描光 -->
+  <!-- Scan light -->
   <div class="scan-light" id="scanLight"></div>
 
-  <!-- 4×5 哲学墙 -->
+  <!-- 4x5 Philosophy wall -->
   <div class="wall-viewport" id="wallViewport">
     <div class="wall-grid" id="wallGrid">
       <!-- 20 cells injected by JS -->
     </div>
   </div>
 
-  <!-- 前景 3 张方向卡 -->
+  <!-- Foreground 3 direction cards -->
   <div class="fg-row" id="fgRow">
-    <!-- card 1: Kenya Hara · 东方极简 -->
     <div class="fg-card" id="card1">
       <div class="card-body">
-        <div class="label">方向 01 · 东方空间</div>
-        <div class="title-cn">原研哉式留白</div>
+        <div class="label">DIRECTION 01 · Eastern Space</div>
+        <div class="title-cn" style="font-family: var(--serif-en); font-style: italic; letter-spacing: 0.01em;">Kenya Hara's White Space</div>
         <div class="title-en">Kenya Hara</div>
-        <div class="feature">赤土橙 · 大量留白 · 宣纸质感</div>
+        <div class="feature">Terracotta orange · Generous white space · Rice paper texture</div>
       </div>
       <div class="thumb-wrap" id="thumb1">
         <img src="demo-takram.png" alt="demo takram" />
       </div>
     </div>
-    <!-- card 2: Pentagram · 信息建筑 -->
     <div class="fg-card" id="card2">
       <div class="card-body">
-        <div class="label">方向 02 · 信息建筑</div>
-        <div class="title-cn">Pentagram 秩序</div>
+        <div class="label">DIRECTION 02 · Information Architecture</div>
+        <div class="title-cn" style="font-family: var(--serif-en); font-style: italic; letter-spacing: 0.01em;">Pentagram Order</div>
         <div class="title-en">Pentagram</div>
-        <div class="feature">强网格 · 高对比 · 理性版式</div>
+        <div class="feature">Strong grid · High contrast · Rational typography</div>
       </div>
       <div class="thumb-wrap" id="thumb2">
         <img src="demo-pentagram.png" alt="demo pentagram" />
       </div>
     </div>
-    <!-- card 3: David Carson · 实验先锋 -->
     <div class="fg-card" id="card3">
       <div class="card-body">
-        <div class="label">方向 03 · 实验先锋</div>
-        <div class="title-cn">David Carson 式</div>
+        <div class="label">DIRECTION 03 · Experimental Edge</div>
+        <div class="title-cn" style="font-family: var(--serif-en); font-style: italic; letter-spacing: 0.01em;">David Carson's Edge</div>
         <div class="title-en">Experimental Edge</div>
-        <div class="feature">破格排印 · 粗野几何 · 视觉冲击</div>
+        <div class="feature">Deconstructed typography · Brutalist geometry · Visual impact</div>
       </div>
       <div class="thumb-wrap" id="thumb3">
         <img src="demo-build.png" alt="demo build" />
@@ -406,27 +403,27 @@
   scaleStage();
 
   // ============ 20 Philosophies ============
-  // 4 rows × 5 cols = 20. Selected: idx 0 (Pentagram), idx 9 (Kenya Hara), idx 12 (David Carson)
+  // 4 rows x 5 cols = 20. Selected: idx 0 (Pentagram), idx 9 (Kenya Hara), idx 12 (David Carson)
   const PHILOSOPHIES = [
-    // row 1 — 信息建筑派
+    // row 1 — Information Architecture
     { name: 'Pentagram',    glyph: 'grid' },
     { name: 'M. Vignelli',  glyph: 'bars' },
     { name: 'Apple HIG',    glyph: 'radius' },
     { name: 'Spin',         glyph: 'slash' },
     { name: 'Build',        glyph: 'type' },
-    // row 2 — 运动诗学派
+    // row 2 — Motion Poetics
     { name: 'Field.io',     glyph: 'wave' },
     { name: 'Active Theory',glyph: 'orbit' },
     { name: 'Hi-Res!',      glyph: 'dots' },
     { name: 'Locomotive',   glyph: 'arrow' },
     { name: 'Takram',       glyph: 'circle' },
-    // row 3 — 极简/东方
+    // row 3 — Minimal / Eastern
     { name: 'Kenya Hara',   glyph: 'ma' },
     { name: 'D. Rams',      glyph: 'square' },
     { name: 'J. Ive',       glyph: 'arc' },
     { name: 'J. Morrison',  glyph: 'minimal' },
     { name: 'S. Ogata',     glyph: 'line' },
-    // row 4 — 实验 & 海报
+    // row 4 — Experimental & Poster
     { name: 'D. Carson',    glyph: 'collage' },
     { name: 'S. Sagmeister',glyph: 'stamp' },
     { name: 'P. Scher',     glyph: 'poster' },
@@ -479,7 +476,6 @@
     cell.dataset.idx = idx;
     const row = Math.floor(idx / 5);
     const col = idx % 5;
-    // precompute distance from grid center (2, 1.5)
     const dr = row - 1.5;
     const dc = col - 2;
     const dist = Math.sqrt(dr * dr + dc * dc);
@@ -528,7 +524,6 @@
   const brandTag = document.getElementById('brandTag');
 
   function tick(t){
-    // Clamp
     t = Math.max(0, Math.min(T_TOTAL, t));
 
     // ========== Phase 1: 0 - 2.5s — Ripple in 20 cells ==========
@@ -536,7 +531,6 @@
     const rippleSpan  = 1.8;
     cells.forEach(cell => {
       const d = parseFloat(cell.dataset.dist);
-      // delay scaled by distance-from-center (hero v10 formula)
       const delay = (d / maxDist) * 0.85;
       const cellT = clamp01((t - rippleStart - delay * 0.55) / 0.7);
       const eased = expoOut(cellT);
@@ -554,7 +548,6 @@
     const scanT = clamp01((t - scanStart) / (scanEnd - scanStart));
     if (scanT > 0 && scanT < 1) {
       scanLight.style.opacity = Math.min(1, Math.sin(scanT * Math.PI) * 1.3).toFixed(3);
-      // travel from top to bottom across the wall (-150 to 860px within wallViewport-ish)
       const py = lerp(-180, 820, cubicInOut(scanT));
       scanLight.style.transform = `translateY(${py}px)`;
     } else {
@@ -572,10 +565,8 @@
       if (isSel) {
         cell.classList.toggle('selected', lightT > 0.05);
       } else {
-        // dim non-selected from 0.85 → 0.08
         const base = 0.85;
         const dimmedOpacity = lerp(base, 0.08, lightE);
-        // only override after ripple is done
         if (t >= lightStart) {
           cell.style.opacity = dimmedOpacity.toFixed(3);
         }
@@ -583,7 +574,6 @@
     });
 
     // ========== Phase 4: 4.8 - 6.5s — 3 cells break out to foreground ==========
-    // We don't literally move the wall cells; we fade in fg-cards "bursting from the wall"
     const breakStart = 4.8;
     const breakEnd = 6.5;
     const breakT = clamp01((t - breakStart) / (breakEnd - breakStart));
@@ -596,18 +586,16 @@
     }
 
     [card1, card2, card3].forEach((card, i) => {
-      const stagger = i * 0.18; // pop × 3 staggered
+      const stagger = i * 0.18;
       const cT = clamp01((t - breakStart - stagger) / 0.85);
       const cE = expoOut(cT);
       card.style.opacity = cE.toFixed(3);
-      // Z-rush: from translateZ(-800) to 0, scale 0.4 → 1
       const tz = lerp(-800, 0, cE);
       const sc = lerp(0.45, 1, cE);
       const ty = lerp(40, 0, cE);
       card.style.transform = `translateZ(${tz}px) scale(${sc}) translateY(${ty}px)`;
     });
 
-    // Dim the wall (behind) when cards come forward
     if (t >= breakStart) {
       const dimT = clamp01((t - breakStart) / 0.9);
       const dimE = expoOut(dimT);
@@ -626,7 +614,6 @@
       const ttT = clamp01((t - thumbStart - stagger) / 1.0);
       const ttE = cubicOut(ttT);
       thumb.style.opacity = ttE.toFixed(3);
-      // height from 0 to 250px
       const h = lerp(0, 250, ttE);
       thumb.style.height = `${h}px`;
     });
@@ -681,12 +668,10 @@
     }
   }
 
-  // First-frame sync BEFORE requesting next frame
   tick(0);
   window.__ready = true;
   requestAnimationFrame(loop);
 
-  // Pause raf loop — tests & recorder call this before seeking
   window.__pause = function(){ paused = true; };
   window.__resume = function(){
     if (!paused) return;
@@ -694,7 +679,6 @@
     startTime = null;
     requestAnimationFrame(loop);
   };
-  // Expose for video recorder (scripts/render-video.js uses __setTime)
   window.__setTime = function(t){ paused = true; tick(t); };
 
 })();

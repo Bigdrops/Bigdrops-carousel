@@ -1,250 +1,249 @@
-# 核心资产协议（完整版）
+# Core Asset Protocol (Full Version)
 
-> 从 SKILL.md「核心哲学 #1.a」下沉的完整协议（2026-06 瘦身）。SKILL.md 留了触发条件 + 5 步标题 + 自检；这里是 5 步详细操作、下载命令、brand-spec 模板、全流程失败兜底、反例与代价对比。
-> 触发：任务涉及具体品牌/产品时强制执行。回 SKILL.md 看精简版与上下文。
+> Full protocol descended from SKILL.md "Core Philosophy #1.a" (2026-06 slimmed). SKILL.md retains trigger conditions + 5-step titles + self-check; here are the 5-step detailed operations, download commands, brand-spec template, full-process failure fallback, anti-patterns and cost comparison.
+> Trigger: Enforced when the task involves a specific brand/product. Go back to SKILL.md for the condensed version and context.
 
-#### 1.a 核心资产协议（涉及具体品牌时强制执行）
+#### 1.a Core Asset Protocol (Enforced When Involving Specific Brands)
 
-> **这是 v1 最核心的约束，也是稳定性的生命线。** Agent 是否走通这个协议，直接决定输出质量是 40 分还是 90 分。不要跳过任何一步。
+> **This is v1's most critical constraint and the lifeline of stability.** Whether the agent completes this protocol directly determines whether output quality is 40 points or 90 points. Don't skip any step.
 >
-> **v1.1 重构（2026-04-20）**：从「品牌资产协议」升级为「核心资产协议」。之前的版本过度聚焦色值和字体，漏掉了设计中最基础的 logo / 产品图 / UI 截图。花叔的原话：「除了所谓的品牌色，显然我们应该找到并且用上大疆的 logo，用上 pocket4 的产品图。如果是网站或者 app 等非实体产品的话，logo 至少该是必须的。这可能是比所谓的品牌设计的 spec 更重要的基本逻辑。否则，我们在表达什么呢？」
+> **v1.1 Refactor (2026-04-20)**: Upgraded from "Brand Asset Protocol" to "Core Asset Protocol". The previous version over-focused on color values and fonts, missing the most fundamental assets — logos / product images / UI screenshots. Uncle Hua's original words: "Besides so-called brand colors, we should obviously find and use DJI's logo, use Pocket 4's product images. For websites or apps and other non-physical products, at least the logo should be mandatory. This might be even more important than the so-called brand design spec. Otherwise, what are we expressing?"
 
-**触发条件**：任务涉及具体品牌——用户提了产品名/公司名/明确客户（Stripe、Linear、Anthropic、Notion、Lovart、DJI、自家公司等），不论用户是否主动提供了品牌资料。
+**Trigger Condition**: The task involves a specific brand — the user mentioned a product name/company name/explicit client (Stripe, Linear, Anthropic, Notion, Lovart, DJI, their own company, etc.), regardless of whether the user actively provided brand materials.
 
-**前置硬条件**：走协议前必须已通过「#0 事实验证先于假设」确认品牌/产品存在且状态已知。如果你还不确定产品是否已发布/规格/版本，先回去搜。
+**Prerequisite**: Before proceeding with the protocol, you must have confirmed the brand/product exists and its known state via "#0 Fact Verification Before Assumption". If you're not sure whether the product has been released/specifications/version, go search first.
 
-##### 核心理念：资产 > 规范
+##### Core Philosophy: Assets > Specifications
 
-**品牌的本质是「它被认出来」**。认出来靠什么？按识别度排序：
+**The essence of a brand is "being recognized"**. What enables recognition? Sorted by recognition contribution:
 
-| 资产类型 | 识别度贡献 | 必需性 |
+| Asset Type | Recognition Contribution | Necessity |
 |---|---|---|
-| **Logo** | 最高 · 任何品牌出现 logo 就一眼识别 | **任何品牌都必须有** |
-| **产品图/产品渲染图** | 极高 · 实体产品的"主角"就是产品本身 | **实体产品（硬件/包装/消费品）必须有** |
-| **UI 截图/界面素材** | 极高 · 数字产品的"主角"是它的界面 | **数字产品（App/网站/SaaS）必须有** |
-| **色值** | 中 · 辅助识别，脱离前三项时经常撞衫 | 辅助 |
-| **字体** | 低 · 需配合前述才能建立识别 | 辅助 |
-| **气质关键词** | 低 · agent 自检用 | 辅助 |
+| **Logo** | Highest · Any brand with a logo is instantly recognizable | **Mandatory for every brand** |
+| **Product Image/Product Render** | Very High · The "protagonist" of physical products is the product itself | **Mandatory for physical products (hardware/packaging/consumer goods)** |
+| **UI Screenshot/Interface Assets** | Very High · The "protagonist" of digital products is its interface | **Mandatory for digital products (App/Website/SaaS)** |
+| **Color Values** | Medium · Aids recognition, often collides with others without the first three | Supplementary |
+| **Font** | Low · Needs to work with the above to establish recognition | Supplementary |
+| **Tone Keywords** | Low · For agent self-check | Supplementary |
 
-**翻译成执行规则**：
-- 只抽色值 + 字体、不找 logo / 产品图 / UI → **违反本协议**
-- 用 CSS 剪影/SVG 手画替代真实产品图 → **违反本协议**（生成的就是「通用科技动画」，任何品牌都长一样）
-- 找不到资产不告诉用户、也不 AI 生成，硬做 → **违反本协议**
-- 宁可停下问用户要素材，也不要用 generic 填充
+**Translated into execution rules**:
+- Only extracting color values + fonts, not finding logos / product images / UI → **Violates this protocol**
+- Using CSS silhouettes/SVG hand-drawn to replace real product images → **Violates this protocol** (produces "generic tech animation" that looks the same for any brand)
+- Can't find assets and doesn't tell the user, nor uses AI generation, forces through → **Violates this protocol**
+- Better to stop and ask the user for assets than to fill with generic content
 
-##### 5 步硬流程（每步有 fallback，绝不静默跳过）
+##### 5-Step Hard Process (Each step has fallback, never silently skip)
 
-##### Step 1 · 问（资产清单一次问全）
+##### Step 1 · Ask (Asset List All at Once)
 
-不要只问「有 brand guidelines 吗？」——太宽泛，用户不知道该给什么。按清单逐项问：
+Don't just ask "Do you have brand guidelines?" — that's too vague, the user won't know what to provide. Ask item by item per the checklist:
 
 ```
-关于 <brand/product>，你手上有以下哪些资料？我按优先级列：
-1. Logo（SVG / 高清 PNG）—— 任何品牌必备
-2. 产品图 / 官方渲染图 —— 实体产品必备（如 DJI Pocket 4 的产品照）
-3. UI 截图 / 界面素材 —— 数字产品必备（如 App 主要页面截图）
-4. 色值清单（HEX / RGB / 品牌色盘）
-5. 字体清单（Display / Body）
-6. Brand guidelines PDF / Figma design system / 品牌官网链接
+Regarding <brand/product>, which of the following materials do you have? Listed by priority:
+1. Logo (SVG / HD PNG) — Essential for any brand
+2. Product Image / Official Render — Essential for physical products (e.g., DJI Pocket 4 product photos)
+3. UI Screenshots / Interface Assets — Essential for digital products (e.g., main App page screenshots)
+4. Color value list (HEX / RGB / brand palette)
+5. Font list (Display / Body)
+6. Brand guidelines PDF / Figma design system / brand website link
 
-有的直接发我，没有的我去搜/抓/生成。
+If you have any, send them to me. If not, I'll search/fetch/generate them.
 ```
 
-##### Step 2 · 搜官方渠道（按资产类型）
+##### Step 2 · Search Official Channels (By Asset Type)
 
-| 资产 | 搜索路径 |
+| Asset | Search Path |
 |---|---|
-| **Logo** | `<brand>.com/brand` · `<brand>.com/press` · `<brand>.com/press-kit` · `brand.<brand>.com` · 官网 header 的 inline SVG |
-| **产品图/渲染图** | `<brand>.com/<product>` 产品详情页 hero image + gallery · 官方 YouTube launch film 截帧 · 官方新闻稿附图 |
-| **UI 截图** | App Store / Google Play 产品页截图 · 官网 screenshots section · 产品官方演示视频截帧 |
-| **色值** | 官网 inline CSS / Tailwind config / brand guidelines PDF |
-| **字体** | 官网 `<link rel="stylesheet">` 引用 · Google Fonts 追踪 · brand guidelines |
+| **Logo** | `<brand>.com/brand` · `<brand>.com/press` · `<brand>.com/press-kit` · `brand.<brand>.com` · Inline SVG in website header |
+| **Product Image/Render** | `<brand>.com/<product>` product detail page hero image + gallery · Official YouTube launch film frame capture · Official press release images |
+| **UI Screenshot** | App Store / Google Play product page screenshots · Website screenshots section · Official product demo video frame capture |
+| **Color Values** | Website inline CSS / Tailwind config / brand guidelines PDF |
+| **Font** | Website `<link rel="stylesheet">` reference · Google Fonts tracking · brand guidelines |
 
-`WebSearch` 兜底关键词：
-- Logo 找不到 → `<brand> logo download SVG`、`<brand> press kit`
-- 产品图找不到 → `<brand> <product> official renders`、`<brand> <product> product photography`
-- UI 找不到 → `<brand> app screenshots`、`<brand> dashboard UI`
+`WebSearch` fallback keywords:
+- Logo not found → `<brand> logo download SVG`, `<brand> press kit`
+- Product image not found → `<brand> <product> official renders`, `<brand> <product> product photography`
+- UI not found → `<brand> app screenshots`, `<brand> dashboard UI`
 
-##### Step 3 · 下载资产 · 按类型三条兜底路径
+##### Step 3 · Download Assets · Three Fallback Paths Per Type
 
-**3.1 Logo（任何品牌必需）**
+**3.1 Logo (Mandatory for Any Brand)**
 
-> ⚠️ **别只试 `curl <brand>.com/logo.svg` 就放弃**——现在的官网大多是 SPA，直连静态路径基本返回空壳 HTML（2026-06-06 实测 Trae 官网 5 条直连路径全是空壳）。**数字产品 / SaaS / AI 工具优先用图标聚合源**，命中率最高、直出干净 SVG。
+> ⚠️ **Don't just try `curl <brand>.com/logo.svg` and give up** — most websites today are SPAs; directly accessing static paths returns empty shell HTML (verified 2026-06-06: Trae website 5 direct paths all returned shells). **For digital products / SaaS / AI tools, prioritize icon aggregation sources** — highest hit rate, clean SVG output.
 
-按成功率递减：
-0. **图标聚合源（知名数字产品/SaaS/AI 工具首选，命中率最高）**：
+By decreasing success rate:
+0. **Icon aggregation sources (preferred for well-known digital products/SaaS/AI tools, highest hit rate)**:
    ```bash
-   unset ALL_PROXY HTTP_PROXY HTTPS_PROXY all_proxy http_proxy https_proxy   # 清代理，否则 TLS 易炸
-   # svgl —— AI/开发者品牌覆盖最全（Claude/Cursor/OpenAI/Copilot/Anthropic/Vercel…），含 light/dark + wordmark
-   curl -s "https://api.svgl.app?search=<brand>"   # 返回 JSON，取 route(.light/.dark) 的 svg URL 再下载
-   # simpleicons —— 单色 glyph，可直接按品牌色上色
+   unset ALL_PROXY HTTP_PROXY HTTPS_PROXY all_proxy http_proxy https_proxy   # Clear proxy, otherwise TLS may fail
+   # svgl — Best coverage of AI/developer brands (Claude/Cursor/OpenAI/Copilot/Anthropic/Vercel…), includes light/dark + wordmark
+   curl -s "https://api.svgl.app?search=<brand>"   # Returns JSON, take route(.light/.dark)'s svg URL then download
+   # simpleicons — Monochrome glyph, can be colored per brand color
    curl -o logo.svg "https://cdn.simpleicons.org/<slug>/<hexcolor>"
    ```
-1. 独立 SVG/PNG 文件 / 官方 brand 页（如 `<brand>.com/brand`、`/press`）：
+1. Standalone SVG/PNG file / Official brand page (e.g. `<brand>.com/brand`, `/press`):
    ```bash
    curl -A "Mozilla/5.0" -L -o assets/<brand>-brand/logo.svg "<official-logo-url>"
    ```
-2. 官网 HTML 全文提取 inline SVG：
+2. Full website HTML to extract inline SVG:
    ```bash
    curl -A "Mozilla/5.0" -L https://<brand>.com -o assets/<brand>-brand/homepage.html
-   # 然后 grep <svg>...</svg> 提取 logo 节点
+   # Then grep <svg>...</svg> to extract the logo node
    ```
-3. **Google favicon 服务（站点真实 mark 兜底，几乎不失败）**：
+3. **Google favicon service (site mark fallback, almost never fails)**:
    ```bash
-   curl -o logo.png "https://www.google.com/s2/favicons?domain=<brand-domain>&sz=256"   # 256px 官方站点图标
+   curl -o logo.png "https://www.google.com/s2/favicons?domain=<brand-domain>&sz=256"   # 256px official site icon
    ```
-4. 官方社交媒体 avatar（最后手段）：GitHub/Twitter/LinkedIn 的公司头像通常是 400×400 或 800×800 透明底 PNG
+4. Official social media avatar (last resort): Company avatars on GitHub/Twitter/LinkedIn are usually 400×400 or 800×800 transparent PNG
 
-下载后**逐个核对**：`file <logo>` 确认是真 SVG/PNG（不是 106 字节占位或 HTML 空壳），`head -c 90 <logo.svg>` 看是否 `<svg`。
+After downloading, **verify each one**: `file <logo>` to confirm it's real SVG/PNG (not a 106-byte placeholder or empty HTML), `head -c 90 <logo.svg>` to check for `<svg`.
 
-**3.2 产品图/渲染图（实体产品必需）**
+**3.2 Product Image/Render (Mandatory for Physical Products)**
 
-按优先级：
-1. **官方产品页 hero image**（最高优先级）：右键查看图片地址 / curl 获取。分辨率通常 2000px+
-2. **官方 press kit**：`<brand>.com/press` 常有高清产品图下载
-3. **官方 launch video 截帧**：用 `yt-dlp` 下载 YouTube 视频，ffmpeg 抽几帧高清图
-4. **Wikimedia Commons**：公共领域常有
-5. **AI 生成兜底**（nano-banana-pro）：把真实产品图作为参考发给 AI，让它生成符合动画场景的变体。**不要用 CSS/SVG 手画代替**
+By priority:
+1. **Official product page hero image** (highest priority): Right-click to view image address / curl to fetch. Resolution usually 2000px+
+2. **Official press kit**: `<brand>.com/press` often has HD product images for download
+3. **Official launch video frame capture**: Use `yt-dlp` to download YouTube video, ffmpeg to extract several HD frames
+4. **Wikimedia Commons**: Often available in public domain
+5. **AI generation fallback** (nano-banana-pro): Send real product images as reference to AI, let it generate variants suitable for the animation scene. **Don't use CSS/SVG hand-drawn instead**
 
 ```bash
-# 示例：下载 DJI 官网产品 hero image
+# Example: Download DJI official product hero image
 curl -A "Mozilla/5.0" -L "<hero-image-url>" -o assets/<brand>-brand/product-hero.png
 ```
 
-**3.3 UI 截图（数字产品必需）**
+**3.3 UI Screenshot (Mandatory for Digital Products)**
 
-- App Store / Google Play 的产品截图（注意：可能是 mockup 而非真实 UI，要对比）
-- 官网 screenshots section
-- 产品演示视频截帧
-- 产品官方 Twitter/X 的发布截图（常是最新版本）
-- 用户有账号时，直接截屏真实产品界面
+- App Store / Google Play product screenshots (note: may be mockups not real UI, compare)
+- Website screenshots section
+- Product demo video frame capture
+- Product official Twitter/X launch screenshots (often latest version)
+- When user has an account, directly screenshot the real product interface
 
-**3.4 · 素材质量门槛「5-10-2-8」原则（铁律）**
+**3.4 · Asset Quality Threshold "5-10-2-8" Principle (Hard Rule)**
 
-> **Logo 的规则不同于其他素材**。Logo 有就必须用（没有就停下问用户）；其他素材（产品图/UI/参考图/配图）遵循「5-10-2-8」质量门槛。
+> **Logo rules differ from other assets.** If a logo exists, it must be used (if not, stop and ask the user); other assets (product images/UI/reference images/illustrations) follow the "5-10-2-8" quality threshold.
 >
-> 2026-04-20 花叔原话：「我们的原则是搜索 5 轮，找到 10 个素材，选择 2 个好的。每个需要评分 8/10 以上，宁可少一些，也不为了完成任务滥竽充数。」
+> 2026-04-20 Uncle Hua's original words: "Our principle is: search 5 rounds, find 10 assets, select 2 good ones. Each must score 8/10 or above. Better to have fewer than to fill with subpar material just to get the job done."
 
-| 维度 | 标准 | 反模式 |
+| Dimension | Standard | Anti-pattern |
 |---|---|---|
-| **5 轮搜索** | 多渠道交叉搜（官网 / press kit / 官方社媒 / YouTube 截帧 / Wikimedia / 用户账号截屏），不是一轮抓前 2 个就停 | 第一页结果直接用 |
-| **10 个候选** | 至少凑 10 个备选才开始筛 | 只抓 2 个，没得选 |
-| **选 2 个好的** | 从 10 个里精选 2 个作为最终素材 | 全都用 = 视觉过载 + 品位稀释 |
-| **每个 8/10 分以上** | 不够 8 分**宁可不用**，用诚实 placeholder（灰块+文字标签）或 AI 生成（nano-banana-pro 以官方参考为基底）| 凑数 7 分素材进 brand-spec.md |
+| **5 rounds of search** | Multi-channel cross-search (website / press kit / official social media / YouTube frame capture / Wikimedia / user account screenshot), not just first page top 2 | Using first page results directly |
+| **10 candidates** | Gather at least 10 candidates before starting to filter | Only grab 2, no choice |
+| **Select 2 good ones** | Select 2 from 10 as final assets | Using all = visual overload + taste dilution |
+| **Each 8/10 or above** | If below 8, **better not to use**, use honest placeholder (gray block + text label) or AI generation (nano-banana-pro based on official reference) | Using 7-point filler in brand-spec.md |
 
-**8/10 评分维度**（打分时记录在 `brand-spec.md`）：
+**8/10 Scoring Dimensions** (record in `brand-spec.md` when scoring):
 
-1. **分辨率** · ≥2000px（印刷/大屏场景 ≥3000px）
-2. **版权清晰度** · 官方来源 > 公共领域 > 免费素材 > 疑似盗图（疑似盗图直接 0 分）
-3. **与品牌气质契合度** · 和 brand-spec.md 里的「气质关键词」一致
-4. **光线/构图/风格一致性** · 2 个素材放一起不打架
-5. **独立叙事能力** · 能单独表达一个叙事角色（不是装饰）
+1. **Resolution** · ≥2000px (print/large-screen ≥3000px)
+2. **Copyright Clarity** · Official source > public domain > free stock > suspected stolen (suspected stolen = 0)
+3. **Brand Tone Fit** · Consistent with "tone keywords" in brand-spec.md
+4. **Lighting/Composition/Style Consistency** · The 2 assets don't fight each other when placed together
+5. **Independent Narrative Ability** · Can independently express a narrative role (not decoration)
 
-**为什么这个门槛是铁律**：
-- 花叔的哲学：**宁缺毋滥**。滥竽充数的素材比没有更糟——污染视觉品味、传递「不专业」信号
-- **「一个细节做到 120%，其他做到 80%」的量化版**：8 分是"其他 80%" 的底线，真正 hero 素材要 9-10 分
-- 消费者看作品时，每一个视觉元素都在**积分或扣分**。7 分素材 = 扣分项，不如留空
+**Why this threshold is a hard rule**:
+- Uncle Hua's philosophy: **Better to go without than to settle**. Subpar filler materials are worse than none — they pollute visual taste and convey an "unprofessional" signal
+- Quantitative version of **"one detail at 120%, rest at 80%"**: 8 is the baseline for "rest at 80%", true hero assets need 9-10
+- When the audience views the work, every visual element is **either adding points or deducting points**. A 7-point asset = deduction, better to leave empty
 
-**Logo 例外**（重申）：有就必须用，不适用「5-10-2-8」。因为 logo 不是「多选一」问题，而是「识别度根基」问题——就算 logo 本身只有 6 分，也比没有 logo 强 10 倍。
+**Logo Exception** (restated): If it exists, it must be used, the "5-10-2-8" does not apply. Because logo is not a "choose one" issue — it's a "recognition foundation" issue — even if the logo itself is only 6 points, it's 10x better than having no logo.
 
-##### Step 4 · 验证 + 提取（不只是 grep 色值）
+##### Step 4 · Verification + Extraction (Not Just grep Color Values)
 
-| 资产 | 验证动作 |
+| Asset | Verification Action |
 |---|---|
-| **Logo** | 文件存在 + SVG/PNG 可打开 + 至少两个版本（深底/浅底用）+ 透明背景 |
-| **产品图** | 至少一张 2000px+ 分辨率 + 去背或干净背景 + 多个角度（主视角、细节、场景） |
-| **UI 截图** | 分辨率真实（1x / 2x）+ 是最新版本（不是旧版）+ 无用户数据污染 |
-| **色值** | `grep -hoE '#[0-9A-Fa-f]{6}' assets/<brand>-brand/*.{svg,html,css} \| sort \| uniq -c \| sort -rn \| head -20`，过滤黑白灰 |
+| **Logo** | File exists + SVG/PNG opens + at least two versions (dark/light background) + transparent background |
+| **Product Image** | At least one 2000px+ resolution + cutout or clean background + multiple angles (primary view, detail, scene) |
+| **UI Screenshot** | Real resolution (1x / 2x) + latest version (not old) + no user data contamination |
+| **Color Values** | `grep -hoE '#[0-9A-Fa-f]{6}' assets/<brand>-brand/*.{svg,html,css} | sort | uniq -c | sort -rn | head -20`, filter black/white/gray |
 
-**警惕示范品牌污染**：产品截图里常有用户 demo 的品牌色（如某工具截图演示喜茶红），那不是该工具的色。**同时出现两种强色时必须区分**。
+**Beware of demo brand contamination**: Product screenshots often contain demo users' brand colors (e.g., a tool screenshot showing Heytea red), which is not the tool's own color. **When two strong colors appear simultaneously, they must be distinguished.**
 
-**品牌多切面**：同一品牌的官网营销色和产品 UI 色经常不同（Lovart 官网暖米+橙，产品 UI 是 Charcoal + Lime）。**两套都是真的**——根据交付场景选合适的切面。
+**Brand Multi-facets**: The same brand's marketing website colors and product UI colors are often different (Lovart website warm beige+orange, product UI is Charcoal+Lime). **Both are real** — choose the appropriate facet based on the delivery scenario.
 
-##### Step 5 · 固化为 `brand-spec.md` 文件（模板必须覆盖所有资产）
+##### Step 5 · Solidify into `brand-spec.md` file (Template must cover all assets)
 
 ```markdown
 # <Brand> · Brand Spec
-> 采集日期：YYYY-MM-DD
-> 资产来源：<列出下载来源>
-> 资产完整度：<完整 / 部分 / 推断>
+> Collection Date: YYYY-MM-DD
+> Asset Source: <List download sources>
+> Asset Completeness: <Complete / Partial / Inferred>
 
-## 🎯 核心资产（一等公民）
+## 🎯 Core Assets (First-Class Citizens)
 
 ### Logo
-- 主版本：`assets/<brand>-brand/logo.svg`
-- 浅底反色版：`assets/<brand>-brand/logo-white.svg`
-- 使用场景：<片头/片尾/角落水印/全局>
-- 禁用变形：<不能拉伸/改色/加描边>
+- Primary version: `assets/<brand>-brand/logo.svg`
+- Light-background inverse version: `assets/<brand>-brand/logo-white.svg`
+- Usage scenario: <Opening/Closing/Corner watermark/Global>
+- Prohibited deformation: <No stretching/color-changing/stroke-adding>
 
-### 产品图（实体产品必填）
-- 主视角：`assets/<brand>-brand/product-hero.png`（2000×1500）
-- 细节图：`assets/<brand>-brand/product-detail-1.png` / `product-detail-2.png`
-- 场景图：`assets/<brand>-brand/product-scene.png`
-- 使用场景：<特写/旋转/对比>
+### Product Image (Mandatory for Physical Products)
+- Primary view: `assets/<brand>-brand/product-hero.png` (2000×1500)
+- Detail: `assets/<brand>-brand/product-detail-1.png` / `product-detail-2.png`
+- Scene: `assets/<brand>-brand/product-scene.png`
+- Usage scenario: <Close-up/Rotation/Comparison>
 
-### UI 截图（数字产品必填）
-- 主页：`assets/<brand>-brand/ui-home.png`
-- 核心功能：`assets/<brand>-brand/ui-feature-<name>.png`
-- 使用场景：<产品展示/Dashboard 渐现/对比演示>
+### UI Screenshot (Mandatory for Digital Products)
+- Homepage: `assets/<brand>-brand/ui-home.png`
+- Core feature: `assets/<brand>-brand/ui-feature-<name>.png`
+- Usage scenario: <Product showcase/Dashboard fade-in/Comparison demo>
 
-## 🎨 辅助资产
+## 🎨 Supplementary Assets
 
-### 色板
-- Primary: #XXXXXX  <来源标注>
+### Color Palette
+- Primary: #XXXXXX  <Source note>
 - Background: #XXXXXX
 - Ink: #XXXXXX
 - Accent: #XXXXXX
-- 禁用色: <品牌明确不用的色系>
+- Prohibited colors: <Color families the brand explicitly doesn't use>
 
-### 字型
+### Typography
 - Display: <font stack>
 - Body: <font stack>
-- Mono（数据 HUD 用）: <font stack>
+- Mono (for data HUD): <font stack>
 
-### 签名细节
-- <哪些细节是「120% 做到」的>
+### Signature Details
+- <Which details are "done at 120%">
 
-### 禁区
-- <明确不能做的：比如 Lovart 不用蓝色、Stripe 不用低饱和暖色>
+### Restricted Zone
+- <What's explicitly not allowed: e.g., Lovart doesn't use blue, Stripe doesn't use low-saturation warm colors>
 
-### 气质关键词
-- <3-5 个形容词>
+### Tone Keywords
+- <3-5 adjectives>
 ```
 
-**写完 spec 后的执行纪律（硬要求）**：
-- 所有 HTML 必须**引用** `brand-spec.md` 里的资产文件路径，不允许用 CSS 剪影/SVG 手画代替
-- Logo 作为 `<img>` 引用真实文件，不重画
-- 产品图作为 `<img>` 引用真实文件，不用 CSS 剪影代替
-- CSS 变量从 spec 注入：`:root { --brand-primary: ...; }`，HTML 只用 `var(--brand-*)`
-- 这让品牌一致性从「靠自觉」变成「靠结构」——想临时加色要先改 spec
+**Execution Discipline After Spec Completion (Hard Requirement)**:
+- All HTML must **reference** asset file paths from `brand-spec.md`, no CSS silhouettes/SVG hand-drawn as substitutes
+- Logo as `<img>` referencing real file, not redrawn
+- Product images as `<img>` referencing real files, not CSS silhouettes
+- CSS variables injected from spec: `:root { --brand-primary: ...; }`, HTML only uses `var(--brand-*)`
+- This makes brand consistency "enforced by structure" rather than "dependent on self-discipline" — wanting to temporarily add a color requires first modifying the spec
 
-##### 全流程失败的兜底
+##### Full-Process Failure Fallback
 
-按资产类型分别处理：
+Handle by asset type:
 
-| 缺失 | 处理 |
+| Missing | Action |
 |---|---|
-| **Logo 完全找不到** | **停下问用户**，不要硬做（logo 是品牌识别度的根基） |
-| **产品图（实体产品）找不到** | 优先 nano-banana-pro AI 生成（以官方参考图为基底）→ 次选向用户索取 → 最后才是诚实 placeholder（灰块+文字标签，明确标注"产品图待补"） |
-| **UI 截图（数字产品）找不到** | 向用户索取自己账号的截屏 → 官方演示视频截帧。不用 mockup 生成器凑 |
-| **色值完全找不到** | 按「设计方向顾问模式」走，向用户推荐 3 个方向并标注 assumption |
+| **Logo completely unfindable** | **Stop and ask the user**, don't force it (logo is the foundation of brand recognition) |
+| **Product image (physical product) unfindable** | Priority: nano-banana-pro AI generation (based on official reference image) → next ask user to provide → last resort is honest placeholder (gray block + text label, clearly marked "product image pending") |
+| **UI screenshot (digital product) unfindable** | Ask the user for screenshots from their own account → official demo video frame capture. Don't use a mockup generator |
+| **Color values completely unfindable** | Follow "Design Direction Consultant" mode, recommend 3 directions to the user and mark assumptions |
 
-**禁止**：找不到资产就静默用 CSS 剪影/通用渐变硬做——这是协议最大的反 pattern。**宁可停下问，也不要凑**。
+**Forbidden**: Silently using CSS silhouettes/generic gradients when assets can't be found — this is the protocol's biggest anti-pattern. **Better to stop and ask than to settle.**
 
-##### 反例（真实踩过的坑）
+##### Anti-Patterns (Real Mistakes Made)
 
-- **Kimi 动画**：凭记忆猜「应该是橙色」，实际 Kimi 是 `#1783FF` 蓝色——返工一遍
-- **Lovart 设计**：把产品截图里演示品牌的喜茶红当成 Lovart 自己的色——差点毁整个设计
-- **DJI Pocket 4 发布动画（2026-04-20，触发本协议升级的真实案例）**：走了旧版只抽色值的协议，没下载 DJI logo、没找 Pocket 4 产品图，用 CSS 剪影代替产品——做出来是「通用黑底+橙 accent 的科技动画」，没有大疆识别度。花叔原话：「否则，我们在表达什么呢？」→ 协议升级。
-- 抽完色没写进 brand-spec.md，第三页就忘了主色数值，临场加了个「接近但不是」的 hex——品牌一致性崩溃
-- **五大 Coding Agent 对比 PPT（2026-06-06，触发触发条件扩展的真实案例）**：agent 把任务判成「PPT + 没风格参考」走 Fallback 设计方向顾问，只抽了五家品牌色就 spawn 三套设计逻辑，**五个产品 logo（Claude Code / Cursor / Codex / Copilot / Trae）一个没取**——被花叔抓现行「我们为什么没去取这些产品的 logo」。根因：把「对比 / 榜单 deck」误判为不触发 §1.a（以为 §1.a 只管「为单一客户做物料」），且 Fallback 路径里没有任何 logo 检查点。→ 修复：①触发条件扩成两类（含「设计里点名/并列真实产品」）②Fallback 不豁免取 logo ③Phase 3.5 加「具名产品 logo 子门」spawn 前必过 ④Step 3.1 补 svgl/simpleicons/Google favicon 可靠取图链。
+- **Kimi animation**: Guessed from memory "should be orange", but Kimi is actually `#1783FF` blue — had to redo
+- **Lovart design**: Mistook the demo brand's Heytea red in product screenshots as Lovart's own color — almost ruined the entire design
+- **DJI Pocket 4 launch animation (2026-04-20, real case that triggered this protocol upgrade)**: Used the old version that only extracted color values, didn't download DJI logo, didn't find Pocket 4 product images, used CSS silhouettes instead of the product — produced "generic tech animation on black background with orange accent", no DJI recognition. Uncle Hua's original words: "Otherwise, what are we expressing?" → Protocol upgraded.
+- Extracted colors but didn't write into brand-spec.md, forgot the primary color value by page three, temporarily added a "close but not exact" hex — brand consistency collapsed
+- **Five Coding Agent Comparison PPT (2026-06-06, real case that triggered trigger condition expansion)**: The agent judged the task as "PPT + no style reference", went to Fallback Design Direction Consultant, only extracted five brands' colors and spawned three design logic versions, **didn't fetch any of the five product logos (Claude Code / Cursor / Codex / Copilot / Trae)** — caught red-handed by Uncle Hua: "Why didn't we fetch these products' logos?" Root cause: Misjudged "comparison/ranking deck" as not triggering §1.a (thought §1.a only applies to "creating materials for a single client"), and the Fallback path had no logo check point. → Fix: ①Expanded trigger conditions to two categories (including "naming/juxtaposing real products in design") ②Fallback doesn't exempt logo fetching ③Added Phase 3.5 "Named product logo sub-gate" must pass before spawn ④Step 3.1 added svgl/simpleicons/Google favicon reliable image fetching chain.
 
-##### 协议代价 vs 不做代价
+##### Protocol Cost vs. Cost of Not Doing It
 
-| 场景 | 时间 |
+| Scenario | Time |
 |---|---|
-| 正确走完协议 | 下载 logo 5 min + 下载 3-5 张产品图/UI 10 min + grep 色值 5 min + 写 spec 10 min = **30 分钟** |
-| 不做协议的代价 | 做出没识别度的通用动画 → 用户返工 1-2 小时，甚至重做 |
+| Correctly completing the protocol | Download logo 5 min + download 3-5 product images/UI 10 min + grep color values 5 min + write spec 10 min = **30 minutes** |
+| Cost of not doing the protocol | Producing a generic animation with no recognition → user rework 1-2 hours, or even redo entirely |
 
-**这是稳定性最便宜的投资**。尤其对商单/发布会/重要客户项目，30 分钟的资产协议是保命钱。
-
+**This is the cheapest investment in stability.** Especially for commercial projects, launch events, and important client projects, 30 minutes of asset protocol is lifesaving.
