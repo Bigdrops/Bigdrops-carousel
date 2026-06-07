@@ -1,0 +1,106 @@
+# tiktok-slides-guidelines.md
+
+## 1. Frame Geometry & The TikTok "UI Death Zones"
+TikTok does not show a clean full-screen canvas. Native application overlay components (username, interaction buttons, descriptions, music tickers) cover the frame. To prevent critical data, text, specs, or numbers from being cut off, the generating agent MUST contain all visible data within a hard-restricted target field.
+
+### Core Canvas Specifications
+- **Base Frame Geometry:** Exactly 1080px width by 1920px height (Aspect Ratio 9:16).
+- **Target Export Framework:** A single, self-contained HTML file rendering layout nodes into high-contrast text and UI layers optimized for `html2canvas` conversion.
+
+### Absolute Disallowed UI Clipping Zones (No-Go Sectors)
+- **The Top Ceiling (First 150px):** Blocked by native app global navigation ("Following", "For You", Search icon). No headers, badges, titles, or tags are allowed to float here.
+- **The Right Margin (Last 160px of Width):** The "Engagement Track" death zone. Native interaction icons (Profile, Like, Comment, Bookmark, Share) sit directly over this space. **NEVER place phone images, specifications, ratings, or rank numbers inside the right margin.**
+- **The Bottom Pit (Bottom 450px):** Reserved completely for account handles, text captions, hashtags, and sound metadata tracks. Keep layout elements entirely clear of this region.
+
+---
+
+## 2. Layout Structure & Safe Zone Boxing
+To ensure full rendering safety automatically, the generating agent MUST utilize an immutable bounding box layout framework built using CSS custom properties.
+
+### The CSS Blueprint Rules
+Every single slide component must be anchored within a structurally centered layout box calculated precisely to remain untouched by native overlay interfaces:
+
+```css
+:root {
+  /* Dimensions for target output */
+  --canvas-width: 1080px;
+  --canvas-height: 1920px;
+  
+  /* Hard TikTok UI Boundary Padding */
+  --pad-top: 180px;
+  --pad-bottom: 480px;
+  --pad-left: 80px;
+  --pad-right: 180px; /* Wider padding on right due to interaction buttons */
+}
+
+/* Master Slide Node */
+.slide-frame {
+  width: var(--canvas-width);
+  height: var(--canvas-height);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  background: #09090B; /* Strict OLED pitch black base */
+}
+
+/* Central Safe Zone Box - Content MUST live here exclusively */
+.safe-content-zone {
+  position: absolute;
+  top: var(--pad-top);
+  left: var(--pad-left);
+  width: calc(var(--canvas-width) - var(--pad-left) - var(--pad-right));
+  height: calc(var(--canvas-height) - var(--pad-top) - var(--pad-bottom));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+```
+## 3. Visual Identity & Device Profiling (BIGDROPS Spec Rules)
+Every generated layout must conform to a standardized typographic and visual hierarchy optimized for fast scrolling on dark-mode mobile screens.
+### Typography Stack
+ * **Ranks and Hero Headers:** Use font-family: 'Bebas Neue', sans-serif; with a minimum size of 72px. Always specify tracking/letter-spacing (letter-spacing: 2px) to guarantee readability.
+ * **Technical Specs and Body Copy:** Use font-family: 'DM Sans', sans-serif;. Maintain a uniform line-height: 1.35 to aid fast, high-speed on-screen scanning.
+ * **System Diagnostics / Hardware Metrics:** Use font-family: 'DM Mono', monospace; for absolute technical specifications (e.g., *Snapdragon 8 Gen 3*, *7,550mAh*, *120W*).
+### Strict Color Mapping Variables
+```css
+:root {
+  --text-main:    #EEECEA; /* Crisp Off-White */
+  --text-muted:   #6B6875; /* Readability Gray */
+  --brand-accent: #C8FF00; /* High Contrast Lime Green */
+  --alert-red:    #F87171; /* Warning/Thermal issue red */
+  --chip-bg:      #16161A; /* Surface contrast layout container background */
+  --border-lines: #252530; /* Subdued structural divider colors */
+}
+
+```
+## 4. UI Element Placement Best Practices
+### The Rank Number & Device Identity Header
+ * Anchor the rank element and name identifier to the top-left coordinate of the .safe-content-zone.
+ * Utilize an aligned row structure to prevent awkward wrapping:
+```html
+<div class="header-row">
+  <span class="rank-badge">#05</span>
+  <h1 class="device-name">ONEPLUS 11</h1>
+</div>
+
+```
+### Technical Specs Component Grouping
+ * Do not dump long, unstructured blocks of running copy. Break technical metrics up into clean, scannable modular UI containers using background: var(--chip-bg);.
+ * Implement bold, clear keys on individual specifications to maximize visual punch:
+```html
+<div class="spec-card">
+  <span class="spec-label">CHIPSET:</span>
+  <span class="spec-value">Snapdragon 8 Gen 2 (Pure Flagship)</span>
+</div>
+
+```
+### The Unfiltered Real-World "Verdict" Block
+ * Place custom strategic evaluations or localized market criticisms inside an independent, high-visibility highlight block anchored at the bottom tier of the safe container zone.
+ * Highlight specific regional features or high-value perks (e.g., *Xiaomi 14T Dual eSIM support*) with --brand-accent. Highlight performance flaws, heating issues, or bottlenecks (e.g., *Pixel 7 Pro thermal throttling*) with --alert-red.
+## 5. Automation Guardrails for AI Generation (System Prompt Enforcement)
+When programmatically writing or adjusting HTML/CSS slide assets, the code generator must strictly respect these system constraints:
+ 1. **No External Positional Floating:** Layout components must never deploy absolute coordinates targeting top: 0, bottom: 0, or right: 0 relative to the window. All components must remain structurally nested within a parent wrapper governed by .safe-content-zone.
+ 2. **Text Wrapping Length Caps:** Descriptive text fragments must be short, punchy, and deliberate. Prevent auto-wrapping overflows by capping hardware descriptions at a maximum of three layout lines per component block.
+ 3. **Left-Heavy or Centered Geometry Only:** Do not right-align critical graphic components, benchmarking plots, charts, or images. Maintain strict left or centered alignments to completely avoid conflicts with the TikTok interactive sidebar layout.
+ 4. **HTML2Canvas Rendering Compatibility:** Avoid advanced CSS blend-modes, multi-layered complex clip-paths, or exotic SVG masking patterns that standard client-side canvas engines struggle to snapshot correctly. Stick to flat canvas panels, explicit typography boxes, high-contrast structural borders, and clean alpha-channel image resources.
