@@ -37,7 +37,20 @@ These are internal skills built natively for this project workspace and do not r
 
 ---
 
-## 3. Invocation Blueprint for the AI Agent
+## 3. Design Presets / Templates Compilation
+
+### 📦 designdotmd Registry (v0.4.1)
+* **Name:** `designdotmd`
+* **Location:** Global npm — `C:\Users\DELL\AppData\Roaming\npm\node_modules\designdotmd\`
+* **Registry:** https://designdotmd.directory
+* **Purpose:** CLI that downloads `design.md` preset/template files from a public registry into the project. Acts as a curated template library of design briefs, style guidelines, and layout specs.
+* **57 Categories available:**
+  Architecture (4), Audio (2), Automotive (8), Beauty (2), Bold (58), Brutalist (2), Calm (2), Cinema (3), Climate (2), Cool (26), Corporate (5), Craft (1), Culture (1), Dark (54), Dating (1), Editorial (17), Education (3), Esoteric (1), Fashion (8), Finance (12), Fitness (2), Food (10), Gameplay (14), Geometric (1), Government (2), Gradient-free (1), Healthcare (5), High-contrast (1), Hospitality (4), Kids (3), Known Brand (60), Lifestyle (2), Media (1), Minimal (47), Mono (25), Museum (1), Music (8), Nature (5), News (7), Nonprofit (1), Organic (10), Pet (1), Photography (1), Playful (29), Portfolio (3), Primary (1), Print (1), Reading (1), Retail (4), Retro (7), Sans (33), Serif (64), Social (6), Soft (24), Spiritual (1), Sports (3), Technical (40), Travel (6), Warm (57), Weather (1), Wellness (2)
+* **Commands:** `designdotmd category` (list categories), `designdotmd category <name>` (list designs in category), `designdotmd list` (list all), `designdotmd add <id>` (download a design.md)
+
+---
+
+## 4. Invocation Blueprint for the AI Agent
 
 When generating the new slide layout or rewriting phone summaries, the agent must coordinate these tools simultaneously:
 1. **Layout Strategy:** Initialize `tiktok-slides` and `huashu-design` to construct the pixel-perfect 1080×1920 viewport container.
