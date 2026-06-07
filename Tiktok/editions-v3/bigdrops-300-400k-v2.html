@@ -183,6 +183,66 @@ body{
 .c-bignum {
   display: none;
 }
+
+/* 1:1 SQUARE CONTENT BOUNDING INNER BOX */
+.ps-content {
+  position: absolute;
+  top: 180px;
+  left: 80px;
+  width: 820px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 10;
+  background: transparent;
+}
+
+/* Clear bottom space */
+.cover, .slide, .closing {
+  height: 1920px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.ps-img-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 420px;
+  margin: 15px 0;
+  background: transparent !important;
+}
+.ps-img-area img {
+  height: 420px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ps-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 420px;
+  background: rgba(255,0,0,0.1);
+  color: red;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 24px;
+}
+
+/* High-Compression Typographic Engine Weights */
+.c-title, .ps-name, .cl-head, .ps-rank, .c-label, .cl-eyebrow, .c-tag {
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif !important;
+  font-weight: 900 !important;
+}
+
 </style>
 </head>
 <body>
@@ -225,19 +285,19 @@ body{
 
 <!-- ════════════ SLIDE 2 — #1 Xiaomi 14 ════════════ -->
 <div class="sw"><div class="sl">02 / 20 — #1 Xiaomi 14</div>
-<div class="slide phone-slide" id="s2">
-  <div class="ps-left" style="background:#0d0d14;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi14.jpg" alt="Xiaomi 14" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 14</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">01</span></div>
-    <div class="curved-tag">CURVED</div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#5b8af5;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Xiaomi<br>14</div>
+<div class="slide" id="s2">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#01</div>
+      <div class="ps-name">Xiaomi 14</div>
       <div class="ps-meta">Oct 2023 · Leica · Curved · GG Victus 2</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi14.jpg" alt="Xiaomi 14" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Xiaomi 14</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 3</span>
         <span class="chip c-screen">6.36" LTPO AMOLED 120Hz</span>
@@ -248,29 +308,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 1TB</span>
       </div>
+      
       <div class="ps-specs"><b>4,610mAh · 90W charging</b><br>Gen 3 efficiency makes this battery last longer than the number suggests.</div>
-      <div class="ps-oneliner">SD 8 Gen 3. Leica optics. 4K selfie. 90W. Compact premium body. Runs cooler and more efficiently than everything else here. iPhone 15 Pro runs the same generation silicon and costs 3x more. Best overall package at this price. Argument closed.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz2"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(2,'02-xiaomi14.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 3 — #2 Redmi Turbo 4 Pro ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(2,'BIGDROPS-300k-400k-01.png')">DL</button>
+  <div class="sz" id="sz2"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">03 / 20 — #2 Redmi Turbo 4 Pro</div>
-<div class="slide phone-slide" id="s3">
-  <div class="ps-left" style="background:#140a00;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/turbo4pro.jpg" alt="Redmi Turbo 4 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Turbo 4 Pro</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">02</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#f5a623;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Redmi<br>Turbo 4<br>Pro</div>
+<div class="slide" id="s3">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#02</div>
+      <div class="ps-name">Redmi Turbo 4 Pro</div>
       <div class="ps-meta">2025 · Flat Screen · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/turbo4pro.jpg" alt="Redmi Turbo 4 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Redmi Turbo 4 Pro</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8s Gen 3</span>
         <span class="chip c-screen">6.67" AMOLED 144Hz</span>
@@ -280,30 +346,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>6,000mAh · 90W charging</b><br>Biggest battery on this entire list. 8s Gen 3 — one step below full Gen 3 but don't sleep on it.</div>
-      <div class="ps-oneliner">The only reason this isn't #1 is the camera. SD 8s Gen 3 and 6,000mAh — stamina and performance at this price is criminal. Flat screen, tank build. Don't buy it for photography. Buy it because it will outlast every phone on this list on a single charge.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz3"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(3,'03-turbo4pro.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 4 — #3 Vivo X100 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(3,'BIGDROPS-300k-400k-02.png')">DL</button>
+  <div class="sz" id="sz3"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">04 / 20 — #3 Vivo X100</div>
-<div class="slide phone-slide" id="s4">
-  <div class="ps-left" style="background:#000d1a;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/vivox100.jpg" alt="Vivo X100" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Vivo X100</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">03</span></div>
-    <div class="curved-tag">CURVED</div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#00aaff;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Vivo<br>X100</div>
+<div class="slide" id="s4">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#03</div>
+      <div class="ps-name">Vivo X100</div>
       <div class="ps-meta">Nov 2023 · Zeiss · Curved · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/vivox100.jpg" alt="Vivo X100" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Vivo X100</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Dimensity 9300</span>
         <span class="chip c-screen">6.78" AMOLED 120Hz</span>
@@ -313,30 +384,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 1TB</span>
       </div>
+      
       <div class="ps-specs"><b>5,000mAh · 120W charging</b><br>Dimensity 9300 all-big-core. Every core is a performance core. Nothing holding back processing.</div>
-      <div class="ps-oneliner">Heavy tasks disappear. Zeiss periscope zoom makes 5x look like you were standing next to the subject. The one corner Vivo cut was the selfie camera — 1080p front on a phone this capable is noticeable. Curved — respect the edges.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz4"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(4,'04-vivox100.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 5 — #4 Honor Magic 5 Pro ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(4,'BIGDROPS-300k-400k-03.png')">DL</button>
+  <div class="sz" id="sz4"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">05 / 20 — #4 Honor Magic 5 Pro</div>
-<div class="slide phone-slide" id="s5">
-  <div class="ps-left" style="background:#0d0010;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/magic5pro.jpg" alt="Honor Magic 5 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Magic 5 Pro</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">04</span></div>
-    <div class="curved-tag">CURVED</div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#cc44ff;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Honor<br>Magic<br>5 Pro</div>
+<div class="slide" id="s5">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#04</div>
+      <div class="ps-name">Honor Magic 5 Pro</div>
       <div class="ps-meta">Feb 2023 · Curved · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/magic5pro.jpg" alt="Honor Magic 5 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Honor Magic 5 Pro</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 2</span>
         <span class="chip c-screen">6.81" LTPO OLED 120Hz</span>
@@ -347,30 +423,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>5,100mAh · 66W charging</b><br>Biggest battery in the top 5. 66W is the slowest thing about it — everything else moves fast.</div>
-      <div class="ps-oneliner">Most people haven't considered this phone — that's the whole point. 4K selfie. High-frequency PWM dimming means no eye strain after 3 hours of scrolling. Progenitor of Dynamic Island before iPhone stole it. Most underrated phone in Nigeria right now and it's not close.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz5"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(5,'05-honormagic5pro.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 6 — #5 Xiaomi 13 Pro ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(5,'BIGDROPS-300k-400k-04.png')">DL</button>
+  <div class="sz" id="sz5"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">06 / 20 — #5 Xiaomi 13 Pro</div>
-<div class="slide phone-slide" id="s6">
-  <div class="ps-left" style="background:#001408;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi13pro.jpg" alt="Xiaomi 13 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 13 Pro</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">05</span></div>
-    <div class="curved-tag">CURVED</div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#00cc66;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Xiaomi<br>13 Pro</div>
+<div class="slide" id="s6">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#05</div>
+      <div class="ps-name">Xiaomi 13 Pro</div>
       <div class="ps-meta">Dec 2022 · Leica · Curved · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi13pro.jpg" alt="Xiaomi 13 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Xiaomi 13 Pro</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 2</span>
         <span class="chip c-screen">6.73" LTPO AMOLED 120Hz</span>
@@ -381,29 +462,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 12GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>4,820mAh · 120W charging</b><br>One of the strongest rear cameras at this price. 1-inch sensor that embarrasses most competitors.</div>
-      <div class="ps-oneliner">Same 1-inch Sony IMX989 as the X90 Pro. Add SD 8 Gen 2 and 120W — no department embarrasses itself except one. The selfie is 1080p32fps. For a phone with this camera reputation the front camera is a quiet betrayal. Buy it knowing that. Curved — face down confidence, mind the edges.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz6"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(6,'06-xiaomi13pro.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 7 — #6 OnePlus 11 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(6,'BIGDROPS-300k-400k-05.png')">DL</button>
+  <div class="sz" id="sz6"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">07 / 20 — #6 OnePlus 11</div>
-<div class="slide phone-slide" id="s7">
-  <div class="ps-left" style="background:#140005;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/oneplus11.jpg" alt="OnePlus 11" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>OnePlus 11</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">06</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#ff2d55;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">OnePlus<br>11</div>
+<div class="slide" id="s7">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#06</div>
+      <div class="ps-name">OnePlus 11</div>
       <div class="ps-meta">Jan 2023 · 2.5D Glass · Hasselblad</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/oneplus11.jpg" alt="OnePlus 11" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>OnePlus 11</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 2</span>
         <span class="chip c-screen">6.7" LTPO AMOLED 120Hz</span>
@@ -414,29 +501,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>5,000mAh · 100W charging</b><br>100W means 0 to full in roughly 25 minutes. Before you finish getting dressed.</div>
-      <div class="ps-oneliner">SD 8 Gen 2, clean OxygenOS, no bloatware. Camera is solid, not spectacular. Selfie is 1080p — average. This phone's greatest strength is daily usability. Fast, smooth, dependable and free from unnecessary drama. That reliability is rarer than people think.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz7"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(7,'07-oneplus11.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 8 — #7 Samsung Galaxy S23 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(7,'BIGDROPS-300k-400k-06.png')">DL</button>
+  <div class="sz" id="sz7"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">08 / 20 — #7 Samsung S23</div>
-<div class="slide phone-slide" id="s8">
-  <div class="ps-left" style="background:#001420;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/s23.jpg" alt="Samsung S23" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Samsung S23</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">07</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#1b9af5;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Samsung<br>Galaxy<br>S23</div>
+<div class="slide" id="s8">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#07</div>
+      <div class="ps-name">Samsung Galaxy S23</div>
       <div class="ps-meta">Feb 2023 · Flat · GG Victus 2</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/s23.jpg" alt="Samsung S23" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Samsung S23</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">SD 8 Gen 2 for Galaxy</span>
         <span class="chip c-screen">6.1" AMOLED 120Hz</span>
@@ -447,30 +540,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 8GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>3,900mAh · 25W charging</b><br>Slowest charging + smallest battery in the top 10. Full charge takes over an hour.</div>
-      <div class="ps-oneliner">Most polished compact Android on this list. Chip is SD 8 Gen 2 optimized specifically for Samsung. Tight software, 4 years OS updates, premium build, flat screen. Samsung wins through polish and long-term ownership. The battery situation is an insult they will never apologize for. Buy it anyway and carry a powerbank.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz8"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(8,'08-samsungs23.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 9 — #8 Vivo X90 Pro ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(8,'BIGDROPS-300k-400k-07.png')">DL</button>
+  <div class="sz" id="sz8"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">09 / 20 — #8 Vivo X90 Pro</div>
-<div class="slide phone-slide" id="s9">
-  <div class="ps-left" style="background:#0a0014;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/vivox90pro.jpg" alt="Vivo X90 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Vivo X90 Pro</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">08</span></div>
-    <div class="curved-tag">CURVED</div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#9b59b6;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Vivo<br>X90 Pro</div>
+<div class="slide" id="s9">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#08</div>
+      <div class="ps-name">Vivo X90 Pro</div>
       <div class="ps-meta">Nov 2022 · Zeiss · Curved · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/vivox90pro.jpg" alt="Vivo X90 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Vivo X90 Pro</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Dimensity 9200</span>
         <span class="chip c-screen">6.78" AMOLED 120Hz</span>
@@ -480,29 +578,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>4,870mAh · 120W charging</b><br>Dedicated V2 imaging chip just for photo processing. Dimensity 9200 runs cool.</div>
-      <div class="ps-oneliner">1-inch Sony IMX989 + V2 chip. Low light shots that look like studio lighting when you're just standing outside at night. Vivo gave everything to the rear camera — the selfie is 1080p. Your photographer friend with a DSLR is not safe. Your front-facing camera though? Average. Curved — respect the edges.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz9"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(9,'09-vivox90pro.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 10 — #9 Xiaomi 13 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(9,'BIGDROPS-300k-400k-08.png')">DL</button>
+  <div class="sz" id="sz9"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">10 / 20 — #9 Xiaomi 13</div>
-<div class="slide phone-slide" id="s10">
-  <div class="ps-left" style="background:#0a1400;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi13.jpg" alt="Xiaomi 13" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 13</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">09</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#7ed321;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Xiaomi<br>13</div>
+<div class="slide" id="s10">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#09</div>
+      <div class="ps-name">Xiaomi 13</div>
       <div class="ps-meta">Dec 2022 · Leica · Flat · GG 5</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi13.jpg" alt="Xiaomi 13" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Xiaomi 13</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 2</span>
         <span class="chip c-screen">6.36" AMOLED 120Hz</span>
@@ -512,29 +616,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 12GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>4,500mAh · 67W charging</b><br>Compact 6.36-inch. Flat screen, Gorilla Glass 5 — no screen guard needed. The N1k one is decoration.</div>
-      <div class="ps-oneliner">Good phone. No drama. No hidden issues. SD 8 Gen 2 in a compact body that doesn't embarrass itself anywhere. Leica rear — capable but no 1-inch sensor. Selfie is 1080p32fps, same front camera letdown as the 13 Pro. Xiaomi put Leica on the rear and forgot the front existed.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz10"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(10,'10-xiaomi13.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 11 — #10 Google Pixel 8 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(10,'BIGDROPS-300k-400k-09.png')">DL</button>
+  <div class="sz" id="sz10"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">11 / 20 — #10 Google Pixel 8</div>
-<div class="slide phone-slide" id="s11">
-  <div class="ps-left" style="background:#141400;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/pixel8.jpg" alt="Pixel 8" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Pixel 8</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">10</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#f5d400;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Google<br>Pixel 8</div>
+<div class="slide" id="s11">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#10</div>
+      <div class="ps-name">Google Pixel 8</div>
       <div class="ps-meta">Oct 2023 · Flat · GG Victus · 7 Yrs Updates</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/pixel8.jpg" alt="Pixel 8" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Pixel 8</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Tensor G3</span>
         <span class="chip c-screen">6.2" OLED 120Hz</span>
@@ -545,29 +655,35 @@ body{
         <span class="chip c-ufs">UFS 3.1</span>
         <span class="chip c-stor">Up to 8GB / 256GB</span>
       </div>
+      
       <div class="ps-specs"><b>4,575mAh · 27W charging</b><br>Slowest charging speed on this list. Nearly 2 hours from flat. Never let this die when you're in a rush.</div>
-      <div class="ps-oneliner">Tensor G3 fixed the thermal embarrassment of the G2. 7 years of updates until 2031. Flat screen. Offline AI that works without internet. Selfie is actually one of the better ones here — Google's computational photography works both cameras. Long-term value most phones here can't touch. Just carry a powerbank.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz11"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(11,'11-pixel8.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 12 — #11 iQOO Neo 9 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(11,'BIGDROPS-300k-400k-10.png')">DL</button>
+  <div class="sz" id="sz11"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">12 / 20 — #11 iQOO Neo 9</div>
-<div class="slide phone-slide" id="s12">
-  <div class="ps-left" style="background:#00101a;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/iqooneo9.jpg" alt="iQOO Neo 9" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>iQOO Neo 9</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">11</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#00d4ff;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">iQOO<br>Neo 9</div>
+<div class="slide" id="s12">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#11</div>
+      <div class="ps-name">iQOO Neo 9</div>
       <div class="ps-meta">Dec 2023 · CN ROM · Flat Screen</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/iqooneo9.jpg" alt="iQOO Neo 9" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>iQOO Neo 9</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 2</span>
         <span class="chip c-screen">6.78" AMOLED 144Hz</span>
@@ -577,29 +693,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>5,160mAh · 120W charging</b><br>120W on a 5,160mAh battery — back to full faster than most people can finish breakfast.</div>
-      <div class="ps-oneliner">iQOO built this for performance and charging and those two things it does properly. Camera is average across the board — rear does the job, selfie is weak. CN ROM. Flat screen. If you game hard, charge fast and don't care about camera bragging rights, this phone makes sense.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz12"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(12,'12-iqooneo9.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 13 — #12 Redmi K70 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(12,'BIGDROPS-300k-400k-11.png')">DL</button>
+  <div class="sz" id="sz12"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">13 / 20 — #12 Redmi K70</div>
-<div class="slide phone-slide" id="s13">
-  <div class="ps-left" style="background:#140a00;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/redmik70.jpg" alt="Redmi K70" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Redmi K70</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">12</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#ff8c00;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Redmi<br>K70</div>
+<div class="slide" id="s13">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#12</div>
+      <div class="ps-name">Redmi K70</div>
       <div class="ps-meta">Dec 2023 · CN ROM · Flat · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/redmik70.jpg" alt="Redmi K70" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Redmi K70</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 2</span>
         <span class="chip c-screen">6.67" AMOLED 144Hz</span>
@@ -609,30 +731,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 1TB</span>
       </div>
+      
       <div class="ps-specs"><b>5,000mAh · 90W charging</b><br>Gorilla Glass Victus. Ragdolled through atrocious tests and took zero damage. No screen guard needed.</div>
-      <div class="ps-oneliner">Flagship killer. SD 8 Gen 2 at this price is the whole point and it delivers. Camera? Rear is average, selfie is forgettable. Nobody buying a K70 is buying it for photos. CN ROM — factor that in. Performance is the only conversation and it wins every time.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz13"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(13,'13-redmik70.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 14 — #13 Oppo Find X6 ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(13,'BIGDROPS-300k-400k-12.png')">DL</button>
+  <div class="sz" id="sz13"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">14 / 20 — #13 Oppo Find X6</div>
-<div class="slide phone-slide" id="s14">
-  <div class="ps-left" style="background:#001410;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/findx6.jpg" alt="Oppo Find X6" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Oppo Find X6</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">13</span></div>
-    <div class="curved-tag">CURVED</div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#00e676;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Oppo<br>Find X6</div>
+<div class="slide" id="s14">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#13</div>
+      <div class="ps-name">Oppo Find X6</div>
       <div class="ps-meta">Mar 2023 · CN ROM · Curved · Hasselblad</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/findx6.jpg" alt="Oppo Find X6" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Oppo Find X6</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Dimensity 9200</span>
         <span class="chip c-screen">6.74" LTPO AMOLED 120Hz</span>
@@ -643,29 +770,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 1TB</span>
       </div>
+      
       <div class="ps-specs"><b>5,000mAh · 80W charging</b><br>Hasselblad color tuning. Same people calibrating cameras for professionals are tuning this phone.</div>
-      <div class="ps-oneliner">Genuinely strong camera experience. The issue isn't that it's bad — it's that the competition above it offers stronger overall packages at similar pricing. Curved screen. CN ROM. Sits here because everything above it simply makes a better case for your money.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz14"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(14,'14-findx6.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 15 — #14 Redmi K60 Pro ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(14,'BIGDROPS-300k-400k-13.png')">DL</button>
+  <div class="sz" id="sz14"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">15 / 20 — #14 Redmi K60 Pro</div>
-<div class="slide phone-slide" id="s15">
-  <div class="ps-left" style="background:#100014;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/redmik60pro.jpg" alt="Redmi K60 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Redmi K60 Pro</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">14</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#bb44ff;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Redmi<br>K60 Pro</div>
+<div class="slide" id="s15">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#14</div>
+      <div class="ps-name">Redmi K60 Pro</div>
       <div class="ps-meta">Jan 2023 · CN ROM · Flat Screen</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/redmik60pro.jpg" alt="Redmi K60 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Redmi K60 Pro</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8 Gen 2</span>
         <span class="chip c-screen">6.67" AMOLED 120Hz</span>
@@ -675,30 +808,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>5,500mAh · 67W charging</b><br>More battery than the K70. Slower charging than the K70. Older than the K70.</div>
-      <div class="ps-oneliner">Still a strong performance phone. Its biggest problem is being compared directly to the newer K70. K70 charges faster, is newer, and at similar price. The only reason to pick K60 Pro is if you specifically need that extra 500mAh. Otherwise K70 makes more sense in every area.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz15"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(15,'15-redmik60pro.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 16 — #15 Xiaomi 12S Ultra ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(15,'BIGDROPS-300k-400k-14.png')">DL</button>
+  <div class="sz" id="sz15"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">16 / 20 — #15 Xiaomi 12S Ultra</div>
-<div class="slide phone-slide" id="s16">
-  <div class="ps-left" style="background:#0d0d00;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi12sultra.jpg" alt="Xiaomi 12S Ultra" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 12S Ultra</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">15</span></div>
-    <div class="curved-tag">CURVED</div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#d4b800;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Xiaomi<br>12S Ultra</div>
+<div class="slide" id="s16">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#15</div>
+      <div class="ps-name">Xiaomi 12S Ultra</div>
       <div class="ps-meta">Jul 2022 · CN ROM · Leica · Curved · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi12sultra.jpg" alt="Xiaomi 12S Ultra" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Xiaomi 12S Ultra</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Snapdragon 8+ Gen 1</span>
         <span class="chip c-screen">6.73" LTPO AMOLED 120Hz</span>
@@ -708,29 +846,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 16GB / 1TB</span>
       </div>
+      
       <div class="ps-specs"><b>4,860mAh · 67W charging</b><br>Oldest chip on this list. SD 8+ Gen 1 approaching end of software support. Leather back.</div>
-      <div class="ps-oneliner">Age is the only thing working against this phone. 1-inch Sony IMX989, Leica — this camera still outperforms phones ranked above it in pure imaging. iPhone 15 Pro Max is at 1/1.28-inch and people worship it — this sensor is bigger. Buy it for one reason only: rear camera is your entire priority and you understand what you're trading on the chip side. Curved.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz16"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(16,'16-12sultra.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 17 — #16 Xiaomi 14T ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(16,'BIGDROPS-300k-400k-15.png')">DL</button>
+  <div class="sz" id="sz16"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">17 / 20 — #16 Xiaomi 14T</div>
-<div class="slide phone-slide" id="s17">
-  <div class="ps-left" style="background:#001a14;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi14t.jpg" alt="Xiaomi 14T" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>Xiaomi 14T</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">16</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#00cc88;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">Xiaomi<br>14T</div>
+<div class="slide" id="s17">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#16</div>
+      <div class="ps-name">Xiaomi 14T</div>
       <div class="ps-meta">Sep 2024 · Flat Screen · Leica</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi14t.jpg" alt="Xiaomi 14T" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>Xiaomi 14T</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Dimensity 8300-Ultra</span>
         <span class="chip c-screen">6.67" AMOLED 144Hz</span>
@@ -741,29 +885,35 @@ body{
         <span class="chip c-ufs">UFS 4.0</span>
         <span class="chip c-stor">Up to 12GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>5,000mAh · 67W charging</b><br>Dimensity 8300-Ultra. Mid-flagship chip in a price range where neighbours have SD 8 Gen 2.</div>
-      <div class="ps-oneliner">Good display, good cameras, good battery and one of the best selfies on this list at 4K. Its issue is simple — at this price buyers can find SD 8 Gen 2 and stronger alternatives. The 4K selfie is a consolation prize for paying flagship money for a mid-flagship chip.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz17"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(17,'17-xiaomi14t.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 18 — #17 ROG Phone 6D Ultimate ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(17,'BIGDROPS-300k-400k-16.png')">DL</button>
+  <div class="sz" id="sz17"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">18 / 20 — #17 ROG 6D Ultimate</div>
-<div class="slide phone-slide" id="s18">
-  <div class="ps-left" style="background:#0a0014;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/rog6dultimate.jpg" alt="ROG 6D Ultimate" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>ROG 6D Ultimate</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">17</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#ff00aa;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">ROG 6D<br>Ultimate</div>
+<div class="slide" id="s18">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#17</div>
+      <div class="ps-name">ROG 6D Ultimate</div>
       <div class="ps-meta">Sep 2022 · Gaming · Flat · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/rog6dultimate.jpg" alt="ROG 6D Ultimate" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>ROG 6D Ultimate</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Dimensity 9000+</span>
         <span class="chip c-screen">6.78" AMOLED 165Hz</span>
@@ -773,29 +923,35 @@ body{
         <span class="chip c-ufs">UFS 3.1</span>
         <span class="chip c-stor">Up to 18GB / 512GB</span>
       </div>
+      
       <div class="ps-specs"><b>6,000mAh · 65W charging</b><br>165Hz display. Air triggers. Massive vapor chamber. Built for one purpose and that purpose only.</div>
-      <div class="ps-oneliner">For sustained gaming nothing here competes. Thermal performance and frame stability are exceptional. 18GB RAM. 165Hz. Air triggers built in. As an everyday phone it asks for compromises in size, camera quality and practicality. Incredible gaming device. Average all-round flagship. If gaming is your entire personality you will love it.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz18"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(18,'18-rog6dultimate.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 19 — #18 ROG Phone 6D ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(18,'BIGDROPS-300k-400k-17.png')">DL</button>
+  <div class="sz" id="sz18"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">19 / 20 — #18 ROG 6D</div>
-<div class="slide phone-slide" id="s19">
-  <div class="ps-left" style="background:#14000a;">
-    <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/rog6d.jpg" alt="ROG 6D" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="ps-fallback"><span>ROG 6D</span><small>add image</small></div>
-    <div class="ps-rank"><span class="rh">Rank</span><span class="rn">18</span></div>
-    <div class="ps-divider"></div>
-  </div>
-  <div class="ps-right">
-    <div class="ps-accent-bar" style="background:#ff4466;"></div>
-    <div class="ps-right-inner">
-      <div class="ps-name">ROG<br>Phone 6D</div>
+<div class="slide" id="s19">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#18</div>
+      <div class="ps-name">ROG Phone 6D</div>
       <div class="ps-meta">Sep 2022 · Gaming · Flat · GG Victus</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/rog6d.jpg" alt="ROG 6D" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>ROG 6D</span><small>MISSING ASSET</small></div>
+      </div>
+
       <div class="chips">
         <span class="chip c-chip">Dimensity 9000+</span>
         <span class="chip c-screen">6.78" AMOLED 165Hz</span>
@@ -804,16 +960,21 @@ body{
         <span class="chip c-ufs">UFS 3.1</span>
         <span class="chip c-stor">Up to 12GB / 256GB</span>
       </div>
+      
       <div class="ps-specs"><b>6,000mAh · 65W charging</b><br>165Hz AMOLED. Air triggers. Large vapor chamber cooling. Same chip as the Ultimate.</div>
-      <div class="ps-oneliner">Still one of the most aggressive gaming phones ever built. High refresh-rate gaming, sustained performance and battery endurance remain excellent. The problem isn't gaming — it's everything outside gaming. Cameras are merely present. Software support is not a selling point. Less RAM and weaker cooling than the Ultimate at a similar price makes the choice obvious if you're spending this money on a ROG.</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"></div>
+      <div class="ps-verdict"></div>
     </div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="sz" id="sz19"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(19,'19-rog6d.png')">PNG</button></div>
 
-<!-- ════════════ SLIDE 20 — CLOSING ════════════ -->
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(19,'BIGDROPS-300k-400k-18.png')">DL</button>
+  <div class="sz" id="sz19"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
 <div class="sw"><div class="sl">20 / 20 — Closing</div>
 <div class="slide closing" id="s20">
   <div class="closing-rule"></div>

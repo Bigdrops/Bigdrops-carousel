@@ -183,6 +183,66 @@ body{
 .c-bignum {
   display: none;
 }
+
+/* 1:1 SQUARE CONTENT BOUNDING INNER BOX */
+.ps-content {
+  position: absolute;
+  top: 180px;
+  left: 80px;
+  width: 820px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 10;
+  background: transparent;
+}
+
+/* Clear bottom space */
+.cover, .slide, .closing {
+  height: 1920px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.ps-img-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 420px;
+  margin: 15px 0;
+  background: transparent !important;
+}
+.ps-img-area img {
+  height: 420px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ps-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 420px;
+  background: rgba(255,0,0,0.1);
+  color: red;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 24px;
+}
+
+/* High-Compression Typographic Engine Weights */
+.c-title, .ps-name, .cl-head, .ps-rank, .c-label, .cl-eyebrow, .c-tag {
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif !important;
+  font-weight: 900 !important;
+}
+
 </style>
 </head>
 <body>
@@ -355,93 +415,35 @@ function esc(s){ return s ? s.replace(/'/g,"&#39;") : ''; }
 
 function buildSlide(n, label, html, szLabel){
   var fname = n.toString().padStart(2,'0') + '-' + label.replace(/\s+/g,'').toLowerCase().slice(0,20) + '.png';
-  return '<div class="sw"><div class="sl">' + (n).toString().padStart(2,'0') + ' / 20 — ' + label + '</div><div class="slide ' + html + '</div><button class="dlb" onclick="dl(' + n + ',\'' + fname + '\')">PNG</button></div>';
-}
+  return '<div class="sw"><div class="sl">' + (n).toString().padStart(2,'0') + ' / 20 — ' + label + '</div>
+<div class="slide" id="s1">
+  <div class="ps-content">
+    <div class="ps-top-section">
+      <div class="ps-rank">#XX</div>
+      <div class="ps-name">' + p.name + '</div>
+      <div class="ps-meta">' · + · esc(p.meta) · + · '</div>
+      <div class="ps-divider"></div>
+      
+      <div class="ps-img-area">
+        <img src="' + p.img + '" alt="' + p.name.replace(/<br>/g,' ') + '" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="ps-fallback"><span>' + p.name.replace(/<br>/g,' ') + '</span><small>MISSING ASSET</small></div>
+      </div>
 
-function coverSlide(){
-  var h = 'cover" id="s1"><div class="cover-stripe"></div><div class="cover-inner"><div class="c-label">BIGDROPS · Vivid Edition</div><div class="c-title"><span class="yr">N300,000 to N400,000</span>Eighteen phones.<br>One <span class="hl">right</span> choice.</div><div class="c-divider"></div><div class="c-sub">You are about to spend four hundred thousand naira on a phone.<br><b>Most people at this budget pick the wrong one.</b></div><div class="c-tag">No brand loyalty. No hype. Just 18 phones ranked honestly.</div></div><div class="c-badge">VIVID EDITION</div><div class="c-bignum">18</div><div class="wm">BIGDROPS</div><div class="sz" id="sz1"><div class="sz-t"><div class="sz-lbl">TOP UI — 180px</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE — 480px</div></div><div class="sz-r"><div class="sz-rlbl">TIKTOK BUTTONS</div></div></div>';
-  return buildSlide(1,'Cover',h,'cover');
-}
+      <div class="chips">
+        
+      </div>
+      
+      <div class="ps-specs"><b>' + p.spec.split(' — ')[0] + '</b> — ' + p.spec.split(' — ').slice(1).join(' — ') + '</div>
+    </div>
+    
+    <div class="ps-bottom-section">
+      <div class="ps-software"><span>Software: </span></div>
+      <div class="ps-verdict"></div>
+    </div>
+  </div>
 
-function phoneSlide(p, i){
-  var bg = BGS[i];
-  var dt = p.darkText ? ' text-dark' : '';
-  var chips = p.chips.map(function(c){
-    var a = (c.indexOf('Snapdragon')>-1||c.indexOf('Dimensity')>-1||c.indexOf('Tensor')>-1||c.indexOf('SD ')>-1||c.indexOf('4K')>-1||c.indexOf('1-inch')>-1||c.indexOf('18GB')>-1||c.indexOf('CN ROM')>-1) ? ' accent' : '';
-    return '<span class="ps-chip' + a + '">' + esc(c) + '</span>';
-  }).join('');
-  var h = 'ps-slide' + dt + '" id="s' + (i+2) + '" style="background:' + bg + '"><div class="ps-inner"><div class="ps-main"><div class="ps-img-col"><div class="ps-rank-big">#' + p.rank + '</div><div class="ps-img-wrap"><img src="' + p.img + '" alt="' + p.name.replace(/<br>/g,' ') + '" crossorigin="anonymous" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="ps-fallback"><span>' + p.name.replace(/<br>/g,' ') + '</span><small>add image</small></div></div></div><div class="ps-info-col"><div class="ps-name">' + p.name + '</div><div class="ps-meta">' + esc(p.meta) + '</div><div class="ps-chips">' + chips + '</div><div class="ps-specs"><b>' + p.spec.split(' — ')[0] + '</b> — ' + p.spec.split(' — ').slice(1).join(' — ') + '</div><div class="ps-oneliner">' + esc(p.oneLiner) + '</div></div></div><div class="ps-software"><span>Software: <b>' + p.sw + '</b></span></div></div><div class="wm">BIGDROPS</div><div class="swipe-indicator">SWIPE →</div><div class="sz" id="sz' + (i+2) + '"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>';
-  return buildSlide(i+2, p.name.replace(/<br>/g,' '), h, 'phone');
-}
-
-function closingSlide(){
-  var h = 'closing" id="s20"><div class="cl-rule"></div><div class="cover-stripe"></div><div class="closing-inner"><div class="cl-eyebrow">Final Word</div><div class="cl-head">You already know<br>which one you<br><span class="hl">should buy.</span></div><div class="cl-divider"></div><div class="cl-body">You have seen all 18 phones. The specs, the trade-offs, the battery sizes, the charging speeds, the software support timelines.<br><br>The question is whether you will let brand loyalty, a salesperson, or someone\'s opinion talk you out of the right choice.</div><div class="cl-cta">Drop your exact pick<br>in the comments.</div><div class="cl-follow">Tell us why. Wrong answers get dragged. — BIGDROPS</div></div><div class="wm">BIGDROPS</div><div class="sz" id="sz20"><div class="sz-t"><div class="sz-lbl">TOP UI</div></div><div class="sz-b"><div class="sz-lbl">CAPTION ZONE</div></div><div class="sz-r"><div class="sz-rlbl">BUTTONS</div></div></div>';
-  return buildSlide(20,'Closing',h,'closing');
-}
-
-var allHtml = coverSlide();
-PHONES.forEach(function(p,i){ allHtml += phoneSlide(p,i); });
-allHtml += closingSlide();
-document.getElementById('swrap').innerHTML = allHtml;
-
-function scale(){
-  document.querySelectorAll('.sw').forEach(function(w){
-    var s = w.querySelector('.slide');
-    if(!s) return;
-    var sc = w.offsetWidth / 1080;
-    s.style.transform = 'scale(' + sc + ')';
-    w.style.height = (1920 * sc) + 'px';
-  });
-}
-window.addEventListener('load', scale);
-window.addEventListener('resize', scale);
-
-var szOn = false;
-function toggleSZ(){
-  szOn = !szOn;
-  document.querySelectorAll('.sz').forEach(function(el){ el.classList.toggle('on', szOn); });
-  document.getElementById('sz-btn').classList.toggle('on', szOn);
-  document.getElementById('sz-btn').textContent = szOn ? 'Safe Zone ON' : 'Safe Zone';
-}
-
-async function dl(n, fn){
-  var s = document.getElementById('s' + n);
-  var sv = s.style.transform;
-  s.style.transform = 'none';
-  var c = await html2canvas(s, { scale: 1, useCORS: true, allowTaint: false, backgroundColor: null, width: 1080, height: 1920, logging: false });
-  s.style.transform = sv;
-  var a = document.createElement('a');
-  a.download = 'BIGDROPS-300k-400k-' + fn;
-  a.href = c.toDataURL('image/png');
-  a.click();
-}
-
-async function dlAll(){
-  var btn = document.getElementById('btn-all');
-  btn.disabled = true; btn.textContent = 'Rendering...';
-  var pw = document.getElementById('pw'), pf = document.getElementById('pf'), pt = document.getElementById('pt');
-  pw.style.display = 'block';
-  var slides = [
-    [1,'01-cover.png'],[2,'02-xiaomi14.png'],[3,'03-turbo4pro.png'],
-    [4,'04-vivox100.png'],[5,'05-honormagic5pro.png'],[6,'06-xiaomi13pro.png'],
-    [7,'07-oneplus11.png'],[8,'08-samsungs23.png'],[9,'09-vivox90pro.png'],
-    [10,'10-xiaomi13.png'],[11,'11-pixel8.png'],[12,'12-iqooneo9.png'],
-    [13,'13-redmik70.png'],[14,'14-findx6.png'],[15,'15-redmik60pro.png'],
-    [16,'16-12sultra.png'],[17,'17-xiaomi14t.png'],[18,'18-rog6dultimate.png'],
-    [19,'19-rog6d.png'],[20,'20-closing.png']
-  ];
-  for(var i = 0; i < slides.length; i++){
-    var n = slides[i][0], fn = slides[i][1];
-    pt.textContent = 'Rendering ' + (i+1) + '/' + slides.length + ': ' + fn;
-    pf.style.width = ((i / slides.length) * 100) + '%';
-    await dl(n, fn);
-    await new Promise(function(r){ setTimeout(r, 800); });
-  }
-  pf.style.width = '100%';
-  pt.textContent = 'Done. All 20 slides downloaded.';
-  btn.disabled = false; btn.textContent = 'Download All';
-  setTimeout(function(){ pw.style.display = 'none'; }, 3000);
-}
-</script>
-</body>
-</html>
+  <div class="wm">BIGDROPS</div>
+  <div class="swipe">SWIPE</div>
+  <button class="dlb" onclick="dl(1,'BIGDROPS-300k-400k-XX.png')">DL</button>
+  <div class="sz" id="sz1"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-r"></div></div>
+</div></div>
