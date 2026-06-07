@@ -37,6 +37,52 @@ These are internal skills built natively for this project workspace and do not r
 
 ---
 
+### 📱 Social Media Suite — SMS Skills
+* **Skill Name:** `social-media-context-sms`
+  * **Location:** `.agents/skills/social-media-context-sms/`
+  * **Core Purpose:** Creates/updates the persistent context file defining the user's voice, audience, content pillars, and platform preferences — the single source of truth all other SMS skills reference.
+* **Skill Name:** `post-writer-sms`
+  * **Location:** `.agents/skills/post-writer-sms/`
+  * **Core Purpose:** Drafts standalone social media posts across all text-first and visual-first platforms (LinkedIn, Twitter/X, Threads, Bluesky, Facebook, Instagram, TikTok, Pinterest, YouTube).
+* **Skill Name:** `caption-writer-sms`
+  * **Location:** `.agents/skills/caption-writer-sms/`
+  * **Core Purpose:** Writes platform-native captions for visual-first platforms (Instagram, TikTok, Pinterest, Facebook, YouTube) where the image or video is the primary content.
+* **Skill Name:** `thread-writer-sms`
+  * **Location:** `.agents/skills/thread-writer-sms/`
+  * **Core Purpose:** Writes multi-part thread/content series for Twitter/X, LinkedIn, Threads, Instagram, TikTok, YouTube, and Facebook.
+* **Skill Name:** `carousel-writer-sms`
+  * **Location:** `.agents/skills/carousel-writer-sms/`
+  * **Core Purpose:** Writes slide-by-slide text content for multi-slide swipeable formats (LinkedIn/Instagram carousels, TikTok photo carousels, Pinterest Idea Pins).
+* **Skill Name:** `hook-writer-sms`
+  * **Location:** `.agents/skills/hook-writer-sms/`
+  * **Core Purpose:** Generates high-converting opening lines across nine proven hook patterns for any platform, usable standalone or invoked by other creation skills.
+* **Skill Name:** `content-strategy-sms`
+  * **Location:** `.agents/skills/content-strategy-sms/`
+  * **Core Purpose:** Defines the "what and why" of posting — topic clusters, content pillars, content mix, and niche positioning.
+* **Skill Name:** `content-calendar-sms`
+  * **Location:** `.agents/skills/content-calendar-sms/`
+  * **Core Purpose:** Builds practical posting schedules mapping content pillars to specific days, platforms, and formats.
+* **Skill Name:** `content-repurposer-sms`
+  * **Location:** `.agents/skills/content-repurposer-sms/`
+  * **Core Purpose:** Adapts one piece of content into multiple platform-native derivatives (blog-to-social, video-to-posts, newsletter-to-threads).
+* **Skill Name:** `performance-analyzer-sms`
+  * **Location:** `.agents/skills/performance-analyzer-sms/`
+  * **Core Purpose:** Analyzes post-level analytics (impressions, engagement, saves) from BlackTwist or user-provided data.
+* **Skill Name:** `audience-growth-tracker-sms`
+  * **Location:** `.agents/skills/audience-growth-tracker-sms/`
+  * **Core Purpose:** Analyzes follower growth trends, correlates content with follower spikes/stalls, and generates audience development recommendations.
+* **Skill Name:** `content-pattern-analyzer-sms`
+  * **Location:** `.agents/skills/content-pattern-analyzer-sms/`
+  * **Core Purpose:** Finds patterns in content performance data, surfacing which topics, formats, hooks, and timing consistently work or underperform.
+* **Skill Name:** `optimization-advisor-sms`
+  * **Location:** `.agents/skills/optimization-advisor-sms/`
+  * **Core Purpose:** Synthesizes performance, audience, and pattern analysis into a prioritized, evidence-backed improvement action plan.
+* **Skill Name:** `platform-strategy-sms`
+  * **Location:** `.agents/skills/platform-strategy-sms/`
+  * **Core Purpose:** Provides platform-specific tactical guidance for LinkedIn, Twitter/X, Threads, and Bluesky algorithms and culture.
+
+---
+
 ## 3. Design Presets / Templates Compilation
 
 ### 📦 designdotmd Registry (v0.4.1)
