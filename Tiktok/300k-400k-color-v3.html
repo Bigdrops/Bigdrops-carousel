@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Phones 300K-400K</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pad-top:180px;--pad-bottom:480px;--pad-left:80px;--pad-right:180px}
+body{background:#111;display:flex;flex-direction:column;align-items:center;padding:20px}
+.carousel{position:relative;width:1080px;margin:0 auto}
+.slide{position:relative;width:1080px;height:1920px;overflow:hidden;margin-bottom:40px;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.5);font-family:'DM Sans',sans-serif}
+.slide-inner{position:relative;width:1080px;height:1920px;padding:var(--pad-top) var(--pad-right) var(--pad-bottom) var(--pad-left)}
+.dl-btn{position:absolute;bottom:20px;right:20px;z-index:999;background:#000;color:#fff;border:none;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border-radius:6px}
+.dl-all{position:sticky;top:20px;z-index:9999;background:#FFDD00;color:#000;border:4px solid #000;padding:16px 40px;font-family:'Bebas Neue',sans-serif;font-size:28px;cursor:pointer;border-radius:8px;margin-bottom:20px;letter-spacing:1px}
+h1,h2,h3{font-family:'Bebas Neue',sans-serif;letter-spacing:.5px}
+.mono{font-family:'DM Mono',monospace}
+.chip{display:inline-block;padding:4px 14px;background:#fff;border:4px solid #000;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.chip-red{background:#ff4444;color:#fff;border-color:#000}
+.chip-green{background:#00c853;color:#000;border-color:#000}
+/* s1 Cover */
+.s1 .bg{position:absolute;inset:0;background:#00E5FF}
+.s1 .stripe{position:absolute;top:0;left:120px;width:40px;height:100%;background:#000}
+.s1 .eyebrow{position:absolute;top:200px;left:200px;font-family:'DM Sans',sans-serif;font-size:24px;font-weight:700;color:#000;letter-spacing:6px;text-transform:uppercase}
+.s1 .title{position:absolute;top:320px;left:200px;right:200px;font-family:'Bebas Neue',sans-serif;font-size:82px;line-height:.85;color:#000;text-transform:uppercase;border:6px solid #000;padding:30px;background:rgba(255,255,255,.3)}
+.s1 .subtitle{position:absolute;top:620px;left:200px;right:200px;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:500;color:#000;line-height:1.5}
+.s1 .ghost{position:absolute;bottom:350px;right:120px;font-family:'Bebas Neue',sans-serif;font-size:320px;color:rgba(0,0,0,.08);line-height:1;user-select:none}
+.s1 .brand{position:absolute;bottom:200px;right:200px;font-family:'Bebas Neue',sans-serif;font-size:36px;color:#000;letter-spacing:4px}
+/* Slides 2-19 phone cards */
+.phone-card .photo-area{position:absolute;top:var(--pad-top);left:var(--pad-left);right:var(--pad-right);height:720px;border:6px solid #000;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f5f5f5}
+.phone-card .photo-area img{width:100%;height:100%;object-fit:cover}
+.phone-card .rank{position:absolute;top:920px;left:var(--pad-left);font-family:'Bebas Neue',sans-serif;font-size:120px;line-height:1;color:#000;opacity:.15;user-select:none}
+.phone-card .name-area{position:absolute;top:910px;left:var(--pad-left);right:var(--pad-right)}
+.phone-card .name-area h2{font-family:'Bebas Neue',sans-serif;font-size:52px;color:#000;line-height:1;text-transform:uppercase}
+.phone-card .name-area .phone-sub{font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;color:#000;opacity:.7;margin-top:4px}
+.phone-card .specs-block{position:absolute;top:1020px;left:var(--pad-left);right:var(--pad-right);border:6px solid #000;padding:18px 20px;background:rgba(255,255,255,.25)}
+.phone-card .specs-block .spec-row{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:'DM Mono',monospace;font-size:12px;color:#000;font-weight:500}
+.phone-card .specs-block .spec-row span{background:rgba(0,0,0,.06);padding:2px 8px;border-radius:3px}
+.phone-card .desc-block{position:absolute;top:1170px;left:var(--pad-left);right:var(--pad-right);border:6px solid #000;padding:18px 20px;background:rgba(255,255,255,.15)}
+.phone-card .desc-block p{font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.45;color:#000;font-weight:500}
+.phone-card .release-meta{position:absolute;bottom:340px;left:var(--pad-left);font-family:'DM Mono',monospace;font-size:14px;color:#000;font-weight:500}
+.phone-card .chip-area{position:absolute;top:920px;right:var(--pad-right);display:flex;gap:8px;align-items:center}
+/* s20 Closing */
+.s20 .bg{position:absolute;inset:0;background:#C23B22}
+.s20 .stripe{position:absolute;top:0;left:100px;width:30px;height:100%;background:#000}
+.s20 .headline{position:absolute;top:300px;left:200px;right:200px;font-family:'Bebas Neue',sans-serif;font-size:70px;line-height:.9;color:#000;text-transform:uppercase}
+.s20 .body-text{position:absolute;top:560px;left:200px;right:200px;font-family:'DM Sans',sans-serif;font-size:22px;font-weight:500;color:#000;line-height:1.55}
+.s20 .cta{position:absolute;bottom:420px;left:200px;right:200px;font-family:'Bebas Neue',sans-serif;font-size:40px;color:#fff;text-transform:uppercase;border:6px solid #000;background:#000;padding:20px 30px;text-align:center;letter-spacing:1px}
+.s20 .follow{position:absolute;bottom:260px;left:200px;right:200px;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;color:#fff;text-align:center}
+.s20 .brand-end{position:absolute;bottom:180px;right:200px;font-family:'Bebas Neue',sans-serif;font-size:28px;color:#000;letter-spacing:3px}
+</style>
+</head>
+<body>
+
+<button class="dl-all" onclick="dlAll()">DOWNLOAD ALL 20 SLIDES</button>
+
+<div class="carousel" id="carousel">
+
+<!-- SLIDE 1: Cover -->
+<div class="slide s1" id="s1">
+  <div class="bg"></div>
+  <div class="stripe"></div>
+  <div class="eyebrow">BIGDROPS · June 2026</div>
+  <div class="title">Best Phones<br>₦300K — ₦400K</div>
+  <div class="subtitle">18 phones. Ranked. No favoritism. No brand loyalty. Just facts.<br>Spending this money and not on this list? You are paying for hype.</div>
+  <div class="ghost">18</div>
+  <div class="brand">BIGDROPS.NG</div>
+  <button class="dl-btn" onclick="dlSlide('s1')">Download</button>
+</div>
+
+<!-- SLIDE 2: Xiaomi 14 -->
+<div class="slide s2 phone-card" id="s2" style="background:#FFDD00">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-14-1.jpg" alt="Xiaomi 14" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EXiaomi 14%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">01</div>
+    <div class="name-area"><h2>Xiaomi 14</h2><div class="phone-sub">Flagship compact. No compromises.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Mar 2024</span><span>SD 8 Gen 3</span><span>6.36" LTPO 120Hz</span><span>PUBGM 120fps</span><span>CODM 120fps</span><span>eSIM</span><span>Leica 4K Selfie</span>
+        <span>4,610mAh</span><span>90W</span><span>UFS 4.0</span><span>16GB/1TB</span><span>GG Victus 2</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>The strength of this phone is balance. Cameras, performance, charging, software experience, build quality — nothing feels compromised. Compact flagship done properly. Best overall package in this price range. Argument closed.</p></div>
+    <div class="release-meta">Released March 2024</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s2')">Download</button>
+</div>
+
+<!-- SLIDE 3: Redmi Turbo 4 Pro -->
+<div class="slide s3 phone-card" id="s3" style="background:#D4C5A9">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://fdn2.gsmarena.com/vv/pics/xiaomi/redmi-turbo-4-pro.jpg" alt="Redmi Turbo 4 Pro" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22 font-family=%22sans-serif%22%3ETurbo 4 Pro%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">02</div>
+    <div class="name-area"><h2>Redmi Turbo 4 Pro</h2><div class="phone-sub">Performance and endurance weapon.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Apr 2026</span><span>SD 8s Gen 4</span><span>6.67" AMOLED 120Hz</span><span>PUBGM 120fps</span><span>CODM 120fps</span>
+        <span>6,000mAh</span><span>90W</span><span>UFS 4.0</span><span>16GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Performance and endurance are the entire sales pitch — and it delivers on both. The only reason it is not first place is because of its camera. For raw processing power per naira, it commands this slot. Pure performance and unmatched endurance weapon.</p></div>
+    <div class="release-meta">Released April 2026</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s3')">Download</button>
+</div>
+
+<!-- SLIDE 4: Vivo X100 -->
+<div class="slide s4 phone-card" id="s4" style="background:#E2725B">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/IMG_20260607_054902.jpg" alt="Vivo X100" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EVivo X100%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">03</div>
+    <div class="name-area"><h2>Vivo X100</h2><div class="phone-sub">Zeiss periscope excellence.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Nov 2023</span><span>Dimensity 9300</span><span>6.78" AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>Zeiss 5x Periscope</span>
+        <span>5,000mAh</span><span>120W</span><span>UFS 4.0</span><span>16GB/1TB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>One of the fastest phones here for both photography and raw processing power. The periscope zoom is genuinely flagship-grade. The only corner Vivo visibly cut was the basic selfie camera setup. Rear camera excellence, average front-camera effort.</p></div>
+    <div class="release-meta">Released November 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s4')">Download</button>
+</div>
+
+<!-- SLIDE 5: Honor Magic 5 Pro -->
+<div class="slide s5 phone-card" id="s5" style="background:#C23B22">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/hm5p.jpg" alt="Honor Magic 5 Pro" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22 font-family=%22sans-serif%22%3EMagic 5 Pro%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">04</div>
+    <div class="name-area"><h2>Honor Magic 5 Pro</h2><div class="phone-sub">Most underrated phone in Nigeria.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Mar 2023</span><span>SD 8 Gen 2</span><span>6.81" LTPO OLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>Dual eSIM</span><span>4K Selfie</span><span>Eye-Safe PWM</span>
+        <span>5,100mAh</span><span>66W</span><span>UFS 4.0</span><span>16GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Most people haven't considered this phone — that's the whole point. High-frequency PWM dimming display, premium build quality, curved glass, and a 4K selfie camera. Progenitor of Dynamic Island before iPhone stole it. Most underrated phone in Nigeria right now and it's not close.</p></div>
+    <div class="release-meta">Released March 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s5')">Download</button>
+</div>
+
+<!-- SLIDE 6: Xiaomi 13 Pro -->
+<div class="slide s6 phone-card" id="s6" style="background:#008080">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_002.jpg" alt="Xiaomi 13 Pro" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22 font-family=%22sans-serif%22%3EXiaomi 13 Pro%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">05</div>
+    <div class="name-area"><h2>Xiaomi 13 Pro</h2><div class="phone-sub">1-inch Leica sensor legacy.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Dec 2022</span><span>SD 8 Gen 2</span><span>6.73" LTPO AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>eSIM</span><span>1" IMX989 Leica</span>
+        <span>4,820mAh</span><span>120W</span><span>UFS 4.0</span><span>12GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>This phone still has one of the strongest camera systems on the list due to its 1-inch Sony IMX989 sensor. Rear-camera performance remains flagship-level and the charging speed feels absurdly fast even today. Premium rear setup with an average selfie camera trade-off.</p></div>
+    <div class="release-meta">Released December 2022</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s6')">Download</button>
+</div>
+
+<!-- SLIDE 7: Vivo X90 Pro -->
+<div class="slide s7 phone-card" id="s7" style="background:#00E5FF">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/x100.jpg" alt="Vivo X90 Pro" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22 font-family=%22sans-serif%22%3EVivo X90 Pro%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">06</div>
+    <div class="name-area"><h2>Vivo X90 Pro</h2><div class="phone-sub">1-inch Sony IMX989 with V2 chip.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Dec 2022</span><span>Dimensity 9200</span><span>6.78" AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>1" IMX989 V2 Chip</span>
+        <span>4,870mAh</span><span>120W</span><span>UFS 4.0</span><span>16GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>A photography-first flagship built around a 1-inch Sony IMX989 sensor and a dedicated V2 imaging chip. Night shots, portraits and zoom performance remain strong. Vivo clearly prioritized the rear cameras over the front. Mobile photography priority that still challenges newer devices.</p></div>
+    <div class="release-meta">Released December 2022</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s7')">Download</button>
+</div>
+
+<!-- SLIDE 8: OnePlus 11 -->
+<div class="slide s8 phone-card" id="s8" style="background:#FF1493">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_010.jpg" alt="OnePlus 11" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EOnePlus 11%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">07</div>
+    <div class="name-area"><h2>OnePlus 11 <span class="chip chip-green" style="font-size:16px;padding:3px 10px;vertical-align:middle;margin-left:10px">RISING</span></h2><div class="phone-sub">Hasselblad tuned. Daily driver king.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Jan 2023</span><span>SD 8 Gen 2</span><span>6.7" LTPO AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>eSIM</span><span>Hasselblad Tuned</span>
+        <span>5,000mAh</span><span>100W</span><span>UFS 4.0</span><span>16GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>This phone's greatest strength is daily usability. Fast, smooth, dependable and free from unnecessary drama. Camera performance is solid rather than spectacular, but everything else works exactly as you would expect. Excellent haptics and premium flagship build quality that avoids cheap mid-range shortcuts.</p></div>
+    <div class="release-meta">Released January 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s8')">Download</button>
+</div>
+
+<!-- SLIDE 9: Samsung Galaxy S23 -->
+<div class="slide s9 phone-card" id="s9" style="background:#CC5500">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_016.jpg" alt="Samsung Galaxy S23" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22 font-family=%22sans-serif%22%3EGalaxy S23%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">08</div>
+    <div class="name-area"><h2>Samsung Galaxy S23 <span class="chip chip-red" style="font-size:16px;padding:3px 10px;vertical-align:middle;margin-left:10px">FALLING</span></h2><div class="phone-sub">Polished compact. Bottlenecked by battery.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Feb 2023</span><span>SD 8 Gen 2 for Galaxy</span><span>6.1" AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>eSIM</span>
+        <span>3,900mAh</span><span>25W</span><span>UFS 4.0</span><span>8GB/512GB</span><span>Armor Aluminum</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>The most polished compact Android flagship here. Armor aluminum framework, premium flat display, and long-term ownership experience. Its weakness is obvious: 3,900mAh battery and 25W charging. Competitors simply charge faster and last longer. Polished consistency bottlenecked by slow battery tech.</p></div>
+    <div class="release-meta">Released February 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s9')">Download</button>
+</div>
+
+<!-- SLIDE 10: Xiaomi 13 -->
+<div class="slide s10 phone-card" id="s10" style="background:#556B2F">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_003.jpg" alt="Xiaomi 13" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EXiaomi 13%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">09</div>
+    <div class="name-area"><h2>Xiaomi 13</h2><div class="phone-sub">Compact flat flagship with Leica DNA.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Dec 2022</span><span>SD 8 Gen 2</span><span>6.36" AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>Leica 3.2X Tele</span>
+        <span>4,500mAh</span><span>67W</span><span>UFS 4.0</span><span>12GB/512GB</span><span>Flat Display</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Compact flagship with flat display architecture and very few compromises. Reliable, fast, and easy to recommend. True 3.2X telephoto lens layout. It performs well everywhere, though the front camera is merely adequate. Balanced compact layout comfort for daily workloads.</p></div>
+    <div class="release-meta">Released December 2022</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s10')">Download</button>
+</div>
+
+<!-- SLIDE 11: Google Pixel 8 -->
+<div class="slide s11 phone-card" id="s11" style="background:#6A0DAD">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/pixel8.jpg" alt="Google Pixel 8" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EPixel 8%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">10</div>
+    <div class="name-area"><h2>Google Pixel 8</h2><div class="phone-sub">Smartest phone. Hampered by efficiency.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Oct 2023</span><span>Tensor G3</span><span>6.2" OLED 120Hz</span><span>PUBGM 60fps</span><span>CODM 60fps</span><span>eSIM</span><span>7 Yr Updates</span><span>AI</span>
+        <span>4,575mAh</span><span>27W</span><span>UFS 3.1</span><span>8GB/256GB</span><span>Flat Screen</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>The smartest phone on the list. AI features, software experience and computational camera processing continue to be class-leading. The performance architecture struggles and heats under continuous loads, and charging speed is still disappointing. Outstanding smart processing suite hampered by mediocre hardware efficiency.</p></div>
+    <div class="release-meta">Released October 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s11')">Download</button>
+</div>
+
+<!-- SLIDE 12: iQOO Neo 9 -->
+<div class="slide s12 phone-card" id="s12" style="background:#FFDD00">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://fdn2.gsmarena.com/vv/pics/iqoo/iqoo-neo-9.jpg" alt="iQOO Neo 9" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EiQOO Neo 9%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">11</div>
+    <div class="name-area"><h2>iQOO Neo 9</h2><div class="phone-sub">144Hz with dedicated Q1 gaming chip.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Dec 2023</span><span>SD 8 Gen 2</span><span>6.78" AMOLED 144Hz</span><span>PUBGM 120fps</span><span>CODM 144fps</span><span>Q1 Chip</span>
+        <span>5,160mAh</span><span>120W</span><span>UFS 4.0</span><span>16GB/1TB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Built for speed and raw on-screen fluid metrics. Includes a custom independent Q1 visual computing chip to maintain high frame caps during gaming. Camera quality isn't the reason you are buying this phone. Performance is. Highly tuned performance asset built for processing metrics.</p></div>
+    <div class="release-meta">Released December 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s12')">Download</button>
+</div>
+
+<!-- SLIDE 13: Redmi K70 -->
+<div class="slide s13 phone-card" id="s13" style="background:#D4C5A9">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/20260607_052620.jpg" alt="Redmi K70" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3ERedmi K70%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">12</div>
+    <div class="name-area"><h2>Redmi K70</h2><div class="phone-sub">2K flat panel. Performance monster.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Nov 2023</span><span>SD 8 Gen 2</span><span>6.67" AMOLED 144Hz</span><span>PUBGM 90fps</span><span>CODM 120fps</span><span>2K Flat Panel</span>
+        <span>5,000mAh</span><span>120W</span><span>UFS 4.0</span><span>16GB/1TB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>One of the strongest performance-per-naira devices available. Powerful hardware built around a flagship core and a premium flat 2K resolution panel. The camera setup is serviceable, but buyers already know where the priorities went. Aggressive performance platform built to maximize hardware value.</p></div>
+    <div class="release-meta">Released November 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s13')">Download</button>
+</div>
+
+<!-- SLIDE 14: Oppo Find X6 -->
+<div class="slide s14 phone-card" id="s14" style="background:#E2725B">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/IMG_20260607_055101.jpg" alt="Oppo Find X6" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22 font-family=%22sans-serif%22%3EOppo Find X6%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">13</div>
+    <div class="name-area"><h2>Oppo Find X6</h2><div class="phone-sub">Hasselblad color science.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Mar 2023</span><span>Dimensity 9200</span><span>6.74" LTPO AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>Hasselblad Tuned</span>
+        <span>5,000mAh</span><span>80W</span><span>UFS 4.0</span><span>16GB/1TB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Features highly uniform Hasselblad color tuning and a genuinely strong camera experience across its complete layout. The issue isn't that it is bad — it's that the competition above it simply offers stronger overall packages at similar pricing. Polished imaging framework sitting against hyper-aggressive rivals.</p></div>
+    <div class="release-meta">Released March 2023</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s14')">Download</button>
+</div>
+
+<!-- SLIDE 15: Redmi K60 Pro -->
+<div class="slide s15 phone-card" id="s15" style="background:#C23B22">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://fdn2.gsmarena.com/vv/pics/xiaomi/redmi-k60-pro.jpg" alt="Redmi K60 Pro" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2232%22 font-family=%22sans-serif%22%3EK60 Pro%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">14</div>
+    <div class="name-area"><h2>Redmi K60 Pro</h2><div class="phone-sub">Wireless charging survivor.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Dec 2022</span><span>SD 8 Gen 2</span><span>6.67" AMOLED 120Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>30W Wireless</span>
+        <span>5,500mAh</span><span>67W</span><span>UFS 4.0</span><span>16GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>A strong performance layout with excellent battery life and flagship-level power. Preserves a functional 30W wireless charging utility that its successor dropped. Its biggest problem is being compared directly to the newer K70. High-spec hardware backed by wireless utility systems.</p></div>
+    <div class="release-meta">Released December 2022</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s15')">Download</button>
+</div>
+
+<!-- SLIDE 16: Xiaomi 12S Ultra -->
+<div class="slide s16 phone-card" id="s16" style="background:#008080">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_004.jpg" alt="Xiaomi 12S Ultra" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2230%22 font-family=%22sans-serif%22%3E12S Ultra%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">15</div>
+    <div class="name-area"><h2>Xiaomi 12S Ultra</h2><div class="phone-sub">The original 1-inch Leica flagship.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Jul 2022</span><span>SD 8+ Gen 1</span><span>6.73" LTPO AMOLED 120Hz</span><span>PUBGM 60fps</span><span>CODM 90fps</span><span>1" IMX989 Leica</span>
+        <span>4,860mAh</span><span>67W</span><span>UFS 3.1</span><span>16GB/1TB</span><span>Leather Back</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>The first phone that brought the 1-inch Leica sensor tier to market. Age is the only thing working against this phone. Pure camera performance remains great. If you are comfortable sacrificing software longevity, this remains an interesting buy. Elite camera quality held back by aging software support.</p></div>
+    <div class="release-meta">Released July 2022</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s16')">Download</button>
+</div>
+
+<!-- SLIDE 17: Xiaomi 14T -->
+<div class="slide s17 phone-card" id="s17" style="background:#00E5FF">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/gsmarena_006.jpg" alt="Xiaomi 14T" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EXiaomi 14T%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">16</div>
+    <div class="name-area"><h2>Xiaomi 14T</h2><div class="phone-sub">Dual eSIM. 4K selfie. Complete package.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Sep 2024</span><span>Dimensity 8300-Ultra</span><span>6.67" AMOLED 144Hz</span><span>PUBGM 90fps</span><span>CODM 90fps</span><span>Dual eSIM</span>
+        <span>5,000mAh</span><span>67W</span><span>UFS 4.0</span><span>12GB/512GB</span><span>4K Selfie</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Behaves like a complete phone with a good display, solid cameras, and excellent 4K selfie quality. Holds a massive local market cheat code: comprehensive Dual eSIM support. Its issue is simple: at this price, buyers can find stronger Snapdragon alternatives. Complete operating balance holding an essential regional network feature.</p></div>
+    <div class="release-meta">Released September 2024</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s17')">Download</button>
+</div>
+
+<!-- SLIDE 18: ROG Phone 6D Ultimate -->
+<div class="slide s18 phone-card" id="s18" style="background:#FF1493">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone-6d-ultimate.jpg" alt="ROG Phone 6D Ultimate" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2228%22 font-family=%22sans-serif%22%3EROG 6D Ult%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">17</div>
+    <div class="name-area"><h2>ROG Phone 6D Ultimate</h2><div class="phone-sub">Motorized air portal. Thermal beast.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Sep 2022</span><span>Dimensity 9000+</span><span>6.78" AMOLED 165Hz</span><span>PUBGM 90fps</span><span>CODM 120fps</span><span>Air Portal</span>
+        <span>6,000mAh</span><span>65W</span><span>UFS 3.1</span><span>16GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Built around an internal motorized air portal ventilation gate. For sustained gaming, the thermal performance and frame stability are outstanding. As an everyday phone, however, it asks for deep compromises in size, camera quality and practicality. Top-tier thermal design built exclusively for hardware purists.</p></div>
+    <div class="release-meta">Released September 2022</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s18')">Download</button>
+</div>
+
+<!-- SLIDE 19: ROG Phone 6D -->
+<div class="slide s19 phone-card" id="s19" style="background:#CC5500">
+  <div class="slide-inner">
+    <div class="photo-area"><img src="https://fdn2.gsmarena.com/vv/pics/asus/asus-rog-phone-6d-1.jpg" alt="ROG Phone 6D" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22800%22%3E%3Crect fill=%22%23ddd%22 width=%22800%22 height=%22800%22/%3E%3Ctext x=%22400%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2236%22 font-family=%22sans-serif%22%3EROG 6D%3C/text%3E%3C/svg%3E'"></div>
+    <div class="rank">18</div>
+    <div class="name-area"><h2>ROG Phone 6D</h2><div class="phone-sub">Gaming enthusiast tool. Same cooling engine.</div></div>
+    <div class="specs-block">
+      <div class="spec-row">
+        <span>Sep 2022</span><span>Dimensity 9000</span><span>6.78" AMOLED 165Hz</span><span>PUBGM 90fps</span><span>CODM 120fps</span><span>Air Triggers</span>
+        <span>6,000mAh</span><span>65W</span><span>UFS 3.1</span><span>16GB/512GB</span>
+      </div>
+    </div>
+    <div class="desc-block"><p>Holds the exact internal cooling engine as the Ultimate but excludes the external physical portal door hardware. High refresh-rate gaming, air triggers, and battery endurance remain excellent, but it is less balanced than nearly every phone above it. Gaming enthusiast tool that lacks daily flagship balance.</p></div>
+    <div class="release-meta">Released September 2022</div>
+  </div>
+  <button class="dl-btn" onclick="dlSlide('s19')">Download</button>
+</div>
+
+<!-- SLIDE 20: Closing -->
+<div class="slide s20" id="s20">
+  <div class="bg"></div>
+  <div class="stripe"></div>
+  <div class="headline">Nobody cares about benchmarks after six months.</div>
+  <div class="body-text">What matters is: does this phone survive Lagos traffic, two years of charging cycles, and your cousin's informal camera tests at family gatherings?<br><br>You have 18 options in this bracket. Some will age like milk. A few will surprise you. Any phone on this list beats what 90% of people are using right now.<br><br>Pick one, move on, and don't look back when the next model drops.</div>
+  <div class="cta">Drop your current budget in the comments. I'll tell you where it falls on the next list.</div>
+  <div class="follow">Follow for N400K-N500K bracket breakdown.</div>
+  <div class="brand-end">BIGDROPS.NG</div>
+  <button class="dl-btn" onclick="dlSlide('s20')">Download</button>
+</div>
+
+</div>
+
+<script>
+var slides = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13','s14','s15','s16','s17','s18','s19','s20'];
+
+function dlSlide(id){
+  var el = document.getElementById(id);
+  html2canvas(el,{scale:2,useCORS:true,backgroundColor:null,width:1080,height:1920}).then(function(c){
+    var a = document.createElement('a');
+    a.download = id + '.png';
+    a.href = c.toDataURL('image/png');
+    a.click();
+  });
+}
+
+function dlAll(){
+  slides.forEach(function(id,i){
+    setTimeout(function(){
+      var el = document.getElementById(id);
+      html2canvas(el,{scale:2,useCORS:true,backgroundColor:null,width:1080,height:1920}).then(function(c){
+        var a = document.createElement('a');
+        a.download = id + '.png';
+        a.href = c.toDataURL('image/png');
+        a.click();
+      });
+    }, i * 800);
+  });
+}
+</script>
+
+</body>
+</html>
