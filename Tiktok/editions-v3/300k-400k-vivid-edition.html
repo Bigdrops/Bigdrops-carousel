@@ -2,739 +2,521 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vivid Edition — BIGDROPS 300K-400K</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900&family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<meta name="viewport" content="width=1080">
+<title>Vivid Edition - 300K to 400K</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --canvas-width:1080px;
-  --canvas-height:1920px;
-  --pad-top:280px;
-  --pad-left:80px;
-  --pad-right:180px;
-  --content-max-h:960px;
-  --bg:#3C2F2A;
-  --text:#F5EDE0;
-  --text-sec:#D4C8B5;
-  --accent:#5A4A42;
-  --chip-bg:#F5EDE0;
-  --chip-text:#2C1F1A;
-  --muted:rgba(245,237,224,0.5);
-  --wm:rgba(245,237,224,0.4);
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --canvas-width: 1080px;
+  --canvas-height: 1920px;
+  --pad-top: 280px;
+  --pad-left: 80px;
+  --pad-right: 180px;
+  --content-max-h: 960px;
+  --content-w: calc(1080px - 80px - 180px);
+  --accent: #FF3366;
+  --accent2: #00E5FF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #C0B8D0;
+  --chip-bg: rgba(255,51,102,0.15);
+  --chip-border: rgba(255,51,102,0.4);
 }
-body{
-  background:#222;
-  font-family:'DM Sans',sans-serif;
-  -webkit-font-smoothing:antialiased;
-  padding:16px 0 56px;
+body {
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
 }
-.toolbar{
-  position:sticky;top:0;z-index:500;
-  background:rgba(60,47,42,.96);
-  border-bottom:1px solid var(--accent);
-  padding:10px 20px;
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  backdrop-filter:blur(8px);
+#toolbar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0,0,0,0.85);
+  padding: 10px 20px;
+  border-radius: 40px;
+  border: 1px solid rgba(255,255,255,0.1);
 }
-.tb-title{font-size:11px;font-weight:600;color:var(--text-sec);letter-spacing:.04em;margin-right:auto;text-transform:uppercase;}
-.tb-title b{color:var(--text);font-weight:800;}
-.tbtn{
-  font-size:11px;font-weight:700;padding:6px 14px;
-  border-radius:4px;border:1px solid var(--accent);
-  background:rgba(245,237,224,.1);color:var(--text);cursor:pointer;
-  transition:all .15s;
+#toolbar button {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
-.tbtn.pri{background:var(--chip-bg);color:var(--chip-text);border-color:var(--chip-bg);}
-.slides-wrap{display:flex;flex-direction:column;align-items:center;gap:40px;padding:24px 0;}
-.sw{position:relative;width:min(96vw,540px);}
-.sl{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.06em;margin-bottom:6px;text-transform:uppercase;}
-.slide-frame{
-  width:var(--canvas-width);height:var(--canvas-height);
-  position:relative;overflow:hidden;
-  transform-origin:top left;
-  background:var(--bg);
+#toolbar button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
-.slide-frame::after{
-  content:"";position:absolute;bottom:0;left:0;
-  width:1080px;height:680px;
-  background:transparent;pointer-events:none;z-index:200;
+#toolbar .counter {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  min-width: 50px;
+  text-align: center;
 }
-.safe-content-zone{
-  position:absolute;
-  top:var(--pad-top) !important;
-  left:var(--pad-left) !important;
-  width:calc(var(--canvas-width) - var(--pad-left) - var(--pad-right)) !important;
-  max-height:var(--content-max-h) !important;
-  display:flex !important;
-  flex-direction:column !important;
-  justify-content:flex-start !important;
-  z-index:100;
+#toolbar .btn-active {
+  border-color: var(--accent2);
+  color: var(--accent2);
 }
-.sz{display:none;}
-.sz.on{display:block;position:absolute;inset:0;pointer-events:none;z-index:300;}
-.sz-t{position:absolute;top:0;left:0;right:0;height:280px;background:rgba(90,74,66,.3);border-bottom:1px dashed var(--accent);}
-.sz-b{position:absolute;bottom:680px;left:0;right:0;height:960px;background:transparent;border-top:1px dashed var(--accent);border-bottom:1px dashed var(--accent);}
-.sz-b2{position:absolute;bottom:0;left:0;right:0;height:680px;background:rgba(90,74,66,.15);border-top:1px dashed var(--accent);}
-.sz-r{position:absolute;top:0;right:0;bottom:0;width:180px;background:rgba(90,74,66,.15);border-left:1px dashed var(--accent);}
-.sz-lbl{font-size:9px;font-weight:600;color:var(--muted);padding:4px 6px;letter-spacing:.04em;text-transform:uppercase;}
-.sz-rlbl{font-size:9px;font-weight:600;color:var(--muted);padding:4px 6px;letter-spacing:.04em;text-transform:uppercase;writing-mode:vertical-rl;text-orientation:upright;}
-.swipe{
-  position:absolute;right:14px;z-index:10;
-  writing-mode:vertical-rl;text-orientation:upright;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:16px;font-weight:900;letter-spacing:.35em;
-  color:var(--muted);pointer-events:none;
-  top:50%;transform:translateY(-50%);
+#slides-container {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
 }
-.wm{
-  position:absolute;top:280px;right:calc(180px + 10px);z-index:10;
-  font-family:'Archivo Black',sans-serif;
-  font-size:14px;font-weight:900;letter-spacing:.18em;
-  color:var(--wm);text-transform:uppercase;pointer-events:none;
+.slide-frame {
+  width: 1080px;
+  height: 1920px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  display: none;
 }
-.dlb{
-  position:absolute;bottom:-26px;right:0;
-  width:20px;height:20px;
-  font-family:'Archivo Black',sans-serif;
-  font-size:10px;font-weight:900;
-  color:var(--muted);background:transparent;border:none;cursor:pointer;
+.slide-frame.active { display: block; }
+.slide-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1A0533, #0A1628);
+  background-size: 200% 200%;
+  animation: gradientShift 12s ease infinite;
+  z-index: 0;
 }
-.c-label,.ps-rank,.cl-eyebrow,.c-tag{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:28px;font-weight:900;letter-spacing:.1em;
-  color:var(--text);text-transform:uppercase;margin-bottom:10px;
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-.c-title,.ps-name,.cl-head{
-  font-family:'Archivo Black','Bebas Neue',sans-serif;
-  font-size:96px;font-weight:900;line-height:.88;
-  color:var(--text);letter-spacing:-.02em;margin-bottom:16px;
+.safe-content-zone {
+  position: absolute;
+  top: var(--pad-top);
+  left: var(--pad-left);
+  width: var(--content-w);
+  max-height: var(--content-max-h);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
 }
-.c-sub,.cl-body,.ps-specs,.ps-verdict{
-  font-family:'DM Sans',sans-serif;
-  font-size:20px;font-weight:500;color:var(--text-sec);
-  line-height:1.45;margin-bottom:12px;
+.slide-frame::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1080px;
+  height: 680px;
+  background: transparent;
+  pointer-events: none;
+  z-index: 200;
 }
-.c-sub b,.cl-body b,.ps-specs b,.ps-verdict b{color:var(--text);font-weight:700;}
-.ps-meta{
-  font-family:'DM Sans',sans-serif;
-  font-size:16px;font-weight:700;letter-spacing:.02em;
-  color:var(--text-sec);text-transform:uppercase;margin-bottom:14px;
+/* SWIPE text */
+.swipe-text {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent2);
+  opacity: 0.6;
+  animation: pulseGlow 2s ease-in-out infinite;
+  z-index: 20;
 }
-.c-divider,.cl-divider,.ps-divider{
-  width:80px;height:3px;background:var(--accent);margin:14px 0;
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; text-shadow: 0 0 5px rgba(0,229,255,0.3); }
+  50% { opacity: 1; text-shadow: 0 0 15px rgba(0,229,255,0.8), 0 0 30px rgba(0,229,255,0.4); }
 }
-.ps-img-area{
-  display:flex;align-items:center;justify-content:center;
-  flex:0 0 auto;margin:12px 0;position:relative;
-  background:transparent !important;
+/* Safe zone guides */
+#safeGuides {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 150;
+  pointer-events: none;
+  display: none;
 }
-.ps-img-area img{
-  height:380px !important;width:auto !important;
-  object-fit:contain !important;display:block;
-  background:transparent !important;border:none !important;box-shadow:none !important;
+#safeGuides.show { display: block; }
+.guide-line {
+  position: absolute;
+  background: none;
+  z-index: 150;
 }
-.ps-fallback{
-  font-family:'Archivo Black',sans-serif;font-size:32px;font-weight:900;
-  color:var(--muted);text-align:center;padding:30px 0;display:none;
+.guide-top {
+  top: 280px;
+  left: 0;
+  width: 1080px;
+  height: 2px;
+  background: #00E5FF;
+  box-shadow: 0 0 4px #00E5FF;
 }
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
-.chip{
-  font-family:'DM Sans',sans-serif;
-  font-size:13px;font-weight:700;
-  padding:5px 10px;
-  color:var(--chip-text);background:var(--chip-bg);
-  border:1px solid var(--chip-bg);border-radius:2px;
-  letter-spacing:.01em;
+.guide-bottom {
+  top: 1240px;
+  left: 0;
+  width: 1080px;
+  height: 2px;
+  background: #00E5FF;
+  box-shadow: 0 0 4px #00E5FF;
 }
-.ps-software{
-  font-family:'DM Sans',sans-serif;
-  font-size:17px;font-weight:700;
-  color:var(--text-sec);letter-spacing:.02em;margin:8px 0;
+.guide-left {
+  top: 0;
+  left: 80px;
+  width: 2px;
+  height: 1920px;
+  background: #00E5FF;
+  box-shadow: 0 0 4px #00E5FF;
 }
-.ps-bottom-section{margin-top:auto;padding-top:10px;}
-.ps-specs{font-size:17px;}
-.ps-verdict{font-size:17px;line-height:1.4;}
-.c-bignum{display:none;}
-.cover-inner,.closing-inner{padding-top:0;}
-.cl-body{font-size:20px;}
-.cl-teaser{
-  font-family:'DM Sans',sans-serif;
-  font-size:18px;font-weight:700;color:var(--text);
-  margin:16px 0 8px;
+.guide-right {
+  top: 0;
+  left: 900px;
+  width: 2px;
+  height: 1920px;
+  background: #00E5FF;
+  box-shadow: 0 0 4px #00E5FF;
 }
-.cl-cta{
-  font-family:'DM Sans',sans-serif;
-  font-size:16px;font-weight:500;color:var(--text-sec);
-  margin:8px 0;
+/* ========== COVER SLIDE ========== */
+.cover-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
-.cl-follow{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:22px;font-weight:900;letter-spacing:.08em;
-  color:var(--muted);text-transform:uppercase;margin-top:16px;
+.cover-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 24px;
 }
-#pw{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(0,0,0,.8);padding:12px 20px;}
-#pb{height:6px;background:var(--accent);border-radius:3px;overflow:hidden;}
-#pf{height:100%;width:0%;background:var(--chip-bg);transition:width .2s;}
-#pt{font-size:12px;color:var(--text-sec);margin-top:6px;font-family:'DM Sans',sans-serif;}
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 120px;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+}
+.cover-title span {
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(255,51,102,0.5);
+}
+.cover-subtitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--accent2);
+  margin-top: 16px;
+  text-shadow: 0 0 20px rgba(0,229,255,0.4);
+}
+.cover-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-top: 48px;
+  letter-spacing: 2px;
+}
+.cover-divider {
+  width: 80px;
+  height: 3px;
+  background: var(--accent);
+  margin-top: 32px;
+  box-shadow: 0 0 10px rgba(255,51,102,0.6);
+}
+/* ========== PHONE SLIDES ========== */
+.phone-slide-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 8px;
+}
+.phone-rank {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  line-height: 1;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(255,51,102,0.5), 0 0 40px rgba(255,51,102,0.3);
+  letter-spacing: 1px;
+}
+.phone-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px;
+  line-height: 1.1;
+  color: var(--text-primary);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.phone-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+.phone-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,229,255,0.5), transparent);
+  margin: 6px 0;
+}
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.chip {
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+}
+.phone-spec {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+.phone-software {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--accent2);
+  opacity: 0.7;
+  margin-top: 4px;
+}
+.phone-verdict {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-top: auto;
+  padding-top: 8px;
+}
+.phone-verdict span {
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(255,51,102,0.4);
+}
+/* ========== CLOSING SLIDE ========== */
+.closing-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+.closing-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 100px;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+}
+.closing-accent {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(255,51,102,0.5);
+  margin-top: 8px;
+}
+.closing-line {
+  width: 120px;
+  height: 3px;
+  background: var(--accent2);
+  margin-top: 32px;
+  box-shadow: 0 0 10px rgba(0,229,255,0.5);
+}
+.closing-footer {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-top: 40px;
+  letter-spacing: 3px;
+}
 </style>
 </head>
 <body>
 
-<div class="toolbar">
-  <div class="tb-title">BIGDROPS <b>VIVID EDITION</b> · 300-400K · 20 slides · 1080x1920</div>
-  <button class="tbtn" id="sz-btn" onclick="toggleSZ()">Safe Zone</button>
-  <button class="tbtn pri" id="btn-all" onclick="dlAll()">Download All</button>
-  <div id="pw"><div id="pb"><div id="pf"></div></div><div id="pt"></div></div>
+<div id="toolbar">
+  <button id="prevBtn">&#9664;</button>
+  <span class="counter" id="slideCounter">1 / 20</span>
+  <button id="nextBtn">&#9654;</button>
+  <button id="safeToggle">Safe Zone</button>
+  <button id="exportBtn">Export PNG</button>
 </div>
 
-<div class="slides-wrap">
-
-<!-- ═══ SLIDE 1 — COVER ═══ -->
-<div class="sw"><div class="sl">01 / 20 — Cover</div>
-<div class="slide-frame" id="s1">
-  <div class="safe-content-zone">
-    <div class="c-label">BIGDROPS June 2026</div>
-      <div class="c-title"><span class="yr">N300K to N400K.</span> 18 phones. One winner.</div>
-    <div class="c-divider"></div>
-    <div class="c-sub">You are about to spend four hundred thousand naira. Most people at this budget choose wrong. <b>This list exists so you do not.</b></div>
-    <div class="c-tag">No favoritism. No brand loyalty. Just facts.</div>
+<div id="slides-container">
+  <div id="safeGuides">
+    <div class="guide-line guide-top"></div>
+    <div class="guide-line guide-bottom"></div>
+    <div class="guide-line guide-left"></div>
+    <div class="guide-line guide-right"></div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz1"><div class="sz-t"><div class="sz-lbl">TIKTOK TOP UI 280px</div></div><div class="sz-b"><div class="sz-lbl">SAFE CONTENT ZONE 960px</div></div><div class="sz-b2"><div class="sz-lbl">TIKTOK CAPTION ZONE 680px</div></div><div class="sz-r"><div class="sz-rlbl">ENGAGEMENT BTNS</div></div></div>
-</div>
-<button class="dlb" onclick="dl(1,'cover')">DL</button></div>
 
-<!-- ═══ SLIDE 2 — #1 Xiaomi 14 ═══ -->
-<div class="sw"><div class="sl">02 / 20 — #1 Xiaomi 14</div>
-<div class="slide-frame" id="s2">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#01</div>
-    <div class="ps-name">Xiaomi 14</div>
-    <div class="ps-meta">Oct 2023 · Leica · Curved · GG Victus 2</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi14.jpg" alt="Xiaomi 14" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Xiaomi 14</span><small>MISSING ASSET</small></div>
+  <!-- SLIDE 1: COVER -->
+  <div class="slide-frame active" data-slide="1">
+    <div class="slide-bg"></div>
+    <div class="safe-content-zone">
+      <div class="cover-content">
+        <div class="cover-label">Tier Breakdown</div>
+        <div class="cover-title"><span>N300K</span> TO <span>N400K</span></div>
+        <div class="cover-subtitle">LET'S FIGHT.</div>
+        <div class="cover-divider"></div>
+        <div class="cover-meta">18 PHONES &middot; 1 WINNER</div>
+      </div>
+      <div class="swipe-text">SWIPE</div>
     </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 3</span><span class="chip">6.36 LTPO AMOLED 120Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">eSIM</span><span class="chip">4K Selfie Leica</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 1TB</span>
-    </div>
-    <div class="ps-specs"><b>4,610mAh · 90W</b> — Gen 3 efficiency makes this battery last longer than the number suggests.</div>
-    <div class="ps-software">Supported up to Android 19</div>
-    <div class="ps-verdict">SD 8 Gen 3. Leica optics. 4K selfie. 90W. Compact premium body. Runs cooler and more efficiently than everything else here. iPhone 15 Pro runs the same generation silicon and costs 3x more. Best overall package at this price. Argument closed.</div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz2"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(2,'BIGDROPS-300k-400k-01.png')">DL</button></div>
 
-<!-- ═══ SLIDE 3 — #2 Redmi Turbo 4 Pro ═══ -->
-<div class="sw"><div class="sl">03 / 20 — #2 Redmi Turbo 4 Pro</div>
-<div class="slide-frame" id="s3">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#02</div>
-    <div class="ps-name">Redmi Turbo 4 Pro</div>
-    <div class="ps-meta">2025 · Flat Screen · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/turbo4pro.jpg" alt="Redmi Turbo 4 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Redmi Turbo 4 Pro</span><small>MISSING ASSET</small></div>
+  <!-- SLIDES 2-19: PHONE SLIDES (JS generated) -->
+  <div id="phoneSlidesContainer"></div>
+
+  <!-- SLIDE 20: CLOSING -->
+  <div class="slide-frame" data-slide="20">
+    <div class="slide-bg"></div>
+    <div class="safe-content-zone">
+      <div class="closing-content">
+        <div class="closing-title">LOCK IN YOUR WINNER</div>
+        <div class="closing-accent">NOW.</div>
+        <div class="closing-line"></div>
+        <div class="closing-footer">FINAL VERDICT BELOW</div>
+      </div>
+      <div class="swipe-text">SWIPE</div>
     </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8s Gen 3</span><span class="chip">6.67 AMOLED 144Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">50MP OIS Main</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>6,000mAh · 90W</b> — Biggest battery on this entire list. 8s Gen 3 — one step below full Gen 3 but don't sleep on it.</div>
-    <div class="ps-software">Supported up to Android 18</div>
-    <div class="ps-verdict">The only reason this is not 01 is the camera. SD 8s Gen 3 and 6,000mAh — stamina and performance at this price is criminal. Flat screen, tank build. Don't buy it for photography. Buy it because it will outlast every phone on this list on a single charge.</div>
   </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz3"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(3,'BIGDROPS-300k-400k-02.png')">DL</button></div>
-
-<!-- ═══ SLIDE 4 — #3 Vivo X100 ═══ -->
-<div class="sw"><div class="sl">04 / 20 — #3 Vivo X100</div>
-<div class="slide-frame" id="s4">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#03</div>
-    <div class="ps-name">Vivo X100</div>
-    <div class="ps-meta">Nov 2023 · Zeiss · Curved · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/vivox100.jpg" alt="Vivo X100" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Vivo X100</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Dimensity 9300</span><span class="chip">6.78 AMOLED 120Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">Zeiss Periscope 5x</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 1TB</span>
-    </div>
-    <div class="ps-specs"><b>5,000mAh · 120W</b> — Dimensity 9300 all-big-core. Every core is a performance core. Nothing holding back processing.</div>
-    <div class="ps-software">Supported up to Android 17</div>
-    <div class="ps-verdict">Heavy tasks disappear. Zeiss periscope zoom makes 5x look like you were standing next to the subject. The one corner Vivo cut was the selfie camera — 1080p front on a phone this capable is noticeable. Curved — respect the edges.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz4"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(4,'BIGDROPS-300k-400k-03.png')">DL</button></div>
-
-<!-- ═══ SLIDE 5 — #4 Honor Magic 5 Pro ═══ -->
-<div class="sw"><div class="sl">05 / 20 — #4 Honor Magic 5 Pro</div>
-<div class="slide-frame" id="s5">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#04</div>
-    <div class="ps-name">Honor Magic 5 Pro</div>
-    <div class="ps-meta">Feb 2023 · Curved · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/magic5pro.jpg" alt="Honor Magic 5 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Honor Magic 5 Pro</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 2</span><span class="chip">6.81 LTPO OLED 120Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM High</span><span class="chip">Dual eSIM</span><span class="chip">4K Selfie Eye-Safe PWM</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>5,100mAh · 66W</b> — Biggest battery in the top 5. 66W is the slowest thing about it — everything else moves fast.</div>
-    <div class="ps-software">Supported up to Android 17</div>
-    <div class="ps-verdict">Most people have not considered this phone — that is the whole point. 4K selfie. High-frequency PWM dimming means no eye strain after 3 hours of scrolling. Progenitor of Dynamic Island before iPhone stole it. Most underrated phone in Nigeria right now and it is not close.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz5"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(5,'BIGDROPS-300k-400k-04.png')">DL</button></div>
-
-<!-- ═══ SLIDE 6 — #5 Xiaomi 13 Pro ═══ -->
-<div class="sw"><div class="sl">06 / 20 — #5 Xiaomi 13 Pro</div>
-<div class="slide-frame" id="s6">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#05</div>
-    <div class="ps-name">Xiaomi 13 Pro</div>
-    <div class="ps-meta">Dec 2022 · Leica · Curved · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi13pro.jpg" alt="Xiaomi 13 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Xiaomi 13 Pro</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 2</span><span class="chip">6.73 LTPO AMOLED 120Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">eSIM</span><span class="chip">1-inch IMX989 Leica</span><span class="chip">UFS 4.0</span><span class="chip">Up to 12GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>4,820mAh · 120W</b> — One of the strongest rear cameras at this price. 1-inch sensor that embarrasses most competitors.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">Same 1-inch Sony IMX989 as the X90 Pro. Add SD 8 Gen 2 and 120W — no department embarrasses itself except one. The selfie is 1080p32fps. For a phone with this camera reputation the front camera is a quiet betrayal. Buy it knowing that. Curved — face down confidence, mind the edges.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz6"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(6,'BIGDROPS-300k-400k-05.png')">DL</button></div>
-
-<!-- ═══ SLIDE 7 — #6 OnePlus 11 ═══ -->
-<div class="sw"><div class="sl">07 / 20 — #6 OnePlus 11</div>
-<div class="slide-frame" id="s7">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#06</div>
-    <div class="ps-name">OnePlus 11</div>
-    <div class="ps-meta">Jan 2023 · 2.5D Glass · Hasselblad</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/oneplus11.jpg" alt="OnePlus 11" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>OnePlus 11</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 2</span><span class="chip">6.7 LTPO AMOLED 120Hz</span><span class="chip">PUBGM 90fps</span><span class="chip">CODM 120fps</span><span class="chip">eSIM</span><span class="chip">Hasselblad Tuned</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>5,000mAh · 100W</b> — 100W means 0 to full in roughly 25 minutes. Before you finish getting dressed.</div>
-    <div class="ps-software">Supported up to Android 17</div>
-    <div class="ps-verdict">SD 8 Gen 2, clean OxygenOS, no bloatware. Camera is solid, not spectacular. Selfie is 1080p — average. This phone's greatest strength is daily usability. Fast, smooth, dependable and free from unnecessary drama. That reliability is rarer than people think.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz7"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(7,'BIGDROPS-300k-400k-06.png')">DL</button></div>
-
-<!-- ═══ SLIDE 8 — #7 Samsung Galaxy S23 ═══ -->
-<div class="sw"><div class="sl">08 / 20 — #7 Samsung Galaxy S23</div>
-<div class="slide-frame" id="s8">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#07</div>
-    <div class="ps-name">Samsung Galaxy S23</div>
-    <div class="ps-meta">Feb 2023 · Flat · GG Victus 2</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/s23.jpg" alt="Samsung Galaxy S23" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Samsung Galaxy S23</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">SD 8 Gen 2 for Galaxy</span><span class="chip">6.1 AMOLED 120Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">eSIM</span><span class="chip">25W Charging</span><span class="chip">UFS 4.0</span><span class="chip">Up to 8GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>3,900mAh · 25W</b> — Slowest charging + smallest battery in the top 10. Full charge takes over an hour.</div>
-    <div class="ps-software">Supported up to Android 18</div>
-    <div class="ps-verdict">Most polished compact Android on this list. Chip is SD 8 Gen 2 optimized specifically for Samsung. Tight software, 4 years OS updates, premium build, flat screen. Samsung wins through polish and long-term ownership. The battery situation is an insult they will never apologize for. Buy it anyway and carry a powerbank.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz8"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(8,'BIGDROPS-300k-400k-07.png')">DL</button></div>
-
-<!-- ═══ SLIDE 9 — #8 Vivo X90 Pro ═══ -->
-<div class="sw"><div class="sl">09 / 20 — #8 Vivo X90 Pro</div>
-<div class="slide-frame" id="s9">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#08</div>
-    <div class="ps-name">Vivo X90 Pro</div>
-    <div class="ps-meta">Nov 2022 · Zeiss · Curved · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/vivox90pro.jpg" alt="Vivo X90 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Vivo X90 Pro</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Dimensity 9200</span><span class="chip">6.78 AMOLED 120Hz</span><span class="chip">PUBGM 90fps</span><span class="chip">CODM 120fps</span><span class="chip">1-inch IMX989 Zeiss V2</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>4,870mAh · 120W</b> — Dedicated V2 imaging chip just for photo processing. Dimensity 9200 runs cool.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">1-inch Sony IMX989 + V2 chip. Low light shots that look like studio lighting when you are just standing outside at night. Vivo gave everything to the rear camera — the selfie is 1080p. Your photographer friend with a DSLR is not safe. Your front-facing camera though? Average. Curved — respect the edges.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz9"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(9,'BIGDROPS-300k-400k-08.png')">DL</button></div>
-
-<!-- ═══ SLIDE 10 — #9 Xiaomi 13 ═══ -->
-<div class="sw"><div class="sl">10 / 20 — #9 Xiaomi 13</div>
-<div class="slide-frame" id="s10">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#09</div>
-    <div class="ps-name">Xiaomi 13</div>
-    <div class="ps-meta">Dec 2022 · Leica · Flat · GG 5</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi13.jpg" alt="Xiaomi 13" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Xiaomi 13</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 2</span><span class="chip">6.36 AMOLED 120Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">Leica Tuned 54MP</span><span class="chip">UFS 4.0</span><span class="chip">Up to 12GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>4,500mAh · 67W</b> — Compact 6.36-inch. Flat screen, Gorilla Glass 5 — no screen guard needed.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">Good phone. No drama. No hidden issues. SD 8 Gen 2 in a compact body that does not embarrass itself anywhere. Leica rear — capable but no 1-inch sensor. Selfie is 1080p32fps, same front camera letdown as the 13 Pro. Xiaomi put Leica on the rear and forgot the front existed.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz10"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(10,'BIGDROPS-300k-400k-09.png')">DL</button></div>
-
-<!-- ═══ SLIDE 11 — #10 Google Pixel 8 ═══ -->
-<div class="sw"><div class="sl">11 / 20 — #10 Google Pixel 8</div>
-<div class="slide-frame" id="s11">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#10</div>
-    <div class="ps-name">Google Pixel 8</div>
-    <div class="ps-meta">Oct 2023 · Flat · GG Victus · 7 Yrs Updates</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/pixel8.jpg" alt="Google Pixel 8" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Google Pixel 8</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Tensor G3</span><span class="chip">6.2 OLED 120Hz</span><span class="chip">PUBGM Smooth</span><span class="chip">CODM High</span><span class="chip">eSIM</span><span class="chip">27W Charging</span><span class="chip">UFS 3.1</span><span class="chip">Up to 8GB / 256GB</span>
-    </div>
-    <div class="ps-specs"><b>4,575mAh · 27W</b> — Slowest charging speed on this list. Nearly 2 hours from flat. Never let this die when you are in a rush.</div>
-    <div class="ps-software">Supported up to Android 22</div>
-    <div class="ps-verdict">Tensor G3 fixed the thermal embarrassment of the G2. 7 years of updates until 2031. Flat screen. Offline AI that works without internet. Selfie is actually one of the better ones here — Google's computational photography works both cameras. Long-term value most phones here cannot touch. Just carry a powerbank.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz11"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(11,'BIGDROPS-300k-400k-10.png')">DL</button></div>
-
-<!-- ═══ SLIDE 12 — #11 iQOO Neo 9 ═══ -->
-<div class="sw"><div class="sl">12 / 20 — #11 iQOO Neo 9</div>
-<div class="slide-frame" id="s12">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#11</div>
-    <div class="ps-name">iQOO Neo 9</div>
-    <div class="ps-meta">Dec 2023 · CN ROM · Flat Screen</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/iqooneo9.jpg" alt="iQOO Neo 9" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>iQOO Neo 9</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 2</span><span class="chip">6.78 AMOLED 144Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">CN ROM</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>5,160mAh · 120W</b> — 120W on a 5,160mAh battery — back to full faster than most people can finish breakfast.</div>
-    <div class="ps-software">Supported up to Android 17</div>
-    <div class="ps-verdict">iQOO built this for performance and charging and those two things it does properly. Camera is average across the board — rear does the job, selfie is weak. CN ROM. Flat screen. If you game hard, charge fast and do not care about camera bragging rights, this phone makes sense.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz12"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(12,'BIGDROPS-300k-400k-11.png')">DL</button></div>
-
-<!-- ═══ SLIDE 13 — #12 Redmi K70 ═══ -->
-<div class="sw"><div class="sl">13 / 20 — #12 Redmi K70</div>
-<div class="slide-frame" id="s13">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#12</div>
-    <div class="ps-name">Redmi K70</div>
-    <div class="ps-meta">Dec 2023 · CN ROM · Flat · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/redmik70.jpg" alt="Redmi K70" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Redmi K70</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 2</span><span class="chip">6.67 AMOLED 144Hz</span><span class="chip">PUBGM 90fps</span><span class="chip">CODM 120fps</span><span class="chip">CN ROM</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 1TB</span>
-    </div>
-    <div class="ps-specs"><b>5,000mAh · 90W</b> — Gorilla Glass Victus. Ragdolled through atrocious tests and took zero damage. No screen guard needed.</div>
-    <div class="ps-software">Supported up to Android 17</div>
-    <div class="ps-verdict">Flagship killer. SD 8 Gen 2 at this price is the whole point and it delivers. Camera? Rear is average, selfie is forgettable. Nobody buying a K70 is buying it for photos. CN ROM — factor that in. Performance is the only conversation and it wins every time.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz13"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(13,'BIGDROPS-300k-400k-12.png')">DL</button></div>
-
-<!-- ═══ SLIDE 14 — #13 Oppo Find X6 ═══ -->
-<div class="sw"><div class="sl">14 / 20 — #13 Oppo Find X6</div>
-<div class="slide-frame" id="s14">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#13</div>
-    <div class="ps-name">Oppo Find X6</div>
-    <div class="ps-meta">Mar 2023 · CN ROM · Curved · Hasselblad</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/findx6.jpg" alt="Oppo Find X6" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Oppo Find X6</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Dimensity 9200</span><span class="chip">6.74 LTPO AMOLED 120Hz</span><span class="chip">PUBGM 90fps</span><span class="chip">CODM High</span><span class="chip">CN ROM</span><span class="chip">Hasselblad Tuned</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 1TB</span>
-    </div>
-    <div class="ps-specs"><b>5,000mAh · 80W</b> — Hasselblad color tuning. Same people calibrating cameras for professionals are tuning this phone.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">Genuinely strong camera experience. The issue is not that it is bad — it is that the competition above it offers stronger overall packages at similar pricing. Curved screen. CN ROM. Sits here because everything above it simply makes a better case for your money.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz14"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(14,'BIGDROPS-300k-400k-13.png')">DL</button></div>
-
-<!-- ═══ SLIDE 15 — #14 Redmi K60 Pro ═══ -->
-<div class="sw"><div class="sl">15 / 20 — #14 Redmi K60 Pro</div>
-<div class="slide-frame" id="s15">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#14</div>
-    <div class="ps-name">Redmi K60 Pro</div>
-    <div class="ps-meta">Jan 2023 · CN ROM · Flat Screen</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/redmik60pro.jpg" alt="Redmi K60 Pro" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Redmi K60 Pro</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8 Gen 2</span><span class="chip">6.67 AMOLED 120Hz</span><span class="chip">PUBGM 90fps</span><span class="chip">CODM 120fps</span><span class="chip">CN ROM</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>5,500mAh · 67W</b> — More battery than the K70. Slower charging than the K70. Older than the K70.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">Still a strong performance phone. Its biggest problem is being compared directly to the newer K70. K70 charges faster, is newer, and at similar price. The only reason to pick K60 Pro is if you specifically need that extra 500mAh. Otherwise K70 makes more sense in every area.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz15"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(15,'BIGDROPS-300k-400k-14.png')">DL</button></div>
-
-<!-- ═══ SLIDE 16 — #15 Xiaomi 12S Ultra ═══ -->
-<div class="sw"><div class="sl">16 / 20 — #15 Xiaomi 12S Ultra</div>
-<div class="slide-frame" id="s16">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#15</div>
-    <div class="ps-name">Xiaomi 12S Ultra</div>
-    <div class="ps-meta">Jul 2022 · CN ROM · Leica · Curved · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi12sultra.jpg" alt="Xiaomi 12S Ultra" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Xiaomi 12S Ultra</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Snapdragon 8+ Gen 1</span><span class="chip">6.73 LTPO AMOLED 120Hz</span><span class="chip">PUBGM 90fps</span><span class="chip">CODM High</span><span class="chip">1-inch IMX989 Leica</span><span class="chip">UFS 4.0</span><span class="chip">Up to 16GB / 1TB</span>
-    </div>
-    <div class="ps-specs"><b>4,860mAh · 67W</b> — Oldest chip on this list. SD 8+ Gen 1 approaching end of software support. Leather back.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">Age is the only thing working against this phone. 1-inch Sony IMX989, Leica — this camera still outperforms phones ranked above it in pure imaging. iPhone 15 Pro Max is at 1/1.28-inch and people worship it — this sensor is bigger. Buy it for one reason only: rear camera is your entire priority and you understand what you are trading on the chip side. Curved.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz16"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(16,'BIGDROPS-300k-400k-15.png')">DL</button></div>
-
-<!-- ═══ SLIDE 17 — #16 Xiaomi 14T ═══ -->
-<div class="sw"><div class="sl">17 / 20 — #16 Xiaomi 14T</div>
-<div class="slide-frame" id="s17">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#16</div>
-    <div class="ps-name">Xiaomi 14T</div>
-    <div class="ps-meta">Sep 2024 · Flat Screen · Leica</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/mi14t.jpg" alt="Xiaomi 14T" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>Xiaomi 14T</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Dimensity 8300-Ultra</span><span class="chip">6.67 AMOLED 144Hz</span><span class="chip">PUBGM 90fps</span><span class="chip">CODM High</span><span class="chip">Dual eSIM</span><span class="chip">4K Selfie Leica</span><span class="chip">UFS 4.0</span><span class="chip">Up to 12GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>5,000mAh · 67W</b> — Dimensity 8300-Ultra. Mid-flagship chip in a price range where neighbours have SD 8 Gen 2.</div>
-    <div class="ps-software">Supported up to Android 18</div>
-    <div class="ps-verdict">Good display, good cameras, good battery and one of the best selfies on this list at 4K. Its issue is simple — at this price buyers can find SD 8 Gen 2 and stronger alternatives. The 4K selfie is a consolation prize for paying flagship money for a mid-flagship chip.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz17"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(17,'BIGDROPS-300k-400k-16.png')">DL</button></div>
-
-<!-- ═══ SLIDE 18 — #17 ROG 6D Ultimate ═══ -->
-<div class="sw"><div class="sl">18 / 20 — #17 ROG 6D Ultimate</div>
-<div class="slide-frame" id="s18">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#17</div>
-    <div class="ps-name">ROG 6D Ultimate</div>
-    <div class="ps-meta">Sep 2022 · Gaming · Flat · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/rog6dultimate.jpg" alt="ROG 6D Ultimate" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>ROG 6D Ultimate</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Dimensity 9000+</span><span class="chip">6.78 AMOLED 165Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">18GB RAM</span><span class="chip">UFS 3.1</span><span class="chip">Up to 18GB / 512GB</span>
-    </div>
-    <div class="ps-specs"><b>6,000mAh · 65W</b> — 165Hz display. Air triggers. Massive vapor chamber. Built for one purpose and that purpose only.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">For sustained gaming nothing here competes. Thermal performance and frame stability are exceptional. 18GB RAM. 165Hz. Air triggers built in. As an everyday phone it asks for compromises in size, camera quality and practicality. Incredible gaming device. Average all-round flagship. If gaming is your entire personality you will love it.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz18"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(18,'BIGDROPS-300k-400k-17.png')">DL</button></div>
-
-<!-- ═══ SLIDE 19 — #18 ROG Phone 6D ═══ -->
-<div class="sw"><div class="sl">19 / 20 — #18 ROG Phone 6D</div>
-<div class="slide-frame" id="s19">
-  <div class="safe-content-zone">
-    <div class="ps-rank">#18</div>
-    <div class="ps-name">ROG Phone 6D</div>
-    <div class="ps-meta">Sep 2022 · Gaming · Flat · GG Victus</div>
-    <div class="ps-divider"></div>
-    <div class="ps-img-area">
-      <img src="https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/rog6d.jpg" alt="ROG Phone 6D" crossorigin="anonymous" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="ps-fallback"><span>ROG Phone 6D</span><small>MISSING ASSET</small></div>
-    </div>
-    <div class="chips">
-      <span class="chip">Dimensity 9000+</span><span class="chip">6.78 AMOLED 165Hz</span><span class="chip">PUBGM 120fps</span><span class="chip">CODM 120fps</span><span class="chip">UFS 3.1</span><span class="chip">Up to 12GB / 256GB</span>
-    </div>
-    <div class="ps-specs"><b>6,000mAh · 65W</b> — 165Hz AMOLED. Air triggers. Large vapor chamber cooling. Same chip as the Ultimate.</div>
-    <div class="ps-software">End of the cycle</div>
-    <div class="ps-verdict">Still one of the most aggressive gaming phones ever built. High refresh-rate gaming, sustained performance and battery endurance remain excellent. The problem is not gaming — it is everything outside gaming. Cameras are merely present. Software support is not a selling point. Less RAM and weaker cooling than the Ultimate at a similar price makes the choice obvious if you are spending this money on a ROG.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz19"><div class="sz-t"></div><div class="sz-b"></div><div class="sz-b2"></div><div class="sz-r"></div></div>
-</div>
-<button class="dlb" onclick="dl(19,'BIGDROPS-300k-400k-18.png')">DL</button></div>
-
-<!-- ═══ SLIDE 20 — CLOSING ═══ -->
-<div class="sw"><div class="sl">20 / 20 — Closing</div>
-<div class="slide-frame" id="s20">
-  <div class="safe-content-zone">
-    <div class="cl-eyebrow">Before You Close This</div>
-    <div class="cl-head">You already know which one you <em>should buy.</em></div>
-    <div class="cl-divider"></div>
-    <div class="cl-body">The question is whether you are going to let a brand name, a salesperson, or someone's opinion talk you out of it.<br><br><b>Spend the money right. One time.</b></div>
-    <div class="cl-teaser">N400K - N500K list loading soon. Follow so you don't miss it.</div>
-    <div class="cl-cta">Drop your exact pick in the comments. Tell us which phone you would actually buy with your own money. Wrong answers get dragged.</div>
-    <div class="cl-follow">Follow BIGDROPS for more unfiltered rankings.</div>
-  </div>
-  <div class="wm">BIGDROPS</div>
-  <div class="swipe">SWIPE</div>
-  <div class="sz" id="sz20"><div class="sz-t"><div class="sz-lbl">TIKTOK TOP UI 280px</div></div><div class="sz-b"><div class="sz-lbl">SAFE CONTENT ZONE 960px</div></div><div class="sz-b2"><div class="sz-lbl">TIKTOK CAPTION ZONE 680px</div></div><div class="sz-r"><div class="sz-rlbl">ENGAGEMENT BTNS</div></div></div>
-</div>
-<button class="dlb" onclick="dl(20,'closing')">DL</button></div>
-
 </div>
 
 <script>
-let szOn=false;
-function toggleSZ(){
-  szOn=!szOn;
-  document.querySelectorAll('.sz').forEach(el=>el.classList.toggle('on',szOn));
-  document.getElementById('sz-btn').classList.toggle('on',szOn);
-  document.getElementById('sz-btn').textContent=szOn?'Safe Zone ON':'Safe Zone';
+const phones = [
+  { rank:1, name:'Xiaomi 14', meta:'Oct 2023 · Leica · Curved · GG Victus 2', chips:['SD 8 Gen 3','6.36" LTPO 120Hz','PUBGM/CODM 120fps','4K Selfie Leica'], spec:'4,610mAh · 90W — Gen 3 efficiency makes this battery last longer than the number suggests.', software:'Supported up to Android 19', verdict:'Leica plus 4K selfie. This phone is CRIMINAL.' },
+  { rank:2, name:'Redmi Turbo 4 Pro', meta:'2025 · Flat Screen · GG Victus', chips:['SD 8s Gen 3','6.67" AMOLED 144Hz','PUBGM/CODM 120fps','50MP OIS'], spec:'6,000mAh · 90W — Biggest battery on this entire list.', software:'Supported up to Android 18', verdict:'6,000mAh battery that won\'t quit.' },
+  { rank:3, name:'Vivo X100', meta:'Nov 2023 · Zeiss · Curved · GG Victus', chips:['Dimensity 9300','6.78" AMOLED 120Hz','PUBGM/CODM 120fps','Zeiss Periscope 5x'], spec:'5,000mAh · 120W', software:'Supported up to Android 17', verdict:'Zeiss zoom hits different. That selfie though.' },
+  { rank:4, name:'Honor Magic 5 Pro', meta:'Feb 2023 · Curved · GG Victus', chips:['SD 8 Gen 2','6.81" LTPO OLED 120Hz','PUBGM 120fps','Dual eSIM 4K Selfie'], spec:'5,100mAh · 66W', software:'Supported up to Android 17', verdict:'Sleeping giant. 4K selfie. Dual eSIM. Nobody is talking about it.' },
+  { rank:5, name:'Xiaomi 13 Pro', meta:'Dec 2022 · Leica · Curved · GG Victus', chips:['SD 8 Gen 2','6.73" LTPO 120Hz','PUBGM/CODM 120fps','1" IMX989 Leica'], spec:'4,820mAh · 120W', software:'End of the cycle', verdict:'1-inch sensor ABSOLUTELY humbles the competition.' },
+  { rank:6, name:'OnePlus 11', meta:'Jan 2023 · 2.5D Glass · Hasselblad', chips:['SD 8 Gen 2','6.7" LTPO 120Hz','CODM 120fps','Hasselblad Tuned'], spec:'5,000mAh · 100W', software:'Supported up to Android 17', verdict:'100W charging. Clean software. Zero drama.' },
+  { rank:7, name:'Samsung Galaxy S23', meta:'Feb 2023 · Flat · GG Victus 2', chips:['SD 8 Gen 2 Galaxy','6.1" AMOLED 120Hz','PUBGM/CODM 120fps','eSIM'], spec:'3,900mAh · 25W', software:'Supported up to Android 18', verdict:'Tiny phone. Tiny battery. Huge regret without a powerbank.' },
+  { rank:8, name:'Vivo X90 Pro', meta:'Nov 2022 · Zeiss · Curved · GG Victus', chips:['Dimensity 9200','6.78" AMOLED 120Hz','CODM 120fps','1" IMX989 Zeiss V2'], spec:'4,870mAh · 120W', software:'End of the cycle', verdict:'Night mode is basically cheating with that V2 chip.' },
+  { rank:9, name:'Xiaomi 13', meta:'Dec 2022 · Leica · Flat · GG 5', chips:['SD 8 Gen 2','6.36" AMOLED 120Hz','PUBGM/CODM 120fps','Leica 54MP'], spec:'4,500mAh · 67W', software:'End of the cycle', verdict:'Flat screen. Compact. No nonsense. A quiet winner.' },
+  { rank:10, name:'Google Pixel 8', meta:'Oct 2023 · Flat · GG Victus · 7 Yrs Updates', chips:['Tensor G3','6.2" OLED 120Hz','eSIM','27W Charging'], spec:'4,575mAh · 27W', software:'Supported up to Android 22', verdict:'7 years of updates. Best selfie. 27W torture. Pick your poison.' },
+  { rank:11, name:'iQOO Neo 9', meta:'Dec 2023 · CN ROM · Flat Screen', chips:['SD 8 Gen 2','6.78" AMOLED 144Hz','PUBGM/CODM 120fps','120W'], spec:'5,160mAh · 120W', software:'Supported up to Android 17', verdict:'120W charging hits different. Game on.' },
+  { rank:12, name:'Redmi K70', meta:'Dec 2023 · CN ROM · Flat · GG Victus', chips:['SD 8 Gen 2','6.67" AMOLED 144Hz','CODM 120fps','GG Victus'], spec:'5,000mAh · 90W', software:'Supported up to Android 17', verdict:'Flagship killer is BACK. GG Victus takes beatings.' },
+  { rank:13, name:'Oppo Find X6', meta:'Mar 2023 · CN ROM · Curved · Hasselblad', chips:['Dimensity 9200','6.74" LTPO 120Hz','Hasselblad','80W'], spec:'5,000mAh · 80W', software:'End of the cycle', verdict:'Hasselblad colors POP. Price doesn\'t compete.' },
+  { rank:14, name:'Redmi K60 Pro', meta:'Jan 2023 · CN ROM · Flat Screen', chips:['SD 8 Gen 2','6.67" AMOLED 120Hz','5500mAh','67W'], spec:'5,500mAh · 67W', software:'End of the cycle', verdict:'Big battery. Old news. K70 stole its spotlight.' },
+  { rank:15, name:'Xiaomi 12S Ultra', meta:'Jul 2022 · CN ROM · Leica · Curved · GG Victus', chips:['SD 8+ Gen 1','6.73" LTPO 120Hz','1" IMX989 Leica','67W'], spec:'4,860mAh · 67W', software:'End of the cycle', verdict:'1-inch Leica. Still dominating. But the chip is showing its age.' },
+  { rank:16, name:'Xiaomi 14T', meta:'Sep 2024 · Flat Screen · Leica', chips:['Dim 8300-Ultra','6.67" AMOLED 144Hz','Dual eSIM','4K Selfie Leica'], spec:'5,000mAh · 67W', software:'Supported up to Android 18', verdict:'4K selfie is elite. The chip is questionable at this price.' },
+  { rank:17, name:'ROG 6D Ultimate', meta:'Sep 2022 · Gaming · Flat · GG Victus', chips:['Dimensity 9000+','6.78" AMOLED 165Hz','PUBGM/CODM 120fps','18GB RAM'], spec:'6,000mAh · 65W', software:'End of the cycle', verdict:'165Hz AIR TRIGGERS 18GB RAM. This is a weapon.' },
+  { rank:18, name:'ROG Phone 6D', meta:'Sep 2022 · Gaming · Flat · GG Victus', chips:['Dimensity 9000+','6.78" AMOLED 165Hz','PUBGM/CODM 120fps','12GB RAM'], spec:'6,000mAh · 65W', software:'End of the cycle', verdict:'Less RAM. Weaker cooling. Same price. Get the Ultimate.' }
+];
+
+const container = document.getElementById('phoneSlidesContainer');
+phones.forEach(function(p) {
+  const slide = document.createElement('div');
+  slide.className = 'slide-frame';
+  slide.dataset.slide = p.rank + 1;
+
+  const bg = document.createElement('div');
+  bg.className = 'slide-bg';
+
+  const safe = document.createElement('div');
+  safe.className = 'safe-content-zone';
+
+  safe.innerHTML =
+    '<div class="phone-slide-inner">' +
+    '<div class="phone-rank">#' + p.rank + '</div>' +
+    '<div class="phone-name">' + p.name + '</div>' +
+    '<div class="phone-meta">' + p.meta + '</div>' +
+    '<div class="phone-divider"></div>' +
+    '<div class="chips-row">' + p.chips.map(function(c) { return '<span class="chip">' + c + '</span>'; }).join('') + '</div>' +
+    '<div class="phone-spec">' + p.spec + '</div>' +
+    '<div class="phone-software">' + p.software + '</div>' +
+    '<div class="phone-verdict"><span>' + p.verdict + '</span></div>' +
+    '</div>';
+
+  const swipe = document.createElement('div');
+  swipe.className = 'swipe-text';
+  swipe.textContent = 'SWIPE';
+
+  slide.appendChild(bg);
+  slide.appendChild(safe);
+  safe.appendChild(swipe);
+  container.appendChild(slide);
+});
+
+// Navigation
+let currentSlide = 1;
+const total = 20;
+const slides = document.querySelectorAll('.slide-frame');
+const counter = document.getElementById('slideCounter');
+
+function showSlide(n) {
+  if (n < 1) n = 1;
+  if (n > total) n = total;
+  currentSlide = n;
+  slides.forEach(function(s) { s.classList.remove('active'); });
+  slides[currentSlide - 1].classList.add('active');
+  counter.textContent = currentSlide + ' / ' + total;
 }
-function scale(){
-  document.querySelectorAll('.sw').forEach(w=>{
-    const s=w.querySelector('.slide-frame');
-    if(!s)return;
-    const sc=w.offsetWidth/1080;
-    s.style.transform=`scale(${sc})`;
-    s.style.transformOrigin='top left';
-    w.style.height=(1920*sc)+'px';
-  });
-}
-window.addEventListener('load',scale);
-window.addEventListener('resize',scale);
-async function dl(n,suffix){
-  const s=document.getElementById('s'+n);
-  const sv=s.style.transform;
-  s.style.transform='none';
-  const c=await html2canvas(s,{
-    scale:1,useCORS:true,allowTaint:false,
-    backgroundColor:'#3C2F2A',width:1080,height:1920,logging:false
-  });
-  s.style.transform=sv;
-  const a=document.createElement('a');
-  a.download='BIGROPS-300k-400k-vivid-'+suffix+'.png';
-  a.href=c.toDataURL('image/png');
-  a.click();
-}
-async function dlAll(){
-  const btn=document.getElementById('btn-all');
-  btn.disabled=true;btn.textContent='Rendering...';
-  const pw=document.getElementById('pw');
-  const pf=document.getElementById('pf');
-  const pt=document.getElementById('pt');
-  pw.style.display='block';
-  const slides=[
-    [1,'cover'],[2,'01'],[3,'02'],[4,'03'],[5,'04'],[6,'05'],[7,'06'],[8,'07'],[9,'08'],[10,'09'],
-    [11,'10'],[12,'11'],[13,'12'],[14,'13'],[15,'14'],[16,'15'],[17,'16'],[18,'17'],[19,'18'],[20,'closing']
-  ];
-  for(let i=0;i<slides.length;i++){
-    const[n,fn]=slides[i];
-    pt.textContent='Rendering '+(i+1)+'/'+slides.length+': '+fn+'.png';
-    pf.style.width=((i/slides.length)*100)+'%';
-    await dl(n,fn);
-    await new Promise(r=>setTimeout(r,800));
+
+document.getElementById('prevBtn').addEventListener('click', function() { showSlide(currentSlide - 1); });
+document.getElementById('nextBtn').addEventListener('click', function() { showSlide(currentSlide + 1); });
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+  if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+});
+
+// Safe zone toggle
+const safeToggle = document.getElementById('safeToggle');
+const safeGuides = document.getElementById('safeGuides');
+safeToggle.addEventListener('click', function() {
+  safeGuides.classList.toggle('show');
+  safeToggle.classList.toggle('btn-active');
+});
+
+// Export
+document.getElementById('exportBtn').addEventListener('click', function() {
+  var slide = slides[currentSlide - 1];
+  if (typeof html2canvas !== 'undefined') {
+    html2canvas(slide, { backgroundColor: '#1A0533', scale: 2, useCORS: true }).then(function(canvas) {
+      var link = document.createElement('a');
+      link.download = 'vivid-slide-' + currentSlide + '.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
   }
-  pf.style.width='100%';
-  pt.textContent='Done. All 20 slides downloaded.';
-  btn.disabled=false;btn.textContent='Download All';
-  setTimeout(()=>pw.style.display='none',3000);
-}
+});
+
+// Touch / swipe support
+(function() {
+  var startX = 0;
+  document.addEventListener('touchstart', function(e) {
+    startX = e.changedTouches[0].screenX;
+  });
+  document.addEventListener('touchend', function(e) {
+    var diff = e.changedTouches[0].screenX - startX;
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) showSlide(currentSlide + 1);
+      else showSlide(currentSlide - 1);
+    }
+  });
+})();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
