@@ -63,3 +63,51 @@
 - Topic folders mirror TikTok structure exactly.
 
 ### Example
+```
+Contents/Twitter posts/
+└── 300k-400k phones/
+    └── best-phones-300k-400k-naira.md
+```
+
+---
+
+## 5. Execution Workflow (thread-writer-sms)
+
+### Input
+- Source material: `winner.html` (or any approved TikTok slide file) from `Contents/Tiktok slides/[topic]/`
+
+### Process
+1. **Extract** – Read verdicts, hooks, and key selling points from the HTML.
+2. **Humanize** – Pass all extracted text through `humanizer` (remove AI slop, em dashes, passive voice).
+3. **Condense** – Fit content into 280‑character blocks (220–240 optimal). Break longer verdicts across multiple tweets.
+4. **Split** – Organize into thread structure (hook → body → closing).
+5. **Format** – Write as Markdown with `---` separators between tweets.
+6. **Save** – Write file to `Contents/Twitter posts/[topic]/[filename].md`
+
+### Example Output Format
+```markdown
+Here is the hook tweet that makes you want to click. It teases the value inside.
+
+![Xiaomi 14](mi14.jpg)
+
+---
+
+Tweet #2 delivers on the hook with a specific data point.
+
+---
+
+The closing tweet asks for engagement.
+
+Drop your pick below. Wrong answers only.
+
+![Comparison chart](chart.jpg)
+```
+
+---
+
+## 6. Automation Guardrails
+
+1. No external API calls – all content must be derived from existing TikTok HTML assets.
+2. Character counting – Verify each tweet segment ≤280 characters before finalizing.
+3. Image verification – Confirm referenced image files exist in the source TikTok folder.
+4. Git readiness – Every generated .md file must be immediately commit‑ready.

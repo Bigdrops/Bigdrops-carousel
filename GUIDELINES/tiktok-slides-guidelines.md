@@ -114,4 +114,28 @@ Verdict Block Requirements (Updated)
    · When ON, draw only clean, dashed border lines – no text labels (e.g., "TIKTOK TOP UI") inside the overlay.
 6. Boundary Integrity: If text content exceeds the available vertical space (max-height: 960px), the agent must perform dynamic sizing or layout compression – never allow the box to overflow the 1240px vertical line.
 
+## 6. Folder Structure & Content Co‑location
+
+### Base Path
+`Contents/Tiktok slides/[topic]/`
+
+### Rules
+- All TikTok slide files for a given topic MUST reside in a single topic folder.
+- Related Twitter threads for the same topic MUST be saved in a corresponding folder under `Contents/Twitter posts/` (mirroring the topic name).
+- No other file types (images, notes, scripts) should be placed in the slide folder.
+
+### Example
+```
+Contents/Tiktok slides/
+└── 300k-400k phones/
+    ├── winner.html
+    ├── soft-edition.html
+    ├── muted-edition.html
+    └── (image assets)
+
+Contents/Twitter posts/
+└── 300k-400k phones/
+    └── best-phones-300k-400k-naira.md
+```
+
 ```
