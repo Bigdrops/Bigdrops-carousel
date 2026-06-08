@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1080">
-<title>Playful Edition - 300K to 400K v2</title>
+<title>BIGDROPS V2 (Playful) - 300K to 400K</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -15,78 +16,32 @@
   --pad-right: 180px;
   --content-max-h: 960px;
   --content-w: calc(1080px - 80px - 180px);
-  --accent: #FFD700;
+  --accent: #FFD166;
   --text-primary: #F5F5F0;
   --text-secondary: #A0A098;
-  --bg-main: #1C1C1E;
-  --chip-bg: #2C2C2E;
-  --chip-text: #F5F5F0;
-  --bar-bg: #2C2C2E;
-  --bar-fill: #FFD700;
+  --bg-main: #0F0F0F;
+  --chip-bg: #1E1E20;
+  --chip-text: #E0E0D8;
+  --bar-bg: #1E1E20;
+  --bar-fill: #FFD166;
 }
 body {
-  background: #111;
+  background: #0A0A0A;
+  font-family: 'DM Sans', sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'DM Sans', sans-serif;
-  overflow-x: hidden;
-}
-#toolbar {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(0,0,0,0.85);
-  padding: 10px 20px;
-  border-radius: 40px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-#toolbar button {
-  background: none;
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  padding: 6px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-#toolbar button:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-#toolbar .counter {
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  color: rgba(255,255,255,0.6);
-  min-width: 50px;
-  text-align: center;
-}
-#toolbar .btn-active {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-#slides-container {
-  position: relative;
-  width: 1080px;
-  height: 1920px;
 }
 .slide-frame {
   width: 1080px;
   height: 1920px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   overflow: hidden;
-  display: none;
+  flex-shrink: 0;
+  background: var(--bg-main);
 }
-.slide-frame.active { display: block; }
 .slide-bg {
   position: absolute;
   top: 0;
@@ -96,7 +51,6 @@ body {
   background: var(--bg-main);
   z-index: 0;
 }
-/* Grain texture overlay */
 .grain-overlay {
   position: absolute;
   top: 0;
@@ -106,10 +60,10 @@ body {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 15% 30%, rgba(255,215,0,0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 15%, rgba(255,215,0,0.02) 0%, transparent 35%),
+    radial-gradient(ellipse at 15% 30%, rgba(255,209,102,0.035) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 15%, rgba(255,209,102,0.025) 0%, transparent 35%),
     radial-gradient(ellipse at 85% 75%, rgba(255,255,255,0.015) 0%, transparent 45%),
-    radial-gradient(ellipse at 25% 85%, rgba(255,215,0,0.025) 0%, transparent 40%),
+    radial-gradient(ellipse at 25% 85%, rgba(255,209,102,0.02) 0%, transparent 40%),
     radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.01) 0%, transparent 50%);
 }
 .safe-content-zone {
@@ -118,6 +72,7 @@ body {
   left: var(--pad-left);
   width: var(--content-w);
   max-height: var(--content-max-h);
+  overflow-y: auto;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -133,7 +88,6 @@ body {
   pointer-events: none;
   z-index: 200;
 }
-/* SWIPE text */
 .swipe-text {
   position: absolute;
   bottom: 20px;
@@ -143,60 +97,103 @@ body {
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--accent);
-  opacity: 0.6;
+  opacity: 0.5;
   z-index: 20;
 }
-/* Safe zone guides */
-#safeGuides {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+
+/* Toolbar */
+#toolbar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15,15,15,0.92);
+  padding: 8px 16px;
+  border-radius: 40px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+#toolbar button {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #ccc;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+#toolbar button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+#toolbar .counter {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  min-width: 40px;
+  text-align: center;
+}
+#toolbar .btn-active {
+  border-color: #00E5FF;
+  color: #00E5FF;
+}
+#progressBarWrap {
+  width: 80px;
+  height: 4px;
+  background: #1E1E20;
+  border-radius: 2px;
+  overflow: hidden;
+}
+#progressBar {
   height: 100%;
-  z-index: 150;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+/* Safe zone toggle button */
+#safeToggleBtn {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  z-index: 9999;
+  background: rgba(15,15,15,0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #888;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+#safeToggleBtn.active {
+  border-color: #00E5FF;
+  color: #00E5FF;
+}
+
+/* Safe zone overlay - single frame with border */
+#safeGuides {
+  position: fixed;
+  top: 280px;
+  left: 80px;
+  width: 820px;
+  height: 960px;
+  border: 2px dashed #00E5FF;
+  box-shadow: 0 0 8px rgba(0,229,255,0.3), inset 0 0 8px rgba(0,229,255,0.1);
+  z-index: 9000;
   pointer-events: none;
   display: none;
 }
 #safeGuides.show { display: block; }
-.guide-line {
-  position: absolute;
-  background: none;
-  z-index: 150;
-}
-.guide-top {
-  top: 280px;
-  left: 0;
-  width: 1080px;
-  height: 2px;
-  background: #00E5FF;
-  box-shadow: 0 0 4px #00E5FF;
-}
-.guide-bottom {
-  top: 1240px;
-  left: 0;
-  width: 1080px;
-  height: 2px;
-  background: #00E5FF;
-  box-shadow: 0 0 4px #00E5FF;
-}
-.guide-left {
-  top: 0;
-  left: 80px;
-  width: 2px;
-  height: 1920px;
-  background: #00E5FF;
-  box-shadow: 0 0 4px #00E5FF;
-}
-.guide-right {
-  top: 0;
-  left: 900px;
-  width: 2px;
-  height: 1920px;
-  background: #00E5FF;
-  box-shadow: 0 0 4px #00E5FF;
-}
 
-/* ========== COVER SLIDE ========== */
+/* Cover slide */
 .cover-content {
   display: flex;
   flex-direction: column;
@@ -205,62 +202,92 @@ body {
 }
 .cover-label {
   font-family: 'DM Mono', monospace;
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 5px;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
-.cover-title {
+.cover-hook-lead {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 78px;
-  line-height: 1.05;
+  font-size: 48px;
+  line-height: 1.1;
   color: var(--text-primary);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
 }
-.cover-title .accent {
+.cover-hook-lead .accent {
   color: var(--accent);
 }
-.cover-sub {
+.cover-hooks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cover-hook-line {
   font-family: 'DM Sans', sans-serif;
-  font-size: 20px;
+  font-size: 17px;
   color: var(--text-secondary);
-  margin-top: 28px;
   line-height: 1.5;
 }
 .cover-badge-row {
   display: flex;
-  gap: 12px;
-  margin-top: 36px;
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
 }
 .cover-badge {
   background: var(--chip-bg);
   border-radius: 50px;
-  padding: 8px 20px;
+  padding: 6px 16px;
   font-family: 'DM Mono', monospace;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-primary);
-  border: 1px solid rgba(255,215,0,0.2);
+  border: 1px solid rgba(255,209,102,0.15);
 }
 
-/* ========== PHONE SLIDES ========== */
+/* Phone slides */
 .phone-slide-inner {
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 6px;
+  gap: 5px;
+}
+.phone-image-wrap {
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+  flex-shrink: 0;
+}
+.phone-image-wrap img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+.phone-image-fallback {
+  width: 100%;
+  height: 180px;
+  background: #1A1A1C;
+  border-radius: 12px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: #555;
 }
 .phone-rank-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05));
-  border: 1px solid rgba(255,215,0,0.3);
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(255,209,102,0.12), rgba(255,209,102,0.04));
+  border: 1px solid rgba(255,209,102,0.25);
   border-radius: 50px;
-  padding: 4px 16px 4px 10px;
+  padding: 3px 14px 3px 8px;
   width: fit-content;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 32px;
+  font-size: 28px;
   color: var(--accent);
   letter-spacing: 1px;
 }
@@ -268,120 +295,111 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-}
-.rank-star svg {
   width: 24px;
   height: 24px;
+}
+.rank-star svg {
+  width: 20px;
+  height: 20px;
   fill: var(--accent);
 }
 .phone-name {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 40px;
+  font-size: 36px;
   line-height: 1.1;
   color: var(--text-primary);
   letter-spacing: 1px;
-  margin-top: 4px;
 }
 .phone-meta {
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
-  line-height: 1.4;
+  line-height: 1.3;
 }
-/* Dotted divider */
 .dotted-divider {
   width: 100%;
   height: 0;
-  border-top: 2px dotted rgba(255,215,0,0.25);
-  margin: 4px 0;
+  border-top: 2px dotted rgba(255,209,102,0.2);
+  margin: 3px 0;
 }
-/* Stat bars */
 .stats-grid {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-top: 4px;
+  gap: 4px;
 }
 .stat-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 .stat-label {
   font-family: 'DM Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
-  width: 70px;
+  width: 62px;
   flex-shrink: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 .stat-bar-track {
   flex: 1;
-  height: 10px;
+  height: 8px;
   background: var(--bar-bg);
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
 }
 .stat-bar-fill {
   height: 100%;
-  border-radius: 5px;
-  background: linear-gradient(90deg, var(--bar-fill), rgba(255,215,0,0.6));
-  transition: width 0.6s ease;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bar-fill), rgba(255,209,102,0.5));
 }
 .stat-value {
   font-family: 'DM Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--accent);
-  width: 30px;
+  width: 26px;
   text-align: right;
 }
-/* Chips */
 .chips-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
+  gap: 5px;
 }
 .chip {
   background: var(--chip-bg);
   border-radius: 50px;
-  padding: 4px 14px;
+  padding: 3px 12px;
   font-family: 'DM Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--chip-text);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 .phone-spec {
   font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-secondary);
-  line-height: 1.4;
-  margin-top: 4px;
+  line-height: 1.35;
 }
 .phone-software {
   font-family: 'DM Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--accent);
-  opacity: 0.6;
-  margin-top: 2px;
+  opacity: 0.55;
 }
 .phone-verdict {
   font-family: 'DM Sans', sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.3;
   color: var(--text-primary);
   margin-top: auto;
-  padding-top: 6px;
-  border-top: 2px dotted rgba(255,215,0,0.15);
+  padding-top: 5px;
+  border-top: 2px dotted rgba(255,209,102,0.12);
 }
 .phone-verdict .accent {
   color: var(--accent);
 }
 
-/* ========== CLOSING SLIDE ========== */
+/* Closing slide */
 .closing-content {
   display: flex;
   flex-direction: column;
@@ -390,7 +408,7 @@ body {
 }
 .closing-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 72px;
+  font-size: 64px;
   line-height: 1.1;
   color: var(--text-primary);
   letter-spacing: 1px;
@@ -398,98 +416,121 @@ body {
 .closing-title .accent {
   color: var(--accent);
 }
-.closing-sub {
+.closing-hook {
   font-family: 'DM Sans', sans-serif;
-  font-size: 22px;
+  font-size: 20px;
   color: var(--text-secondary);
-  margin-top: 24px;
-  line-height: 1.5;
+  margin-top: 16px;
+  line-height: 1.4;
 }
-.closing-badge {
+.closing-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   background: var(--chip-bg);
   border-radius: 50px;
-  padding: 10px 24px;
+  padding: 8px 20px;
   width: fit-content;
-  margin-top: 32px;
-  border: 1px solid rgba(255,215,0,0.2);
+  margin-top: 28px;
+  border: 1px solid rgba(255,209,102,0.15);
 }
-.closing-badge span {
+.closing-cta span {
   font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-primary);
 }
-.closing-badge .star-svg {
-  width: 20px;
-  height: 20px;
+.closing-cta .star-svg {
+  width: 18px;
+  height: 18px;
   fill: var(--accent);
 }
 </style>
 </head>
 <body>
 
+<div id="safeGuides" class="show"></div>
+
 <div id="toolbar">
-  <button id="prevBtn">&#9664;</button>
   <span class="counter" id="slideCounter">1 / 20</span>
-  <button id="nextBtn">&#9654;</button>
-  <button id="safeToggle">Safe Zone</button>
-  <button id="exportBtn">Export PNG</button>
+  <button id="exportCurrent">Export Current</button>
+  <button id="exportBatch">Batch Export All</button>
+  <div id="progressBarWrap"><div id="progressBar"></div></div>
+  <button id="safeToggle" class="btn-active">Safe Zone ON</button>
 </div>
 
-<div id="slides-container">
-  <div id="safeGuides">
-    <div class="guide-line guide-top"></div>
-    <div class="guide-line guide-bottom"></div>
-    <div class="guide-line guide-left"></div>
-    <div class="guide-line guide-right"></div>
-  </div>
+<button id="safeToggleBtn" class="active">SAFE</button>
 
-  <!-- SLIDE 1: COVER -->
-  <div class="slide-frame active" data-slide="1">
-    <div class="slide-bg"></div>
-    <div class="grain-overlay"></div>
-    <div class="safe-content-zone">
-      <div class="cover-content">
-        <div class="cover-label">300K &mdash; 400K Tier</div>
-        <div class="cover-title">Your boy did <span class="accent">the homework.</span></div>
-        <div class="cover-sub">
-          18 phones ranked. No fluff. Just the real ones.
-        </div>
-        <div class="cover-badge-row">
-          <span class="cover-badge">Snapdragon SZN</span>
-          <span class="cover-badge">Leica Era</span>
-          <span class="cover-badge">Zeiss Flex</span>
-        </div>
+<!-- SLIDE 1: COVER -->
+<div class="slide-frame" data-slide="1">
+  <div class="slide-bg"></div>
+  <div class="grain-overlay"></div>
+  <div class="safe-content-zone">
+    <div class="cover-content">
+      <div class="cover-label">N300K - N400K Tier</div>
+      <div class="cover-hook-lead">Your boy did <span class="accent">the homework.</span></div>
+      <div class="cover-hooks">
+        <div class="cover-hook-line">No bias. Just facts.</div>
+        <div class="cover-hook-line">18 phones. N300K to N400K. Ranked for the real ones.</div>
+        <div class="cover-hook-line">See who's actually worth your money.</div>
       </div>
-      <div class="swipe-text">SWIPE</div>
-    </div>
-  </div>
-
-  <!-- SLIDES 2-19: PHONE SLIDES (JS generated) -->
-  <div id="phoneSlidesContainer"></div>
-
-  <!-- SLIDE 20: CLOSING -->
-  <div class="slide-frame" data-slide="20">
-    <div class="slide-bg"></div>
-    <div class="grain-overlay"></div>
-    <div class="safe-content-zone">
-      <div class="closing-content">
-        <div class="closing-title">Drop your <span class="accent">W</span> or <span class="accent">L</span></div>
-        <div class="closing-title">in the comments.</div>
-        <div class="closing-sub">Which one are you picking?</div>
-        <div class="closing-badge">
-          <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <span>Final Verdict</span>
-        </div>
+      <div class="cover-badge-row">
+        <span class="cover-badge">Snapdragon SZN</span>
+        <span class="cover-badge">Leica Era</span>
+        <span class="cover-badge">Zeiss Flex</span>
+        <span class="cover-badge">Gaming Edge</span>
       </div>
-      <div class="swipe-text">SWIPE</div>
     </div>
+    <div class="swipe-text">SWIPE</div>
+  </div>
+</div>
+
+<!-- PHONE SLIDES 2-19 -->
+<div id="phoneSlidesContainer"></div>
+
+<!-- SLIDE 20: CLOSING -->
+<div class="slide-frame" data-slide="20">
+  <div class="slide-bg"></div>
+  <div class="grain-overlay"></div>
+  <div class="safe-content-zone">
+    <div class="closing-content">
+      <div class="closing-title">Which one is <span class="accent">GOAT</span>?</div>
+      <div class="closing-title">Which one is <span class="accent">cooked</span>?</div>
+      <div class="closing-hook">Drop your L or W in the comments.</div>
+      <div class="closing-hook">Follow so you don't miss the next tier.</div>
+      <div class="closing-hook">N400K to N500K loading.</div>
+      <div class="closing-cta">
+        <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span>Final Verdict</span>
+      </div>
+    </div>
+    <div class="swipe-text">SWIPE</div>
   </div>
 </div>
 
 <script>
+var imgBase = 'https://raw.githubusercontent.com/Bigdrops/Bigdrops-carousel/main/Phones/Three-400k/';
+
+var phoneData = [
+  { rank:1, name:'Xiaomi 14', img:'mi14.jpg', meta:'Oct 2023 - Leica - Curved - GG Victus 2', chips:['SD 8 Gen 3','6.36" LTPO','120fps','4K Selfie'], spec:'4,610mAh - 90W - Gen 3 efficiency makes this battery last.', software:'Android 19', verdict:'The GOAT of this tier. Don\'t overthink it.', mAh:4610, watts:90, pubgm:120, displayType:'LTPO', refresh:120 },
+  { rank:2, name:'Redmi Turbo 4 Pro', img:'turbo4pro.jpg', meta:'2025 - Flat - GG Victus', chips:['SD 8s Gen 3','144Hz','6,000mAh','50MP OIS'], spec:'6,000mAh - 90W - Biggest battery on this entire list.', software:'Android 18', verdict:'Battery for days. Camera is just decoration.', mAh:6000, watts:90, pubgm:120, displayType:'AMOLED', refresh:144 },
+  { rank:3, name:'Vivo X100', img:'vivox100.jpg', meta:'Nov 2023 - Zeiss - Curved - GG Victus', chips:['Dim 9300','Zeiss 5x','120fps','120W'], spec:'5,000mAh - 120W - Zeiss zoom is wild.', software:'Android 17', verdict:'Zeiss zoom is crazy. Selfie cam is a skip.', mAh:5000, watts:120, pubgm:120, displayType:'AMOLED', refresh:120 },
+  { rank:4, name:'Honor Magic 5 Pro', img:'magic5pro.jpg', meta:'Feb 2023 - Curved - GG Victus', chips:['SD 8 Gen 2','LTPO','Dual eSIM','4K Selfie'], spec:'5,100mAh - 66W - Hidden flagship energy.', software:'Android 17', verdict:'The hidden gem. Everyone sleeping on this one.', mAh:5100, watts:66, pubgm:120, displayType:'LTPO', refresh:120 },
+  { rank:5, name:'Xiaomi 13 Pro', img:'mi13pro.jpg', meta:'Dec 2022 - Leica - Curved - GG Victus', chips:['SD 8 Gen 2','1" IMX989','120W','120fps'], spec:'4,820mAh - 120W - 1-inch Leica sensor rules.', software:'End of cycle', verdict:'1-inch Leica flex. That selfie cam is a L.', mAh:4820, watts:120, pubgm:120, displayType:'LTPO', refresh:120 },
+  { rank:6, name:'OnePlus 11', img:'oneplus11.jpg', meta:'Jan 2023 - 2.5D Glass - Hasselblad', chips:['SD 8 Gen 2','LTPO','100W','Hasselblad'], spec:'5,000mAh - 100W - Fast charging king.', software:'Android 17', verdict:'Charging speed demon. Clean software. No complaints.', mAh:5000, watts:100, pubgm:90, displayType:'LTPO', refresh:120 },
+  { rank:7, name:'Samsung Galaxy S23', img:'s23.jpg', meta:'Feb 2023 - Flat - GG Victus 2', chips:['SD 8G2 Galaxy','6.1"','eSIM','25W'], spec:'3,900mAh - 25W - Compact but slow charging.', software:'Android 18', verdict:'Compact king. 25W charging is straight robbery.', mAh:3900, watts:25, pubgm:120, displayType:'AMOLED', refresh:120 },
+  { rank:8, name:'Vivo X90 Pro', img:'vivox90pro.jpg', meta:'Nov 2022 - Zeiss - Curved - GG Victus', chips:['Dim 9200','1" IMX989','120W','Zeiss V2'], spec:'4,870mAh - 120W - Low light beast.', software:'End of cycle', verdict:'Night mode monster. Front cam is cooked.', mAh:4870, watts:120, pubgm:90, displayType:'AMOLED', refresh:120 },
+  { rank:9, name:'Xiaomi 13', img:'mi13.jpg', meta:'Dec 2022 - Leica - Flat - GG 5', chips:['SD 8 Gen 2','Leica 54MP','67W','120fps'], spec:'4,500mAh - 67W - No drama phone.', software:'End of cycle', verdict:'Solid all-rounder. Just not hype material.', mAh:4500, watts:67, pubgm:120, displayType:'AMOLED', refresh:120 },
+  { rank:10, name:'Google Pixel 8', img:'pixel8.jpg', meta:'Oct 2023 - Flat - GG Victus - 7 Yrs', chips:['Tensor G3','6.2" OLED','eSIM','27W'], spec:'4,575mAh - 27W - AI wizard slow charging.', software:'Android 22', verdict:'AI wizard. 7 years updates. Charging speed is pain.', mAh:4575, watts:27, pubgm:'Smooth', displayType:'OLED', refresh:120 },
+  { rank:11, name:'iQOO Neo 9', img:'iqooneo9.jpg', meta:'Dec 2023 - CN ROM - Flat', chips:['SD 8 Gen 2','144Hz','120W','120fps'], spec:'5,160mAh - 120W - Performance beast.', software:'Android 17', verdict:'Performance beast. CN ROM tax is real though.', mAh:5160, watts:120, pubgm:120, displayType:'AMOLED', refresh:144 },
+  { rank:12, name:'Redmi K70', img:'redmik70.jpg', meta:'Dec 2023 - CN ROM - Flat - GG Victus', chips:['SD 8 Gen 2','144Hz','GG Victus','90W'], spec:'5,000mAh - 90W - Best value on this list.', software:'Android 17', verdict:'Best value money can buy. Camera is a bonus.', mAh:5000, watts:90, pubgm:90, displayType:'AMOLED', refresh:144 },
+  { rank:13, name:'Oppo Find X6', img:'findx6.jpg', meta:'Mar 2023 - CN ROM - Curved - Hasselblad', chips:['Dim 9200','LTPO','Hasselblad','80W'], spec:'5,000mAh - 80W - Hasselblad colors hit.', software:'End of cycle', verdict:'Hasselblad colors hit. Price tag hits back.', mAh:5000, watts:80, pubgm:90, displayType:'LTPO', refresh:120 },
+  { rank:14, name:'Redmi K60 Pro', img:'redmik60pro.jpg', meta:'Jan 2023 - CN ROM - Flat', chips:['SD 8 Gen 2','5,500mAh','67W','120Hz'], spec:'5,500mAh - 67W - Extra battery life.', software:'End of cycle', verdict:'Big battery energy. K70 is still the king.', mAh:5500, watts:67, pubgm:90, displayType:'AMOLED', refresh:120 },
+  { rank:15, name:'Xiaomi 12S Ultra', img:'mi12sultra.jpg', meta:'Jul 2022 - CN ROM - Leica - Curved', chips:['SD 8+G1','1" IMX989','LTPO','67W'], spec:'4,860mAh - 67W - GOAT camera dated chip.', software:'End of cycle', verdict:'Legendary camera. Chip is past its prime.', mAh:4860, watts:67, pubgm:90, displayType:'LTPO', refresh:120 },
+  { rank:16, name:'Xiaomi 14T', img:'mi14t.jpg', meta:'Sep 2024 - Flat - Leica', chips:['Dim 8300-U','144Hz','Dual eSIM','4K Selfie'], spec:'5,000mAh - 67W - 4K selfie for creators.', software:'Android 18', verdict:'4K selfie for the creators. Dimensity is mid.', mAh:5000, watts:67, pubgm:90, displayType:'AMOLED', refresh:144 },
+  { rank:17, name:'ROG 6D Ultimate', img:'rog6dultimate.jpg', meta:'Sep 2022 - Gaming - Flat - GG Victus', chips:['Dim 9000+','165Hz','18GB RAM','6,000mAh'], spec:'6,000mAh - 65W - Ultimate gaming rig.', software:'End of cycle', verdict:'Gaming beast. Your girl will be mad.', mAh:6000, watts:65, pubgm:120, displayType:'AMOLED', refresh:165 },
+  { rank:18, name:'ROG Phone 6D', img:'rog6d.jpg', meta:'Sep 2022 - Gaming - Flat - GG Victus', chips:['Dim 9000+','165Hz','12GB RAM','6,000mAh'], spec:'6,000mAh - 65W - Budget ROG energy.', software:'End of cycle', verdict:'Mid ROG energy. Pay up for the Ultimate.', mAh:6000, watts:65, pubgm:120, displayType:'AMOLED', refresh:165 }
+];
+
 function calcStats(p) {
   var battery = Math.min(100, Math.round(p.mAh / 60));
   var charging = Math.min(100, Math.round(p.watts * 100 / 120));
@@ -499,202 +540,139 @@ function calcStats(p) {
   else if (p.pubgm === 'Smooth') gaming = 40;
   else gaming = 60;
   var display;
-  if (p.display.indexOf('LTPO') !== -1 && p.refresh >= 144) display = 100;
-  else if (p.display.indexOf('LTPO') !== -1) display = 92;
+  if (p.displayType === 'LTPO' && p.refresh >= 144) display = 100;
+  else if (p.displayType === 'LTPO') display = 92;
   else if (p.refresh >= 144) display = 88;
   else if (p.refresh >= 120) display = 82;
   else display = 70;
   return { battery: battery, charging: charging, gaming: gaming, display: display };
 }
 
-const phones = [
-  { rank:1, name:'Xiaomi 14', meta:'Oct 2023 · Leica · Curved · GG Victus 2', chips:['SD 8 Gen 3','6.36" LTPO','120fps','4K Selfie'], spec:'4,610mAh · 90W — Gen 3 efficiency makes this battery last.', software:'Android 19', verdict:'The GOAT of this tier. Don\'t overthink it.', mAh:4610, watts:90, pubgm:120, display:'LTPO AMOLED 120Hz', refresh:120 },
-  { rank:2, name:'Redmi Turbo 4 Pro', meta:'2025 · Flat · GG Victus', chips:['SD 8s Gen 3','144Hz','6,000mAh','50MP OIS'], spec:'6,000mAh · 90W — Biggest battery on this entire list.', software:'Android 18', verdict:'Battery for days. Camera is mid. Pick your poison.', mAh:6000, watts:90, pubgm:120, display:'AMOLED 144Hz', refresh:144 },
-  { rank:3, name:'Vivo X100', meta:'Nov 2023 · Zeiss · Curved · GG Victus', chips:['Dim 9300','Zeiss 5x','120fps','120W'], spec:'5,000mAh · 120W', software:'Android 17', verdict:'Zeiss lens goes crazy. Front cam is a side character.', mAh:5000, watts:120, pubgm:120, display:'AMOLED 120Hz', refresh:120 },
-  { rank:4, name:'Honor Magic 5 Pro', meta:'Feb 2023 · Curved · GG Victus', chips:['SD 8 Gen 2','LTPO','Dual eSIM','4K Selfie'], spec:'5,100mAh · 66W', software:'Android 17', verdict:'The hidden gem. Everyone sleeping on this one.', mAh:5100, watts:66, pubgm:120, display:'LTPO OLED 120Hz', refresh:120 },
-  { rank:5, name:'Xiaomi 13 Pro', meta:'Dec 2022 · Leica · Curved · GG Victus', chips:['SD 8 Gen 2','1" IMX989','120W','120fps'], spec:'4,820mAh · 120W — 1-inch Leica sensor rules.', software:'End of cycle', verdict:'Camera is chef\'s kiss. Selfie is mid. Pick your battle.', mAh:4820, watts:120, pubgm:120, display:'LTPO AMOLED 120Hz', refresh:120 },
-  { rank:6, name:'OnePlus 11', meta:'Jan 2023 · 2.5D Glass · Hasselblad', chips:['SD 8 Gen 2','LTPO','100W','Hasselblad'], spec:'5,000mAh · 100W', software:'Android 17', verdict:'Fast charging king. No bloat. Just works.', mAh:5000, watts:100, pubgm:90, display:'LTPO AMOLED 120Hz', refresh:120 },
-  { rank:7, name:'Samsung Galaxy S23', meta:'Feb 2023 · Flat · GG Victus 2', chips:['SD 8G2 Galaxy','6.1"','eSIM','25W'], spec:'3,900mAh · 25W', software:'Android 18', verdict:'Compact king. But 25W charging in 2023 is criminal.', mAh:3900, watts:25, pubgm:120, display:'AMOLED 120Hz', refresh:120 },
-  { rank:8, name:'Vivo X90 Pro', meta:'Nov 2022 · Zeiss · Curved · GG Victus', chips:['Dim 9200','1" IMX989','120W','Zeiss V2'], spec:'4,870mAh · 120W', software:'End of cycle', verdict:'Low light? Not a problem. Selfie? Might be.', mAh:4870, watts:120, pubgm:90, display:'AMOLED 120Hz', refresh:120 },
-  { rank:9, name:'Xiaomi 13', meta:'Dec 2022 · Leica · Flat · GG 5', chips:['SD 8 Gen 2','Leica 54MP','67W','120fps'], spec:'4,500mAh · 67W', software:'End of cycle', verdict:'No drama phone. Does everything well. Is it exciting? Not really.', mAh:4500, watts:67, pubgm:120, display:'AMOLED 120Hz', refresh:120 },
-  { rank:10, name:'Google Pixel 8', meta:'Oct 2023 · Flat · GG Victus · 7 Yrs', chips:['Tensor G3','6.2" OLED','eSIM','27W'], spec:'4,575mAh · 27W', software:'Android 22', verdict:'Pixel AI magic. Updates until 2031. Charging speed is rough.', mAh:4575, watts:27, pubgm:0, display:'OLED 120Hz', refresh:120 },
-  { rank:11, name:'iQOO Neo 9', meta:'Dec 2023 · CN ROM · Flat', chips:['SD 8 Gen 2','144Hz','120W','120fps'], spec:'5,160mAh · 120W', software:'Android 17', verdict:'Built for the grind. CN ROM tax though.', mAh:5160, watts:120, pubgm:120, display:'AMOLED 144Hz', refresh:144 },
-  { rank:12, name:'Redmi K70', meta:'Dec 2023 · CN ROM · Flat · GG Victus', chips:['SD 8 Gen 2','144Hz','GG Victus','90W'], spec:'5,000mAh · 90W', software:'Android 17', verdict:'Best value on this list. Camera is whatever. Performance is everything.', mAh:5000, watts:90, pubgm:90, display:'AMOLED 144Hz', refresh:144 },
-  { rank:13, name:'Oppo Find X6', meta:'Mar 2023 · CN ROM · Curved · Hasselblad', chips:['Dim 9200','LTPO','Hasselblad','80W'], spec:'5,000mAh · 80W', software:'End of cycle', verdict:'Camera game strong. Price game weak.', mAh:5000, watts:80, pubgm:90, display:'LTPO AMOLED 120Hz', refresh:120 },
-  { rank:14, name:'Redmi K60 Pro', meta:'Jan 2023 · CN ROM · Flat', chips:['SD 8 Gen 2','5,500mAh','67W','120Hz'], spec:'5,500mAh · 67W', software:'End of cycle', verdict:'Extra battery life. But K70 is the real deal.', mAh:5500, watts:67, pubgm:90, display:'AMOLED 120Hz', refresh:120 },
-  { rank:15, name:'Xiaomi 12S Ultra', meta:'Jul 2022 · CN ROM · Leica · Curved', chips:['SD 8+G1','1" IMX989','LTPO','67W'], spec:'4,860mAh · 67W', software:'End of cycle', verdict:'GOAT camera. Dated chip. You know the deal.', mAh:4860, watts:67, pubgm:90, display:'LTPO AMOLED 120Hz', refresh:120 },
-  { rank:16, name:'Xiaomi 14T', meta:'Sep 2024 · Flat · Leica', chips:['Dim 8300-U','144Hz','Dual eSIM','4K Selfie'], spec:'5,000mAh · 67W', software:'Android 18', verdict:'4K selfie for the content creators. Chip is a bit sus though.', mAh:5000, watts:67, pubgm:90, display:'AMOLED 144Hz', refresh:144 },
-  { rank:17, name:'ROG 6D Ultimate', meta:'Sep 2022 · Gaming · Flat · GG Victus', chips:['Dim 9000+','165Hz','18GB RAM','6,000mAh'], spec:'6,000mAh · 65W', software:'End of cycle', verdict:'The ultimate gaming rig. Your girlfriend will be mad.', mAh:6000, watts:65, pubgm:120, display:'AMOLED 165Hz', refresh:165 },
-  { rank:18, name:'ROG Phone 6D', meta:'Sep 2022 · Gaming · Flat · GG Victus', chips:['Dim 9000+','165Hz','12GB RAM','6,000mAh'], spec:'6,000mAh · 65W', software:'End of cycle', verdict:'Mid compared to Ultimate. Spend your money better.', mAh:6000, watts:65, pubgm:120, display:'AMOLED 165Hz', refresh:165 }
-];
-
-// Handle Pixel 8 pubgm Smooth → treat as 0
-phones[9].pubgm = 0;
-
-// Generate phone slides
-var container = document.getElementById('phoneSlidesContainer');
-
-phones.forEach(function(p) {
-  var stats = calcStats(p);
-  var slide = document.createElement('div');
-  slide.className = 'slide-frame';
-  slide.dataset.slide = p.rank + 1;
-
-  var bg = document.createElement('div');
-  bg.className = 'slide-bg';
-
-  var grain = document.createElement('div');
-  grain.className = 'grain-overlay';
-
-  var safe = document.createElement('div');
-  safe.className = 'safe-content-zone';
-
-  var inner = document.createElement('div');
-  inner.className = 'phone-slide-inner';
-
-  // Rank badge with star SVG
-  var badge = document.createElement('div');
-  badge.className = 'phone-rank-badge';
-  badge.innerHTML =
-    '<span class="rank-star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>#' + p.rank;
-  inner.appendChild(badge);
-
-  var nameEl = document.createElement('div');
-  nameEl.className = 'phone-name';
-  nameEl.textContent = p.name;
-  inner.appendChild(nameEl);
-
-  var metaEl = document.createElement('div');
-  metaEl.className = 'phone-meta';
-  metaEl.textContent = p.meta;
-  inner.appendChild(metaEl);
-
-  var divider1 = document.createElement('div');
-  divider1.className = 'dotted-divider';
-  inner.appendChild(divider1);
-
-  // Stats bars
-  var statsGrid = document.createElement('div');
-  statsGrid.className = 'stats-grid';
-  var statDefs = [
-    { label: 'Battery', val: stats.battery },
-    { label: 'Charging', val: stats.charging },
-    { label: 'Gaming', val: stats.gaming },
-    { label: 'Display', val: stats.display }
-  ];
-  statDefs.forEach(function(s) {
-    var row = document.createElement('div');
-    row.className = 'stat-row';
-    row.innerHTML =
-      '<span class="stat-label">' + s.label + '</span>' +
-      '<div class="stat-bar-track"><div class="stat-bar-fill" style="width:' + s.val + '%"></div></div>' +
-      '<span class="stat-value">' + s.val + '</span>';
-    statsGrid.appendChild(row);
-  });
-  inner.appendChild(statsGrid);
-
-  // Chips
-  var chipsRow = document.createElement('div');
-  chipsRow.className = 'chips-row';
-  p.chips.forEach(function(c) {
-    var chip = document.createElement('span');
-    chip.className = 'chip';
-    chip.textContent = c;
-    chipsRow.appendChild(chip);
-  });
-  inner.appendChild(chipsRow);
-
-  var divider2 = document.createElement('div');
-  divider2.className = 'dotted-divider';
-  inner.appendChild(divider2);
-
-  var specEl = document.createElement('div');
-  specEl.className = 'phone-spec';
-  specEl.textContent = p.spec;
-  inner.appendChild(specEl);
-
-  var swEl = document.createElement('div');
-  swEl.className = 'phone-software';
-  swEl.textContent = p.software;
-  inner.appendChild(swEl);
-
-  // Verdict
-  var verdictEl = document.createElement('div');
-  verdictEl.className = 'phone-verdict';
-  verdictEl.innerHTML = '<span class="accent">' + p.verdict + '</span>';
-  inner.appendChild(verdictEl);
-
-  safe.appendChild(inner);
-
-  var swipe = document.createElement('div');
-  swipe.className = 'swipe-text';
-  swipe.textContent = 'SWIPE';
-
-  slide.appendChild(bg);
-  slide.appendChild(grain);
-  slide.appendChild(safe);
-  safe.appendChild(swipe);
-  container.appendChild(slide);
-});
-
-// Navigation
-var currentSlide = 1;
-var total = 20;
-var slides = document.querySelectorAll('.slide-frame');
-var counter = document.getElementById('slideCounter');
-
-function showSlide(n) {
-  if (n < 1) n = 1;
-  if (n > total) n = total;
-  currentSlide = n;
-  slides.forEach(function(s) { s.classList.remove('active'); });
-  slides[currentSlide - 1].classList.add('active');
-  counter.textContent = currentSlide + ' / ' + total;
+function phoneSlideHTML(p) {
+  var s = calcStats(p);
+  return '<div class="slide-frame" data-slide="' + (p.rank + 1) + '">' +
+    '<div class="slide-bg"></div>' +
+    '<div class="grain-overlay"></div>' +
+    '<div class="safe-content-zone">' +
+      '<div class="phone-slide-inner">' +
+        '<div class="phone-image-wrap">' +
+          '<img src="' + imgBase + p.img + '" crossorigin="anonymous" alt="' + p.name + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+          '<div class="phone-image-fallback">' + p.name + '</div>' +
+        '</div>' +
+        '<div class="phone-rank-badge">' +
+          '<span class="rank-star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>#' + p.rank +
+        '</div>' +
+        '<div class="phone-name">' + p.name + '</div>' +
+        '<div class="phone-meta">' + p.meta + '</div>' +
+        '<div class="dotted-divider"></div>' +
+        '<div class="stats-grid">' +
+          '<div class="stat-row"><span class="stat-label">Battery</span><div class="stat-bar-track"><div class="stat-bar-fill" style="width:' + s.battery + '%"></div></div><span class="stat-value">' + s.battery + '</span></div>' +
+          '<div class="stat-row"><span class="stat-label">Charging</span><div class="stat-bar-track"><div class="stat-bar-fill" style="width:' + s.charging + '%"></div></div><span class="stat-value">' + s.charging + '</span></div>' +
+          '<div class="stat-row"><span class="stat-label">Gaming</span><div class="stat-bar-track"><div class="stat-bar-fill" style="width:' + s.gaming + '%"></div></div><span class="stat-value">' + s.gaming + '</span></div>' +
+          '<div class="stat-row"><span class="stat-label">Display</span><div class="stat-bar-track"><div class="stat-bar-fill" style="width:' + s.display + '%"></div></div><span class="stat-value">' + s.display + '</span></div>' +
+        '</div>' +
+        '<div class="chips-row">' + p.chips.map(function(c) { return '<span class="chip">' + c + '</span>'; }).join('') + '</div>' +
+        '<div class="dotted-divider"></div>' +
+        '<div class="phone-spec">' + p.spec + '</div>' +
+        '<div class="phone-software">' + p.software + '</div>' +
+        '<div class="dotted-divider"></div>' +
+        '<div class="phone-verdict"><span class="accent">' + p.verdict + '</span></div>' +
+      '</div>' +
+      '<div class="swipe-text">SWIPE</div>' +
+    '</div>' +
+  '</div>';
 }
 
-document.getElementById('prevBtn').addEventListener('click', function() { showSlide(currentSlide - 1); });
-document.getElementById('nextBtn').addEventListener('click', function() { showSlide(currentSlide + 1); });
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
-  if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+var container = document.getElementById('phoneSlidesContainer');
+phoneData.forEach(function(p) {
+  container.insertAdjacentHTML('beforeend', phoneSlideHTML(p));
 });
 
-// Safe toggle
-var safeToggle = document.getElementById('safeToggle');
+var slides = document.querySelectorAll('.slide-frame');
+var totalSlides = slides.length;
+
+// Safe zone toggle
 var safeGuides = document.getElementById('safeGuides');
-safeToggle.addEventListener('click', function() {
+var safeToggle = document.getElementById('safeToggle');
+var safeToggleBtn = document.getElementById('safeToggleBtn');
+
+function toggleSafe() {
   safeGuides.classList.toggle('show');
   safeToggle.classList.toggle('btn-active');
+  safeToggleBtn.classList.toggle('active');
+  var isOn = safeGuides.classList.contains('show');
+  safeToggle.textContent = isOn ? 'Safe Zone ON' : 'Safe Zone OFF';
+}
+safeToggle.addEventListener('click', toggleSafe);
+safeToggleBtn.addEventListener('click', toggleSafe);
+
+// Determine current slide based on scroll
+function getCurrentSlideIndex() {
+  var scrollY = window.scrollY || window.pageYOffset;
+  var viewH = window.innerHeight;
+  var bestIdx = 0;
+  var bestOverlap = 0;
+  for (var i = 0; i < slides.length; i++) {
+    var rect = slides[i].getBoundingClientRect();
+    var overlap = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+    if (overlap > bestOverlap) {
+      bestOverlap = overlap;
+      bestIdx = i;
+    }
+  }
+  return bestIdx;
+}
+
+function updateCounter() {
+  var idx = getCurrentSlideIndex();
+  document.getElementById('slideCounter').textContent = (idx + 1) + ' / ' + totalSlides;
+}
+
+window.addEventListener('scroll', updateCounter);
+window.addEventListener('resize', updateCounter);
+
+function pad(n) {
+  return n < 10 ? '0' + n : '' + n;
+}
+
+// Export current slide
+document.getElementById('exportCurrent').addEventListener('click', function() {
+  var idx = getCurrentSlideIndex();
+  var slide = slides[idx];
+  if (!slide || typeof html2canvas === 'undefined') return;
+  var num = pad(idx + 1);
+  html2canvas(slide, { backgroundColor: '#0F0F0F', scale: 3, useCORS: true, logging: false }).then(function(canvas) {
+    var link = document.createElement('a');
+    link.download = 'BIGDROPS-300k-400k-v2-' + num + '.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
 });
 
-// Export
-document.getElementById('exportBtn').addEventListener('click', function() {
-  var slide = slides[currentSlide - 1];
-  if (typeof html2canvas !== 'undefined') {
-    html2canvas(slide, { backgroundColor: '#1C1C1E', scale: 2, useCORS: true }).then(function(canvas) {
+// Batch export all
+document.getElementById('exportBatch').addEventListener('click', function() {
+  var progress = document.getElementById('progressBar');
+  progress.style.width = '0%';
+  var idx = 0;
+  function exportNext() {
+    if (idx >= totalSlides) {
+      progress.style.width = '100%';
+      return;
+    }
+    var slide = slides[idx];
+    var num = pad(idx + 1);
+    html2canvas(slide, { backgroundColor: '#0F0F0F', scale: 3, useCORS: true, logging: false }).then(function(canvas) {
       var link = document.createElement('a');
-      link.download = 'playful-slide-' + currentSlide + '.png';
+      link.download = 'BIGDROPS-300k-400k-v2-' + num + '.png';
       link.href = canvas.toDataURL();
       link.click();
+      idx++;
+      progress.style.width = Math.round((idx / totalSlides) * 100) + '%';
+      setTimeout(exportNext, 800);
     });
   }
+  exportNext();
 });
-
-// Touch / swipe
-(function() {
-  var startX = 0;
-  document.addEventListener('touchstart', function(e) {
-    startX = e.changedTouches[0].screenX;
-  });
-  document.addEventListener('touchend', function(e) {
-    var diff = e.changedTouches[0].screenX - startX;
-    if (Math.abs(diff) > 50) {
-      if (diff < 0) showSlide(currentSlide + 1);
-      else showSlide(currentSlide - 1);
-    }
-  });
-})();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
