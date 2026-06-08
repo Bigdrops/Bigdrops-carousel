@@ -78,9 +78,9 @@ body{
 /* SAFE ZONE */
 .sz{display:none;position:absolute;inset:0;pointer-events:none;z-index:200;}
 .sz.on{display:block;}
-.sz-t{position:absolute;top:0;left:0;right:0;height:150px;
+.sz-t{position:absolute;top:0;left:0;right:0;height:280px;
   background:rgba(0,255,255,.08);border-bottom:2px dashed rgba(0,200,200,.5);}
-.sz-b{position:absolute;bottom:0;left:0;right:0;height:420px;
+.sz-b{position:absolute;bottom:0;left:0;right:0;height:680px;
   background:rgba(0,255,255,.06);border-top:2px dashed rgba(0,200,200,.5);}
 .sz-r{position:absolute;top:0;right:0;bottom:0;width:160px;
   background:rgba(255,100,0,.05);border-left:2px dashed rgba(255,100,0,.3);}
@@ -89,7 +89,7 @@ body{
 
 /* WATERMARK */
 .wm{
-  position:absolute;top:180px;right:60px;z-index:10;
+  position:absolute;top:280px;right:60px;z-index:10;
   font-family:'DM Mono',monospace;font-size:18px;font-weight:500;
   letter-spacing:.22em;color:rgba(44,58,44,.18);
   text-transform:uppercase;pointer-events:none;
@@ -140,16 +140,16 @@ body{
 /* White card container — content lives inside */
 .card-wrap{
   position:absolute;
-  top:180px;left:60px;
+  top:280px;left:60px;
   width:960px; 
-  max-height:1320px; 
+  max-height:960px; 
   overflow:hidden;
   background:var(--card);
   border-radius:36px;
-  padding:52px;
+  padding:44px;
   box-shadow:0 12px 48px rgba(44,58,44,.07),0 4px 16px rgba(44,58,44,.04);
   display:flex;flex-direction:column;
-  gap:28px;
+  gap:22px;
 }
 
 /* Rank */
@@ -268,7 +268,7 @@ body{
   color:var(--soft);font-style:italic;
 }
 .wm-dark{
-  position:absolute;top:180px;right:60px;z-index:10;
+  position:absolute;top:280px;right:60px;z-index:10;
   font-family:'DM Mono',monospace;font-size:18px;font-weight:500;
   letter-spacing:.22em;color:rgba(139,168,139,.25);
   text-transform:uppercase;pointer-events:none;
