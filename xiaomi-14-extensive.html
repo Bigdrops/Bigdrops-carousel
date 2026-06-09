@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xiaomi 14 – ABIDEMI Illustration</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+  .canvas-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  }
+  canvas {
+    display: block;
+    background: #FFFFFF;
+  }
+  #controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  #exportBtn {
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
+    background: #1D3557;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(29,53,87,0.25);
+  }
+  #exportBtn:hover { background: #264573; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(29,53,87,0.35); }
+  #exportBtn:active { transform: translateY(0); }
+  #exportBtn:disabled { background: #aab; cursor: not-allowed; transform: none; box-shadow: none; }
+  #status {
+    font-size: 13px;
+    color: #666;
+    min-width: 140px;
+  }
+</style>
+</head>
+<body>
+
+<div class="canvas-wrap">
+  <canvas id="canvas" width="800" height="450"></canvas>
+</div>
+<div id="controls">
+  <button id="exportBtn" onclick="exportMP4()">Export MP4</button>
+  <span id="status"></span>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const W = 800, H = 450;
+const TOTAL_FRAMES = 240;
+const FPS = 60;
+let frame = 0;
+let animId = null;
+
+// Accent palette
+const RED = '#E63946';
+const ORANGE = '#FFB703';
+const BLUE = '#1D3557';
+const WHITE = '#FFFFFF';
+const BLACK = '#000000';
+
+// ============================================================
+// EASING
+// ============================================================
+function easeInOut(t) { return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2; }
+function easeOutBack(t) { const c1=1.70158, c3=c1+1; return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2); }
+function easeOutCubic(t) { return 1 - Math.pow(1-t, 3); }
+function easeInQuad(t) { return t * t; }
+function lerp(a,b,t) { return a + (b-a)*t; }
+function clamp(v,lo,hi) { return Math.max(lo,Math.min(hi,v)); }
+
+// ============================================================
+// BACKGROUND – subtle warm gradient at edges
+// ============================================================
+function drawBackground() {
+  // Base white
+  ctx.fillStyle = WHITE;
+  ctx.fillRect(0, 0, W, H);
+
+  // Warm gradient at edges (very soft)
+  const edgeGrad = ctx.createRadialGradient(W/2, H/2, 120, W/2, H/2, 460);
+  edgeGrad.addColorStop(0, 'rgba(255,255,255,0)');
+  edgeGrad.addColorStop(0.7, 'rgba(255,248,240,0.08)');
+  edgeGrad.addColorStop(1, 'rgba(255,240,225,0.15)');
+  ctx.fillStyle = edgeGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Corner warm tints
+  const tlGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, 200);
+  tlGrad.addColorStop(0, 'rgba(255,243,224,0.12)');
+  tlGrad.addColorStop(1, 'rgba(255,243,224,0)');
+  ctx.fillStyle = tlGrad;
+  ctx.fillRect(0, 0, 200, 200);
+
+  const brGrad = ctx.createRadialGradient(W, H, 0, W, H, 200);
+  brGrad.addColorStop(0, 'rgba(255,243,224,0.10)');
+  brGrad.addColorStop(1, 'rgba(255,243,224,0)');
+  ctx.fillStyle = brGrad;
+  ctx.fillRect(W-200, H-200, 200, 200);
+}
+
+// ============================================================
+// SHADOW HELPER
+// ============================================================
+function drawShadow(cx, cy, rx, ry, alpha) {
+  ctx.save();
+  ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+  ctx.beginPath();
+  ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// ============================================================
+// ABIDEMI – smooth, professional rendering
+// ============================================================
+function drawAbidemi(cx, cy, scale, armProgress) {
+  const s = scale;
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // --- Drop shadow beneath ABIDEMI ---
+  ctx.save();
+  ctx.translate(0, s * 1.25);
+  ctx.scale(1, 0.3);
+  ctx.fillStyle = 'rgba(0,0,0,0.08)';
+  ctx.beginPath();
+  ctx.arc(0, 0, s * 0.55, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // --- Legs ---
+  ctx.strokeStyle = BLACK;
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  // Left leg
+  ctx.beginPath();
+  ctx.moveTo(-s * 0.15, s * 0.5);
+  ctx.quadraticCurveTo(-s * 0.22, s * 0.8, -s * 0.28, s * 1.05);
+  ctx.stroke();
+  // Right leg
+  ctx.beginPath();
+  ctx.moveTo(s * 0.15, s * 0.5);
+  ctx.quadraticCurveTo(s * 0.22, s * 0.8, s * 0.28, s * 0.5);
+  ctx.stroke();
+
+  // --- Left arm (holds phone) – slight curve inward ---
+  ctx.beginPath();
+  ctx.moveTo(-s * 0.38, s * 0.0);
+  ctx.quadraticCurveTo(-s * 0.6, s * 0.2, -s * 0.65, s * 0.38);
+  ctx.stroke();
+  // Left hand dot
+  ctx.fillStyle = BLACK;
+  ctx.beginPath();
+  ctx.arc(-s * 0.65, s * 0.38, s * 0.065, 0, Math.PI * 2);
+  ctx.fill();
+
+  // --- Right arm (bezier curve: point → thumbs up) ---
+  // armProgress: 0 = pointing, 1 = thumbs up
+  const armEase = easeInOut(armProgress);
+
+  // Control points for smooth bezier
+  // Pointing: arm extends right and slightly down
+  // Thumbs up: arm curves upward
+  const startX = s * 0.38;
+  const startY = s * 0.0;
+  const endX = lerp(s * 0.95, s * 0.7, armEase);
+  const endY = lerp(s * 0.1, -s * 0.55, armEase);
+  const cp1x = lerp(s * 0.6, s * 0.55, armEase);
+  const cp1y = lerp(s * 0.15, -s * 0.15, armEase);
+  const cp2x = lerp(s * 0.85, s * 0.65, armEase);
+  const cp2y = lerp(s * 0.15, -s * 0.45, armEase);
+
+  ctx.beginPath();
+  ctx.moveTo(startX, startY);
+  ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, endY);
+  ctx.strokeStyle = BLACK;
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Hand at end of arm
+  ctx.fillStyle = BLACK;
+  ctx.beginPath();
+  ctx.arc(endX, endY, s * 0.07, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Thumbs up indicator (small upward bump when arm is raised)
+  if (armEase > 0.5) {
+    const thumbAlpha = (armEase - 0.5) * 2;
+    ctx.save();
+    ctx.globalAlpha = thumbAlpha;
+    ctx.fillStyle = BLACK;
+    // Small upward line for thumb
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(endX, endY);
+    ctx.lineTo(endX + s * 0.02, endY - s * 0.14);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // --- Body (smooth circle) ---
+  ctx.fillStyle = BLACK;
+  ctx.beginPath();
+  ctx.arc(0, 0, s * 0.45, 0, Math.PI * 2);
+  ctx.fill();
+
+  // --- Eyes (white dots, centered, same size) ---
+  ctx.fillStyle = WHITE;
+  ctx.beginPath();
+  ctx.arc(-s * 0.13, -s * 0.08, s * 0.06, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(s * 0.13, -s * 0.08, s * 0.06, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+// ============================================================
+// PHONE MOCKUP – smooth, with screen content
+// ============================================================
+function drawPhone(x, y, w, h) {
+  ctx.save();
+
+  // Phone body shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.06)';
+  ctx.beginPath();
+  ctx.roundRect(x + 3, y + 4, w, h, 10);
+  ctx.fill();
+
+  // Phone body
+  ctx.fillStyle = '#1a1a1e';
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, 10);
+  ctx.fill();
+
+  // Screen bezel
+  ctx.fillStyle = '#111';
+  ctx.beginPath();
+  ctx.roundRect(x + 3, y + 5, w - 6, h - 10, 7);
+  ctx.fill();
+
+  // Screen content
+  ctx.fillStyle = '#1c1c22';
+  ctx.beginPath();
+  ctx.roundRect(x + 5, y + 7, w - 10, h - 14, 5);
+  ctx.fill();
+
+  // Screen text
+  const sx = x + w / 2;
+  ctx.textAlign = 'center';
+
+  // "SD 8 Gen 3" – green accent
+  ctx.fillStyle = '#C8FF00';
+  ctx.font = `bold ${Math.round(w * 0.28)}px "DM Sans", sans-serif`;
+  ctx.fillText('SD 8 Gen 3', sx, y + h * 0.35);
+
+  // Divider line
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(x + 10, y + h * 0.45);
+  ctx.lineTo(x + w - 10, y + h * 0.45);
+  ctx.stroke();
+
+  // "Leica" – white
+  ctx.fillStyle = WHITE;
+  ctx.font = `700 ${Math.round(w * 0.25)}px "DM Sans", sans-serif`;
+  ctx.fillText('Leica', sx, y + h * 0.62);
+
+  // Camera dot accent
+  ctx.fillStyle = RED;
+  ctx.beginPath();
+  ctx.arc(sx, y + h * 0.78, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+// ============================================================
+// PRICE CARD – modern badge with shadow and glow
+// ============================================================
+function drawPriceCard(x, y, w, h, text, bounceT, glowColor) {
+  ctx.save();
+
+  const bScale = bounceT < 1 ? easeOutBack(clamp(bounceT, 0, 1)) : 1;
+
+  // Glow behind card
+  ctx.save();
+  ctx.translate(x + w/2, y + h/2);
+  ctx.scale(bScale, bScale);
+  const glow = ctx.createRadialGradient(0, 0, w*0.2, 0, 0, w*0.7);
+  glow.addColorStop(0, glowColor || 'rgba(230,57,70,0.12)');
+  glow.addColorStop(1, 'rgba(230,57,70,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, w*0.7, h*0.8, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  // Card shadow
+  ctx.save();
+  ctx.translate(x + w/2, y + h/2);
+  ctx.scale(bScale, bScale);
+  ctx.translate(-w/2, -h/2);
+  ctx.fillStyle = 'rgba(0,0,0,0.07)';
+  ctx.beginPath();
+  ctx.roundRect(4, 6, w, h, 14);
+  ctx.fill();
+  ctx.restore();
+
+  // Card background
+  ctx.save();
+  ctx.translate(x + w/2, y + h/2);
+  ctx.scale(bScale, bScale);
+  ctx.translate(-w/2, -h/2);
+  ctx.fillStyle = WHITE;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, w, h, 14);
+  ctx.fill();
+  // Red left accent bar
+  ctx.fillStyle = RED;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, 5, h, [14,0,0,14]);
+  ctx.fill();
+  ctx.restore();
+
+  // Card text
+  ctx.save();
+  ctx.translate(x + w/2, y + h/2);
+  ctx.scale(bScale, bScale);
+  ctx.translate(-w/2, -h/2);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = RED;
+  ctx.font = 'bold 28px "DM Sans", sans-serif';
+  ctx.fillText(text, w/2, h/2 + 10);
+  ctx.restore();
+
+  ctx.restore();
+}
+
+// ============================================================
+// GHOST CARD – iPhone 15 Pro (faded, crossed out)
+// ============================================================
+function drawGhostCard(x, y, w, h, opacity) {
+  if (opacity <= 0.01) return;
+  ctx.save();
+  ctx.globalAlpha = opacity;
+
+  // Card background
+  ctx.fillStyle = '#f8f8f8';
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, 14);
+  ctx.fill();
+
+  // Dashed border
+  ctx.strokeStyle = '#bbb';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, 14);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Text
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#999';
+  ctx.font = '15px "DM Sans", sans-serif';
+  ctx.fillText('iPhone 15 Pro', x + w/2, y + h * 0.4);
+  ctx.fillStyle = '#aaa';
+  ctx.font = '13px "DM Sans", sans-serif';
+  ctx.fillText('N1.2M', x + w/2, y + h * 0.65);
+
+  // Strikethrough line
+  ctx.strokeStyle = RED;
+  ctx.lineWidth = 2;
+  ctx.globalAlpha = opacity * 0.7;
+  ctx.beginPath();
+  ctx.moveTo(x + 14, y + h * 0.45);
+  ctx.lineTo(x + w - 14, y + h * 0.45);
+  ctx.stroke();
+
+  // "3x price" warning badge
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = ORANGE;
+  ctx.beginPath();
+  ctx.roundRect(x + w/2 - 32, y + h - 22, 64, 18, 9);
+  ctx.fill();
+  ctx.fillStyle = WHITE;
+  ctx.font = 'bold 10px "DM Sans", sans-serif';
+  ctx.fillText('3x price', x + w/2, y + h - 9);
+
+  ctx.restore();
+}
+
+// ============================================================
+// BOTTOM RIBBON / BANNER
+// ============================================================
+function drawRibbon(y, text, fadeIn) {
+  if (fadeIn <= 0.01) return;
+  ctx.save();
+  ctx.globalAlpha = fadeIn;
+
+  const ribbonH = 38;
+  const ribbonW = 420;
+  const rx = (W - ribbonW) / 2;
+  const ry = y;
+
+  // Ribbon shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.05)';
+  ctx.beginPath();
+  ctx.roundRect(rx + 2, ry + 3, ribbonW, ribbonH, 10);
+  ctx.fill();
+
+  // Ribbon background
+  ctx.fillStyle = BLUE;
+  ctx.beginPath();
+  ctx.roundRect(rx, ry, ribbonW, ribbonH, 10);
+  ctx.fill();
+
+  // Ribbon text
+  ctx.fillStyle = WHITE;
+  ctx.textAlign = 'center';
+  ctx.font = '600 14px "DM Sans", sans-serif';
+  ctx.letterSpacing = '1px';
+  ctx.fillText(text, W/2, ry + ribbonH/2 + 5);
+
+  ctx.restore();
+}
+
+// ============================================================
+// BIGDROPS WATERMARK
+// ============================================================
+function drawWatermark() {
+  ctx.save();
+  ctx.globalAlpha = 0.2;
+  ctx.fillStyle = '#000';
+  ctx.textAlign = 'right';
+  ctx.font = '500 10px "DM Sans", sans-serif';
+  ctx.fillText('BIGDROPS', W - 18, H - 14);
+  ctx.restore();
+}
+
+// ============================================================
+// TITLE
+// ============================================================
+function drawTitle(y, fadeIn) {
+  ctx.save();
+  ctx.globalAlpha = fadeIn;
+  ctx.textAlign = 'center';
+
+  // Main title
+  ctx.fillStyle = BLACK;
+  ctx.font = 'bold 24px "DM Sans", sans-serif';
+  ctx.fillText('Xiaomi 14', W/2 - 100, y);
+
+  // Subtitle
+  ctx.fillStyle = '#555';
+  ctx.font = '500 15px "DM Sans", sans-serif';
+  ctx.fillText('Best in the N300k \u2013 N400k tier', W/2 - 100, y + 24);
+
+  ctx.restore();
+}
+
+// ============================================================
+// SPEC BADGES (small floating specs)
+// ============================================================
+function drawSpecBadge(x, y, text, color, fadeIn) {
+  if (fadeIn <= 0.01) return;
+  ctx.save();
+  ctx.globalAlpha = fadeIn;
+
+  ctx.font = '600 11px "DM Sans", sans-serif';
+  const tw = ctx.measureText(text).width;
+  const pad = 10;
+  const bw = tw + pad * 2;
+  const bh = 22;
+
+  // Badge bg
+  ctx.fillStyle = color;
+  ctx.globalAlpha = fadeIn * 0.12;
+  ctx.beginPath();
+  ctx.roundRect(x - bw/2, y - bh/2, bw, bh, 11);
+  ctx.fill();
+
+  // Badge text
+  ctx.globalAlpha = fadeIn;
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x, y);
+
+  ctx.restore();
+}
+
+// ============================================================
+// MAIN RENDER
+// ============================================================
+function render() {
+  const t = frame / TOTAL_FRAMES; // 0 to 1
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  drawBackground();
+
+  // --- ABIDEMI position ---
+  const abidemiX = 155;
+  const abidemiY = 205;
+  const abidemiScale = 44;
+
+  // --- Arm animation: pointing → thumbs up ---
+  // Thumbs up starts at t=0.55 (frame 132), completes by t=0.85
+  let armProgress = 0;
+  if (t > 0.55) {
+    armProgress = easeInOut(clamp((t - 0.55) / 0.3, 0, 1));
+  }
+
+  // --- Phone position (in left hand) ---
+  const phoneX = abidemiX - abidemiScale * 0.65 - 22;
+  const phoneY = abidemiY + abidemiScale * 0.15;
+  drawPhone(phoneX, phoneY, 34, 58);
+
+  // --- ABIDEMI ---
+  drawAbidemi(abidemiX, abidemiY, abidemiScale, armProgress);
+
+  // --- Spec badges near phone ---
+  const specFade = easeOutCubic(clamp(t / 0.3, 0, 1));
+  drawSpecBadge(phoneX + 17, phoneY - 16, '90W', RED, specFade);
+  drawSpecBadge(phoneX + 17, phoneY + 70, '4K Selfie', BLUE, specFade);
+
+  // --- Title ---
+  const titleFade = easeOutCubic(clamp(t / 0.25, 0, 1));
+  drawTitle(60, titleFade);
+
+  // --- Price card (N350k) ---
+  const cardX = 490;
+  const cardY = 115;
+  const cardW = 180;
+  const cardH = 72;
+  const cardBounce = clamp((t - 0.15) / 0.35, 0, 1);
+  drawPriceCard(cardX, cardY, cardW, cardH, 'N350k', cardBounce, 'rgba(230,57,70,0.10)');
+
+  // --- Ghost card (iPhone 15 Pro) ---
+  const ghostX = 490;
+  const ghostY = 205;
+  const ghostW = 180;
+  const ghostH = 72;
+  // Ghost starts at 50% opacity, fades to 0 over last 2 seconds (t=0.5 to t=1)
+  let ghostOpacity;
+  if (t < 0.15) {
+    ghostOpacity = 0; // not yet visible
+  } else if (t < 0.5) {
+    ghostOpacity = easeOutCubic(clamp((t - 0.15) / 0.2, 0, 1)) * 0.5;
+  } else {
+    ghostOpacity = 0.5 * (1 - easeInQuad((t - 0.5) / 0.5));
+  }
+  drawGhostCard(ghostX, ghostY, ghostW, ghostH, ghostOpacity);
+
+  // --- Bottom ribbon ---
+  const ribbonFade = easeOutCubic(clamp((t - 0.3) / 0.25, 0, 1));
+  drawRibbon(395, 'Runs cooler than iPhone 15 Pro', ribbonFade);
+
+  // --- Watermark ---
+  drawWatermark();
+
+  // --- Frame counter ---
+  ctx.save();
+  ctx.fillStyle = '#ddd';
+  ctx.font = '10px monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText(`${frame + 1}/${TOTAL_FRAMES}`, W - 16, H - 28);
+  ctx.restore();
+
+  frame++;
+  if (frame < TOTAL_FRAMES) {
+    animId = requestAnimationFrame(render);
+  }
+}
+
+// ============================================================
+// MP4 EXPORT
+// ============================================================
+function exportMP4() {
+  const btn = document.getElementById('exportBtn');
+  const status = document.getElementById('status');
+  btn.disabled = true;
+  status.textContent = 'Recording...';
+
+  // Reset
+  frame = 0;
+  if (animId) cancelAnimationFrame(animId);
+
+  const stream = canvas.captureStream(FPS);
+  const chunks = [];
+
+  let mimeType = 'video/webm;codecs=vp9';
+  if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm;codecs=vp8';
+  if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
+
+  const recorder = new MediaRecorder(stream, {
+    mimeType,
+    videoBitsPerSecond: 8000000
+  });
+
+  recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'xiaomi-14-abidemi-demo.webm';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    btn.disabled = false;
+    status.textContent = 'Downloaded!';
+    frame = 0;
+    render();
+  };
+
+  recorder.start();
+
+  function renderFrame() {
+    if (frame < TOTAL_FRAMES) {
+      render();
+      requestAnimationFrame(renderFrame);
+    } else {
+      recorder.stop();
+    }
+  }
+  renderFrame();
+}
+
+// ============================================================
+// START
+// ============================================================
+render();
+</script>
+</body>
+</html>
