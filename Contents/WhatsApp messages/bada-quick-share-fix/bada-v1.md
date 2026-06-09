@@ -1,1 +1,1 @@
-Bada is an open-source app that fixes Quick Share on Chinese phones (Huawei, Xiaomi). No Google Play Services needed. Download the APK from GitHub, install, grant permissions, done. Works with NearDrop on Mac and Quick Share on Windows too.
+Guys with Chinese ROM phones. Xiaomi, Oppo, Huawei. There is a way to use Quick Share now. Bada app, open source, no Google needed. This has been tested on the X17PM. Try it.

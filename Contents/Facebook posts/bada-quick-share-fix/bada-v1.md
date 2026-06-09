@@ -1,11 +1,9 @@
-# Bada Quick Share Fix - Facebook Variation 1 (Community Share)
+# Bada Quick Share Fix - Facebook Variation 1 (Nigerian Informal - Community Share)
 
-If you bought a Chinese phone and the file sharing is stuck on some weird brand-specific system instead of Quick Share, there's a fix.
+Guys who bought Chinese ROM phones. Xiaomi Chinese versions, Oppo, Huawei. See this thing. Quick Share no dey work on those phones. That brand sharing system no make sense at all.
 
-The app is called Bada. It's open-source on GitHub, no Google Play Services needed. Works on Huawei, Xiaomi, and basically any Chinese Android phone.
+But there is a fix now. The app is called Bada. It is open source, on GitHub. No Google Play Services needed. You just download the APK, install it, grant the permissions, and you are good.
 
-You download the APK, install it, grant a few permissions, and you're sharing files like normal. It also connects to NearDrop on macOS and Quick Share on Windows, so your phone can talk to Macs and PCs too.
+It has been tested on the X17PM. Also works with NearDrop on Mac and Quick Share on Windows. So your Chinese phone can share files with Mac and PC without any wahala.
 
-Tested it on a Xiaomi 17 Pro Max. Works clean. Huawei users, this one's for you.
-
-Grab it from GitHub and let me know how it goes.
+People who want to buy Chinese ROM phones, you don't have to worry about Quick Share anymore. Try Bada and let me know how it goes.

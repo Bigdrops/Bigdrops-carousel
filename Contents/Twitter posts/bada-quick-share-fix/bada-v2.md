@@ -1,25 +1,21 @@
-# Bada Quick Share Fix - Twitter Variation 2 (Open-Source Hero)
+# Bada Quick Share Fix - Twitter Variation 2 (Nigerian Informal - Open Source Win)
 
-Found an open-source app that replaces Quick Share on phones without Google Play Services. It's called Bada.
-
----
-
-No account needed. No Play Store. Just grab the APK from GitHub, install it, and grant a few permissions. That's it.
+See this thing. I found an open source app that fixes Quick Share on Chinese ROM phones. It is called Bada.
 
 ---
 
-Works on Huawei, Xiaomi, and other Chinese phones. Also bridges to NearDrop on macOS and Quick Share on Windows.
+No Google Play Services. No account needed. Just go to GitHub, download the APK, install it. That is all.
 
 ---
 
-The setup on Xiaomi takes about 30 seconds. Enable unrestricted background usage so it runs without getting killed by the system.
+Works on Xiaomi Chinese versions, Oppo, Huawei. Also connects to NearDrop on Mac and Quick Share on Windows.
 
 ---
 
-Tested on Xiaomi 17 Pro Max. Image transferred clean, no lag, no failed attempts.
+It has been tested on the X17PM. Works well. No issues.
 
 ---
 
-Open-source file sharing that actually works across ecosystems. GitHub link: search "Bada app."
+People who want to buy Chinese ROM phones, this one is for you. Quick Share finally works.
 
 #OpenSource #Bada #FileSharing #Huawei #QuickShare

@@ -1,25 +1,15 @@
-# Bada Quick Share Fix - TikTok Variation 2 (Technical Open-Source)
+# Bada Quick Share Fix - TikTok Variation 2 (Nigerian Informal - Tutorial)
 
 ## Slide 1
 
-**Open-source file sharing for phones without Google.**
-
-Bada is a beta app from GitHub. No Play Services required. It gives you Quick Share on Android, NearDrop on macOS, and Quick Share on Windows.
+**People who want to buy Chinese ROM phones, you don't have to worry about Quick Share anymore. See how.**
 
 ## Slide 2
 
-**Setup takes 30 seconds.**
-
-1. Grab the APK from GitHub releases
-2. Install it
-3. Grant the permissions (or skip them, it still works)
-4. Enable unrestricted background usage on Xiaomi
-5. Share files like normal
-
-Tested on Xiaomi 17 Pro Max. Also works on Huawei devices.
+**Go to GitHub, search for Bada app. Download the APK. Install it. Grant the permissions. On Xiaomi, enable unrestricted background usage. That is all. It has been tested on the X17PM. You can share files to Mac with NearDrop and to Windows with Quick Share. Simple.**
 
 ## Post Caption
 
-Bada: open-source Quick Share replacement. No Google Play Services needed. GitHub APK install. Works on Huawei, Xiaomi, and connects to NearDrop on Mac.
+How to get Quick Share on Chinese ROM phones. Bada app from GitHub. No Google Play Services. Works on Xiaomi, Oppo, Huawei. Tested on X17PM. Works with Mac and Windows too.
 
-#BadaApp #OpenSource #QuickShare #FileSharing #Huawei #Xiaomi
+#BadaApp #QuickShare #OpenSource #FileSharing #Huawei #Xiaomi

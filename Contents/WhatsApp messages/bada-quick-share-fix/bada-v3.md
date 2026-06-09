@@ -1,1 +1,1 @@
-If you use a Huawei or Xiaomi and can't share files easily, try Bada. Open-source app from GitHub, no Google needed. Install the APK, enable permissions, and you've got Quick Share. Works on Mac and Windows too. Send to anyone with a Chinese phone.
+People who want to buy Chinese ROM phones, you don't have to worry about Quick Share anymore. Bada app fixes it. Open source, no Google needed. Tested on X17PM. Works on Huawei too.

@@ -1,29 +1,21 @@
-# Bada Quick Share Fix - Twitter Variation 3 (Tutorial)
+# Bada Quick Share Fix - Twitter Variation 3 (Nigerian Informal - Step by Step)
 
-Step-by-step: get Quick Share on a Chinese phone without Google.
-
-1. Go to Bada's GitHub releases page
-2. Download the latest APK
-3. Install it on your phone
+How to get Quick Share on Chinese ROM phones. Simple steps.
 
 ---
 
-After install, open Bada. Grant the permissions it asks for. You can skip some, but enabling all of them makes it work like native Quick Share.
+Step 1: Go to GitHub, search Bada app. Step 2: Download the APK from releases. Step 3: Install it on your phone.
 
 ---
 
-On Xiaomi specifically, go to app settings and enable "unrestricted background usage." This prevents the system from killing it in the background.
+Open the app. Grant the permissions. On Xiaomi, enable unrestricted background usage so the system does not kill it.
 
 ---
 
-Open the app, hit the quick share toggle, and share files normally. It shows up in your share sheet just like the real thing.
+It has been tested on the X17PM. You can share files to Mac using NearDrop and to Windows using Quick Share.
 
 ---
 
-Works with NearDrop on macOS and Quick Share on Windows. No AirDrop though. Huawei users can use it too.
-
----
-
-Tested on Xiaomi 17 Pro Max. Works clean. Try it and let me know how it goes.
+Guys with Xiaomi Chinese versions, Oppo, Huawei. Try this. It works. Let me know in the replies.
 
 #Bada #QuickShare #Tutorial #Huawei #Xiaomi

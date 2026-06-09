@@ -105,7 +105,17 @@ Drop your pick below. Wrong answers only.
 
 ---
 
-## 6. Automation Guardrails
+## 6. Tone Examples (Nigerian Informal)
+
+### Wrong Tone (Americanized / AI slop)
+> Bada is an open-source app that fixes Quick Share on Chinese phones. No Google Play Services needed. Download the APK from GitHub, install, grant permissions, done.
+
+### Right Tone (Nigerian Informal)
+> Guys who buy Chinese ROM phones – Xiaomi, Oppo, Huawei. I just found a way you can use Quick Share. People who want to buy Chinese ROM phones, you don't have to worry about Quick Share anymore. It has been tested on the X17PM.
+
+---
+
+## 7. Automation Guardrails
 
 1. No external API calls – all content must be derived from existing TikTok HTML assets.
 2. Character counting – Verify each tweet segment ≤280 characters before finalizing.

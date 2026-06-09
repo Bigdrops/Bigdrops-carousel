@@ -1,25 +1,21 @@
-# Bada Quick Share Fix - Twitter Variation 1 (Urgent Problem-First)
+# Bada Quick Share Fix - Twitter Variation 1 (Nigerian Informal - Problem First)
 
-Chinese phones ship with a broken file sharing system. No Quick Share, no easy way to send stuff to other devices.
-
----
-
-The fix is called Bada. It's open-source, no Google Play Services required. Works on Huawei and Xiaomi. Download the APK from GitHub and install it.
+Guys who bought Chinese ROM phones. Xiaomi Chinese versions, Oppo, Huawei. Quick Share no work on them. That brand sharing system no make sense.
 
 ---
 
-Setup: grant permissions, enable unrestricted background usage on Xiaomi, and you're done. Files transfer like Quick Share should.
+But see this. There is an app called Bada. Open source, on GitHub. No Google Play Services needed. Install the APK, grant permissions, done.
 
 ---
 
-It also connects to NearDrop on macOS and Quick Share on Windows. No AirDrop support though. Tested on Xiaomi 17 Pro Max.
+It has been tested on the X17PM. Also works with NearDrop on Mac and Quick Share on Windows. Your Chinese phone can now share files with any device.
 
 ---
 
-Bada fills the gap that Chinese phone makers left. Open-source, no paywall, no account needed. Just share files.
+People who want to buy Chinese ROM phones, you don't have to worry about Quick Share anymore. Bada fixes it.
 
 ---
 
-If you use Huawei or Xiaomi, try it. Drop your experience in the replies.
+Try it and let me know how it goes. Drop your experience in the replies.
 
 #Bada #QuickShare #Huawei #Xiaomi #OpenSource

@@ -1,1 +1,1 @@
-Quick tip for Huawei/Xiaomi users: the Bada app gives you Quick Share without Google. It's on GitHub, open-source, takes 30 seconds to set up. Also connects to Mac (NearDrop) and Windows (Quick Share). Grab the APK and try it.
+See this. Quick Share works on Chinese ROM phones now. The app is called Bada. Open source, on GitHub. It has been tested on the X17PM. No Google Play Services needed. Try it.
