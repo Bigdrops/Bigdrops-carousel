@@ -1,0 +1,1 @@
+Quick tip for Huawei/Xiaomi users: the Bada app gives you Quick Share without Google. It's on GitHub, open-source, takes 30 seconds to set up. Also connects to Mac (NearDrop) and Windows (Quick Share). Grab the APK and try it.

@@ -1,0 +1,1 @@
+If you use a Huawei or Xiaomi and can't share files easily, try Bada. Open-source app from GitHub, no Google needed. Install the APK, enable permissions, and you've got Quick Share. Works on Mac and Windows too. Send to anyone with a Chinese phone.
