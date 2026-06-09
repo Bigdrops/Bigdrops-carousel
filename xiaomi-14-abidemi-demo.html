@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xiaomi 14 – ABIDEMI Illustration</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'DM Sans', Arial, sans-serif;
+  }
+  canvas {
+    background: #FFFFFF;
+    border: 1px solid #ddd;
+    display: block;
+  }
+  #controls {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  button {
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid #000;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  button:hover { background: #333; }
+  button:disabled { background: #999; border-color: #999; cursor: not-allowed; }
+  #status {
+    font-size: 13px;
+    color: #555;
+    min-width: 120px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas" width="800" height="450"></canvas>
+<div id="controls">
+  <button id="exportBtn" onclick="exportMP4()">Export MP4</button>
+  <span id="status"></span>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const W = 800, H = 450;
+const TOTAL_FRAMES = 180;
+const FPS = 60;
+let frame = 0;
+let animId = null;
+
+// --- Drawing helpers ---
+
+function drawAbidemi(cx, cy, scale, armAngle) {
+  const s = scale;
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // Legs
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  // Left leg
+  ctx.beginPath();
+  ctx.moveTo(-s * 0.15, s * 0.55);
+  ctx.lineTo(-s * 0.3, s * 1.1);
+  ctx.stroke();
+  // Right leg
+  ctx.beginPath();
+  ctx.moveTo(s * 0.15, s * 0.55);
+  ctx.lineTo(s * 0.3, s * 1.1);
+  ctx.stroke();
+
+  // Left arm (holding phone) - stays mostly static, slight hold pose
+  ctx.beginPath();
+  ctx.moveTo(-s * 0.35, s * 0.05);
+  ctx.lineTo(-s * 0.7, s * 0.35);
+  ctx.stroke();
+
+  // Right arm (points then thumbs up)
+  ctx.save();
+  ctx.translate(s * 0.35, s * 0.05);
+  ctx.rotate(armAngle);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(s * 0.65, -s * 0.15);
+  ctx.stroke();
+  // Hand circle at end of arm
+  ctx.beginPath();
+  ctx.arc(s * 0.65, -s * 0.15, s * 0.08, 0, Math.PI * 2);
+  ctx.fillStyle = '#000';
+  ctx.fill();
+  ctx.restore();
+
+  // Body (solid black circle)
+  ctx.beginPath();
+  ctx.arc(0, 0, s * 0.45, 0, Math.PI * 2);
+  ctx.fillStyle = '#000';
+  ctx.fill();
+
+  // Eyes (two white dots)
+  ctx.fillStyle = '#FFF';
+  ctx.beginPath();
+  ctx.arc(-s * 0.13, -s * 0.1, s * 0.06, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(s * 0.13, -s * 0.1, s * 0.06, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawPhone(x, y, w, h) {
+  ctx.save();
+  // Phone body
+  ctx.fillStyle = '#1a1a1a';
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1.5;
+  const r = 6;
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  ctx.fill();
+  ctx.stroke();
+
+  // Screen
+  ctx.fillStyle = '#2a2a2a';
+  ctx.beginPath();
+  ctx.roundRect(x + 3, y + 4, w - 6, h - 8, 3);
+  ctx.fill();
+
+  // Screen text
+  ctx.fillStyle = '#C8FF00';
+  ctx.font = 'bold 9px "DM Sans", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SD 8 Gen 3', x + w / 2, y + h * 0.38);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 8px "DM Sans", Arial, sans-serif';
+  ctx.fillText('Leica', x + w / 2, y + h * 0.58);
+
+  ctx.restore();
+}
+
+function drawPriceTag(x, y, text, opacity, accentColor) {
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  // Tag background
+  ctx.fillStyle = accentColor || '#E63946';
+  ctx.beginPath();
+  ctx.roundRect(x, y, 160, 52, 8);
+  ctx.fill();
+  // Text
+  ctx.fillStyle = '#FFF';
+  ctx.font = 'bold 22px "DM Sans", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(text, x + 80, y + 33);
+  ctx.restore();
+}
+
+function drawGhostTag(x, y, text, opacity) {
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  // Tag background
+  ctx.strokeStyle = '#999';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.roundRect(x, y, 200, 52, 8);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // Text
+  ctx.fillStyle = '#888';
+  ctx.font = '16px "DM Sans", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(text, x + 100, y + 33);
+  ctx.restore();
+}
+
+function drawTitle(y) {
+  ctx.save();
+  ctx.fillStyle = '#000';
+  ctx.font = 'bold 20px "DM Sans", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Xiaomi 14 – Best in N300k-N400k Tier', W / 2, y);
+  ctx.restore();
+}
+
+function drawCaption(y) {
+  ctx.save();
+  ctx.fillStyle = '#666';
+  ctx.font = '13px "DM Sans", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Runs cooler than iPhone 15 Pro at 3x the price', W / 2, y);
+  ctx.restore();
+}
+
+// --- Animation state ---
+
+function easeInOut(t) {
+  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+}
+
+function render() {
+  const t = frame / TOTAL_FRAMES; // 0 to 1
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, W, H);
+
+  // Title
+  drawTitle(35);
+
+  // --- ABIDEMI position ---
+  const abidemiX = 170;
+  const abidemiY = 220;
+  const abidemiScale = 42;
+
+  // --- Arm angle: starts pointing right, ends thumbs up (raised) ---
+  // Pointing: roughly 0 radians (horizontal right-ish)
+  // Thumbs up: arm raises up, about -0.6 radians
+  let armAngle;
+  const thumbsUpStart = 0.7; // start thumbs up at 70% of animation
+  if (t < thumbsUpStart) {
+    armAngle = -0.15; // pointing slightly down-right
+  } else {
+    const p = (t - thumbsUpStart) / (1 - thumbsUpStart);
+    const ep = easeInOut(p);
+    armAngle = -0.15 + ep * (-0.55 + 0.15); // raise to -0.55
+  }
+
+  // --- Phone (in left hand) ---
+  const phoneX = abidemiX - abidemiScale * 0.7 - 18;
+  const phoneY = abidemiY + abidemiScale * 0.25;
+  drawPhone(phoneX, phoneY, 30, 52);
+
+  // --- ABIDEMI ---
+  drawAbidemi(abidemiX, abidemiY, abidemiScale, armAngle);
+
+  // --- Price tag (N350k) ---
+  const tagX = 480;
+  const tagY = 185;
+  // Slide in from right
+  let tagSlide;
+  if (t < 0.2) {
+    tagSlide = easeInOut(t / 0.2);
+  } else {
+    tagSlide = 1;
+  }
+  const tagFinalX = tagX + (1 - tagSlide) * 120;
+  drawPriceTag(tagFinalX, tagY, 'N350k', tagSlide, '#E63946');
+
+  // --- Ghost tag (iPhone 15 Pro) ---
+  const ghostX = tagFinalX + 175;
+  const ghostY = tagY;
+  // Ghost starts at 50% opacity, fades to 0 over 3 seconds
+  const ghostOpacity = Math.max(0, 0.5 * (1 - t));
+  drawGhostTag(ghostX, ghostY, 'iPhone 15 Pro \u2013 N1.2M', ghostOpacity);
+
+  // --- Caption ---
+  drawCaption(420);
+
+  // --- Frame counter (small, bottom right) ---
+  ctx.save();
+  ctx.fillStyle = '#ccc';
+  ctx.font = '10px monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText(`${frame + 1}/${TOTAL_FRAMES}`, W - 16, H - 10);
+  ctx.restore();
+
+  frame++;
+  if (frame < TOTAL_FRAMES) {
+    animId = requestAnimationFrame(render);
+  }
+}
+
+// --- MP4 Export ---
+
+function exportMP4() {
+  const btn = document.getElementById('exportBtn');
+  const status = document.getElementById('status');
+  btn.disabled = true;
+  status.textContent = 'Recording...';
+
+  // Reset animation
+  frame = 0;
+  if (animId) cancelAnimationFrame(animId);
+
+  const stream = canvas.captureStream(FPS);
+  const chunks = [];
+
+  // Try webm first (widely supported), fallback if needed
+  let mimeType = 'video/webm;codecs=vp9';
+  if (!MediaRecorder.isTypeSupported(mimeType)) {
+    mimeType = 'video/webm;codecs=vp8';
+  }
+  if (!MediaRecorder.isTypeSupported(mimeType)) {
+    mimeType = 'video/webm';
+  }
+
+  const recorder = new MediaRecorder(stream, {
+    mimeType: mimeType,
+    videoBitsPerSecond: 5000000
+  });
+
+  recorder.ondataavailable = (e) => {
+    if (e.data.size > 0) chunks.push(e.data);
+  };
+
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'xiaomi-14-abidemi-demo.webm';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    btn.disabled = false;
+    status.textContent = 'Downloaded!';
+
+    // Restart animation loop
+    frame = 0;
+    render();
+  };
+
+  recorder.start();
+
+  // Render all frames
+  function renderFrame() {
+    if (frame < TOTAL_FRAMES) {
+      render();
+      requestAnimationFrame(renderFrame);
+    } else {
+      recorder.stop();
+    }
+  }
+  renderFrame();
+}
+
+// --- Initial render ---
+render();
+</script>
+</body>
+</html>

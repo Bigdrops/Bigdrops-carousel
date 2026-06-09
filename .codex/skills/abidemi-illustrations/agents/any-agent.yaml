@@ -1,0 +1,31 @@
+skill_name: abidemi-illustrations
+version: 1.0.0
+
+capabilities:
+  - png_image_generation_if_api_available
+  - svg_code_generation
+  - html_canvas_animation
+  - mp4_export_via_mediarecorder
+  - motion_photo_workflow_for_tiktok
+  - fallback_prompt_for_manual_image_generation
+
+output_formats:
+  - png
+  - svg
+  - html_canvas_with_mp4_export
+  - motion_photo_description
+
+fallback_mode:
+  enabled: true
+  behavior: "If image generation API is not configured, output a prompt for Gemini or any image generator. Include exact folder path for saving the PNG."
+
+tiktok_export:
+  standard_animation:
+    method: canvas_captureStream + MediaRecorder
+    browser: Chrome or Edge only
+    format: MP4 (webm fallback)
+  motion_photo:
+    method: PNG frames + MP4 + MotionPhoto Maker app
+    formats:
+      - flipbook: "8-12 frames, viewer swipes to see motion"
+      - progressive_reveal: "each slide adds one layer"
