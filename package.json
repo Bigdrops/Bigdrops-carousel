@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@lobehub/icons": "^5.10.0",
+    "simple-icons": "^16.24.0"
+  }
+}
